@@ -1,0 +1,98 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|e:\\00_university\\term_05\\laptrinhtrucquan\\btl\\quanlythuvien\\helpers\\databaseconnect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|solutionrelative:helpers\\databaseconnect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\gui\\usercontrols\\ucfrmqltailieu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|solutionrelative:gui\\usercontrols\\ucfrmqltailieu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\gui\\usercontrols\\ucfrmqlbandoc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|solutionrelative:gui\\usercontrols\\ucfrmqlbandoc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\gui\\usercontrols\\ucfrmqltailieu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31D27FCF-6EA4-4056-B588-499AA3A26811}|QuanLyThuVien.csproj|solutionrelative:gui\\usercontrols\\ucfrmqltailieu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DatabaseConnect.cs",
+              "DocumentMoniker": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\Helpers\\DatabaseConnect.cs",
+              "RelativeDocumentMoniker": "Helpers\\DatabaseConnect.cs",
+              "ToolTip": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\Helpers\\DatabaseConnect.cs",
+              "RelativeToolTip": "Helpers\\DatabaseConnect.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T04:10:02.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ucFrmQLTaiLieu.Designer.cs",
+              "DocumentMoniker": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\GUI\\UserControls\\ucFrmQLTaiLieu.Designer.cs",
+              "RelativeDocumentMoniker": "GUI\\UserControls\\ucFrmQLTaiLieu.Designer.cs",
+              "ToolTip": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\GUI\\UserControls\\ucFrmQLTaiLieu.Designer.cs",
+              "RelativeToolTip": "GUI\\UserControls\\ucFrmQLTaiLieu.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-23T13:14:05.634Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ucFrmQLTaiLieu.cs [Design]",
+              "DocumentMoniker": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\GUI\\UserControls\\ucFrmQLTaiLieu.cs",
+              "RelativeDocumentMoniker": "GUI\\UserControls\\ucFrmQLTaiLieu.cs",
+              "ToolTip": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\GUI\\UserControls\\ucFrmQLTaiLieu.cs [Design]",
+              "RelativeToolTip": "GUI\\UserControls\\ucFrmQLTaiLieu.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-23T13:31:54.92Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\Form1.cs [Design]",
+              "RelativeToolTip": "Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-23T13:10:11.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ucFrmQLBanDoc.cs [Design]",
+              "DocumentMoniker": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\GUI\\UserControls\\ucFrmQLBanDoc.cs",
+              "RelativeDocumentMoniker": "GUI\\UserControls\\ucFrmQLBanDoc.cs",
+              "ToolTip": "E:\\00_UNIVERSITY\\TERM_05\\LapTrinhTrucQuan\\BTL\\QuanLyThuVien\\GUI\\UserControls\\ucFrmQLBanDoc.cs [Design]",
+              "RelativeToolTip": "GUI\\UserControls\\ucFrmQLBanDoc.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-23T04:22:46.913Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
