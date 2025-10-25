@@ -85,7 +85,6 @@
             this.tsmQLDanhMucTL.Name = "tsmQLDanhMucTL";
             this.tsmQLDanhMucTL.Size = new System.Drawing.Size(158, 19);
             this.tsmQLDanhMucTL.Text = "Quản lý Danh mục Tài liệu";
-            this.tsmQLDanhMucTL.Click += new System.EventHandler(this.tsmQLDanhMucTL_Click);
             // 
             // quảnLýTácGiảToolStripMenuItem
             // 

@@ -64,6 +64,7 @@
     <Compile Include="DAL\TaiKhoanNhanVienDAL.cs" />
     <Compile Include="DTO\AccountDTO.cs" />
     <Compile Include="DTO\DanhMucTaiLieuDTO.cs" />
+    <Compile Include="DTO\TacGiaTaiLieuDTO.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +76,12 @@
     </Compile>
     <Compile Include="GUI\Forms\frmDangNhapDangKy.Designer.cs">
       <DependentUpon>frmDangNhapDangKy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\frmDanhMucTaiLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmDanhMucTaiLieu.Designer.cs">
+      <DependentUpon>frmDanhMucTaiLieu.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Forms\frmTimKiem.cs">
       <SubType>Form</SubType>
@@ -99,12 +106,6 @@
     </Compile>
     <Compile Include="GUI\UserControls\ucFrmQLBanDoc.Designer.cs">
       <DependentUpon>ucFrmQLBanDoc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\UserControls\ucFrmQLDanhMucTaiLieu.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\UserControls\ucFrmQLDanhMucTaiLieu.Designer.cs">
-      <DependentUpon>ucFrmQLDanhMucTaiLieu.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\UserControls\ucFrmQLMuonTra.cs">
       <SubType>UserControl</SubType>
@@ -141,6 +142,9 @@
     <EmbeddedResource Include="GUI\Forms\frmDangNhapDangKy.resx">
       <DependentUpon>frmDangNhapDangKy.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\frmDanhMucTaiLieu.resx">
+      <DependentUpon>frmDanhMucTaiLieu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\frmTimKiem.resx">
       <DependentUpon>frmTimKiem.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,9 +156,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\ucFrmQLBanDoc.resx">
       <DependentUpon>ucFrmQLBanDoc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\UserControls\ucFrmQLDanhMucTaiLieu.resx">
-      <DependentUpon>ucFrmQLDanhMucTaiLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\ucFrmQLMuonTra.resx">
       <DependentUpon>ucFrmQLMuonTra.cs</DependentUpon>

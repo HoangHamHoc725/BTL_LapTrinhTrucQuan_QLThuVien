@@ -23,11 +23,13 @@ namespace form1.GUI
         private FormState currentState = FormState.View;
         private FormState previousState = FormState.View;
 
+        // Khởi tạo UserControl
         public ucFrmQLBanDoc()
         {
             InitializeComponent();
         }
 
+        // Xử lý sự kiện khi UserControl được tải (Load)
         private void ucFrmQLBanDoc_Load(object sender, EventArgs e)
         {
             dgvBanDoc.DataSource = BanDocBLL.LayTatCaThongTinBanDoc();
@@ -35,6 +37,7 @@ namespace form1.GUI
             SetState(FormState.View);
         }
 
+        // Lấy dữ liệu bạn đọc và thẻ bạn đọc từ các control nhập liệu trên form
         private (tBanDoc, tTheBanDoc) GetBanDocFromForm()
         {
             // Lấy giá trị từ ComboBox, lấy ký tự đầu tiên
@@ -71,8 +74,10 @@ namespace form1.GUI
             return (banDoc, theBanDoc);
         }
 
+        // Thiết lập trạng thái hoạt động của form (View, Add, Edit, Delete, Search)
         private void SetState(FormState state)
         {
+            // Logic điều chỉnh enabled/readonly của control và nút bấm
             currentState = state;
 
             bool isView = (state == FormState.View);

@@ -16,7 +16,6 @@ namespace QuanLyThuVien
     {
         private ucFrmQLBanDoc ucFrmQLBanDoc;
         private ucFrmQLTaiKhoanNhanVien ucFrmQLTaiKhoanNhanVien;
-        private ucFrmQLDanhMucTaiLieu ucFrmQLDanhMucTaiLieu;
         private ucFrmQLTaiLieu ucFrmQLTaiLieu;
 
         public frmQuanLyThuVien()
@@ -25,7 +24,6 @@ namespace QuanLyThuVien
 
             ucFrmQLBanDoc = new ucFrmQLBanDoc();
             ucFrmQLTaiKhoanNhanVien = new ucFrmQLTaiKhoanNhanVien();
-            ucFrmQLDanhMucTaiLieu = new ucFrmQLDanhMucTaiLieu();
             ucFrmQLTaiLieu = new ucFrmQLTaiLieu();
 
             // Tùy chỉnh bố cục Form
@@ -60,11 +58,6 @@ namespace QuanLyThuVien
         private void tsmQLTaiKhoan_Click(object sender, EventArgs e)
         {
             ShowUserControl(ucFrmQLTaiKhoanNhanVien);
-        }
-
-        private void tsmQLDanhMucTL_Click(object sender, EventArgs e)
-        {
-            ShowUserControl(ucFrmQLDanhMucTaiLieu);
         }
 
         private void tsmQLTaiLieu_Click(object sender, EventArgs e)
