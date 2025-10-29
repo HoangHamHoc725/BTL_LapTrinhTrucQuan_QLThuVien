@@ -33,7 +33,6 @@
             this.hệThốngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmQLBanDoc = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmQLTaiLieu = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmQLDanhMucTL = new System.Windows.Forms.ToolStripMenuItem();
             this.quảnLýTácGiảToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmQLTaiKhoan = new System.Windows.Forms.ToolStripMenuItem();
             this.qLThuVienDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -50,7 +49,6 @@
             this.hệThốngToolStripMenuItem,
             this.tsmQLBanDoc,
             this.tsmQLTaiLieu,
-            this.tsmQLDanhMucTL,
             this.quảnLýTácGiảToolStripMenuItem,
             this.tsmQLTaiKhoan});
             this.mnsMain.Location = new System.Drawing.Point(0, 0);
@@ -79,12 +77,6 @@
             this.tsmQLTaiLieu.Size = new System.Drawing.Size(100, 19);
             this.tsmQLTaiLieu.Text = "Quản lý Tài liệu";
             this.tsmQLTaiLieu.Click += new System.EventHandler(this.tsmQLTaiLieu_Click);
-            // 
-            // tsmQLDanhMucTL
-            // 
-            this.tsmQLDanhMucTL.Name = "tsmQLDanhMucTL";
-            this.tsmQLDanhMucTL.Size = new System.Drawing.Size(158, 19);
-            this.tsmQLDanhMucTL.Text = "Quản lý Danh mục Tài liệu";
             // 
             // quảnLýTácGiảToolStripMenuItem
             // 
@@ -150,7 +142,6 @@
         private QLThuVienDataSet qLThuVienDataSet;
         private System.Windows.Forms.Panel pnlContent;
         private System.Windows.Forms.ToolStripMenuItem tsmQLTaiKhoan;
-        private System.Windows.Forms.ToolStripMenuItem tsmQLDanhMucTL;
     }
 }
 

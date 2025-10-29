@@ -1,30 +1,31 @@
 ﻿using QuanLyThuVien.BLL;
-using QuanLyThuVien.DAL; // Cần thiết cho tTaiLieu, tTaiLieu_TacGia
-using QuanLyThuVien.DTO; // Cần thiết cho TacGiaTaiLieuDTO
-using QuanLyThuVien.GUI.Forms; // Cần thiết cho frmTimKiem, frmDanhMucTaiLieu
-using QuanLyThuVien.Helpers; // Cần thiết cho FormState, FilterHelper
+using QuanLyThuVien.DAL;
+using QuanLyThuVien.DTO;
+using QuanLyThuVien.GUI.Forms;
+using QuanLyThuVien.Helpers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace QuanLyThuVien.GUI.UserControls
 {
     /// <summary>
     /// User Control quản lý thông tin Tài liệu trong thư viện.
+    /// Bao gồm các chức năng xem, thêm, sửa, xóa, tìm kiếm Tài liệu và quản lý Tác giả liên quan.
     /// </summary>
     public partial class ucFrmQLTaiLieu : UserControl
     {
-        private QLTaiLieuBLL taiLieuBLL = new QLTaiLieuBLL();
+        // Business Logic Layer (BLL) để thao tác dữ liệu
+        private readonly QLTaiLieuBLL taiLieuBLL = new QLTaiLieuBLL();
 
-        // Khai báo trạng thái của form
+        // Khai báo trạng thái hiện tại và trạng thái trước đó của form
         private FormState currentState = FormState.View;
         private FormState previousState = FormState.View;
+
+        // Form tìm kiếm dùng chung
         private frmTimKiem _frmTimKiem;
 
         public ucFrmQLTaiLieu()
@@ -33,9 +34,12 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         // ====================================================
-        // I. KHỞI TẠO & LOAD DỮ LIỆU BAN ĐẦU
+        // I. KHỞI TẠO VÀ TẢI DỮ LIỆU BAN ĐẦU
         // ====================================================
 
+        /// <summary>
+        /// Xử lý sự kiện Load của UserControl. Tải dữ liệu ban đầu và thiết lập trạng thái.
+        /// </summary>
         private void ucFrmQLTaiLieu_Load(object sender, EventArgs e)
         {
             try
@@ -50,16 +54,14 @@ namespace QuanLyThuVien.GUI.UserControls
                 // 3. Tải thông tin chi tiết tài liệu đầu tiên lên form (và dgv tác giả)
                 LoadTaiLieuToForm();
 
-                // 4. Đặt trạng thái ban đầu
+                // 4. Đặt trạng thái ban đầu và gán sự kiện
                 SetState(FormState.View);
-
-                // 5. Gán sự kiện
                 dgvQLTaiLieu.CellClick += dgvQLTaiLieu_CellClick;
                 dgvQLTacGia_TaiLieu.CellClick += dgvQLTacGia_TaiLieu_CellClick;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi tải dữ liệu tài liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi tải dữ liệu tài liệu: " + ex.Message, "Lỗi Tải Dữ Liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -70,13 +72,13 @@ namespace QuanLyThuVien.GUI.UserControls
         {
             try
             {
-                // 1. Tải dữ liệu cho các ComboBox thuộc Tài liệu
+                // Tải dữ liệu cho các ComboBox thuộc Tài liệu
                 cbNhaXuatBan.DataSource = taiLieuBLL.LayDanhSachNhaXuatBan();
                 cbNgonNgu.DataSource = taiLieuBLL.LayDanhSachNgonNgu();
                 cbTheLoai.DataSource = taiLieuBLL.LayDanhSachTheLoai();
                 cbDinhDang.DataSource = taiLieuBLL.LayDanhSachDinhDang();
 
-                // 2. Tải dữ liệu cho các ComboBox thuộc Tác giả (để chọn khi Thêm/Sửa)
+                // Tải dữ liệu cho các ComboBox thuộc Tác giả (để chọn khi Thêm/Sửa Tác giả)
                 cbTacGia.DataSource = taiLieuBLL.LayDanhSachTacGia();
                 cbVaiTro.DataSource = taiLieuBLL.LayDanhSachVaiTro();
 
@@ -94,22 +96,27 @@ namespace QuanLyThuVien.GUI.UserControls
             }
         }
 
-        // ----------------------------------------------------
-        // Cấu hình DataGridView
-        // ----------------------------------------------------
+        // ====================================================
+        // II. CẤU HÌNH DATAGRIDVIEW
+        // ====================================================
 
+        /// <summary>
+        /// Cấu hình hiển thị và thuộc tính cho DataGridView chính (Danh sách Tài liệu).
+        /// </summary>
         private void SetupTaiLieuGridView()
         {
             if (dgvQLTaiLieu.Columns.Count == 0) return;
 
+            // Cấu hình chung
             dgvQLTaiLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             dgvQLTaiLieu.RowHeadersVisible = false;
             dgvQLTaiLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvQLTaiLieu.ReadOnly = true;
             dgvQLTaiLieu.AllowUserToResizeColumns = false;
             dgvQLTaiLieu.MultiSelect = false;
+            dgvQLTaiLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Cấu hình từng cột (Giữ nguyên logic đặt tên cột và kích thước)
+            // Cấu hình tên cột và kích thước
             dgvQLTaiLieu.Columns["MaTL"].HeaderText = "Mã tài liệu"; dgvQLTaiLieu.Columns["MaTL"].Width = 100;
             dgvQLTaiLieu.Columns["TenTL"].HeaderText = "Tên tài liệu"; dgvQLTaiLieu.Columns["TenTL"].Width = 300;
             dgvQLTaiLieu.Columns["LanXuatBan"].HeaderText = "Lần XB"; dgvQLTaiLieu.Columns["LanXuatBan"].Width = 60;
@@ -121,6 +128,7 @@ namespace QuanLyThuVien.GUI.UserControls
             dgvQLTaiLieu.Columns["TenTheLoai"].HeaderText = "Thể loại"; dgvQLTaiLieu.Columns["TenTheLoai"].Width = 120;
             dgvQLTaiLieu.Columns["TenDinhDang"].HeaderText = "Định dạng"; dgvQLTaiLieu.Columns["TenDinhDang"].Width = 100;
 
+            // Ẩn các cột không có HeaderText (các trường ID hoặc không cần hiển thị)
             foreach (DataGridViewColumn col in dgvQLTaiLieu.Columns)
             {
                 if (string.IsNullOrEmpty(col.HeaderText))
@@ -128,19 +136,23 @@ namespace QuanLyThuVien.GUI.UserControls
                     col.Visible = false;
                 }
             }
-            dgvQLTaiLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
+        /// <summary>
+        /// Cấu hình hiển thị và thuộc tính cho DataGridView phụ (Danh sách Tác giả của Tài liệu đang chọn).
+        /// </summary>
         private void SetupTacGiaGridView()
         {
             if (dgvQLTacGia_TaiLieu.Columns.Count == 0) return;
 
+            // Cấu hình chung
             dgvQLTacGia_TaiLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvQLTacGia_TaiLieu.RowHeadersVisible = false;
             dgvQLTacGia_TaiLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvQLTacGia_TaiLieu.AllowUserToResizeColumns = false;
+            dgvQLTacGia_TaiLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Tên cột: MaTG, TenTacGia, VaiTro (Dựa trên TacGiaTaiLieuDTO)
+            // Tên cột: MaTG (ẩn), TenTacGia (Fill), VaiTro (150)
             dgvQLTacGia_TaiLieu.Columns["MaTG"].Visible = false;
 
             dgvQLTacGia_TaiLieu.Columns["TenTacGia"].HeaderText = "Tên Tác giả";
@@ -151,25 +163,26 @@ namespace QuanLyThuVien.GUI.UserControls
             dgvQLTacGia_TaiLieu.Columns["VaiTro"].HeaderText = "Vai trò";
             dgvQLTacGia_TaiLieu.Columns["VaiTro"].Width = 150;
             // Thuộc tính ReadOnly của cột VaiTro sẽ được SetState quản lý.
-
-            dgvQLTacGia_TaiLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         // ====================================================
-        // II. XỬ LÝ SỰ KIỆN CELL CLICK & LOAD CHI TIẾT
+        // III. XỬ LÝ SỰ KIỆN CELL CLICK & TẢI DỮ LIỆU CHI TIẾT
         // ====================================================
 
+        /// <summary>
+        /// Xử lý khi click vào một dòng trên DataGridView Tài liệu.
+        /// </summary>
         private void dgvQLTaiLieu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            // 1. Tải danh sách tác giả mới cho tài liệu vừa chọn
-            LoadTacGiaBySelectedTaiLieu();
-
-            // 2. Tải thông tin tài liệu và tác giả đang chọn lên form
+            // Tải thông tin tài liệu và tác giả đang chọn lên form
             LoadTaiLieuToForm();
         }
 
+        /// <summary>
+        /// Xử lý khi click vào một dòng trên DataGridView Tác giả.
+        /// </summary>
         private void dgvQLTacGia_TaiLieu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -179,7 +192,8 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         /// <summary>
-        /// Lấy Mã Tài liệu từ dòng đang chọn trong dgvQLTaiLieu và tải danh sách Tác giả tương ứng vào dgvQLTacGia_TaiLieu (sử dụng DTO có thể sửa).
+        /// Lấy Mã Tài liệu từ dòng đang chọn trong dgvQLTaiLieu và tải danh sách Tác giả tương ứng
+        /// vào dgvQLTacGia_TaiLieu (sử dụng DTO để có thể sửa đổi tạm thời).
         /// </summary>
         private void LoadTacGiaBySelectedTaiLieu()
         {
@@ -190,7 +204,8 @@ namespace QuanLyThuVien.GUI.UserControls
             }
 
             var row = dgvQLTaiLieu.CurrentRow.DataBoundItem;
-            string maTL = row.GetType().GetProperty("MaTL")?.GetValue(row)?.ToString();
+            // Dùng Reflection để lấy giá trị (vì DataSource là Anonymous Type)
+            string maTL = row?.GetType().GetProperty("MaTL")?.GetValue(row)?.ToString();
 
             if (string.IsNullOrEmpty(maTL))
             {
@@ -200,22 +215,27 @@ namespace QuanLyThuVien.GUI.UserControls
 
             try
             {
-                // 1. Lấy List<object> (Anonymous Type) từ DAL
+                // 1. Lấy List<object> (Anonymous Type) từ BLL
                 var rawTacGiaList = taiLieuBLL.LayTacGiaTheoMaTaiLieu(maTL);
 
                 // 2. Chuyển đổi sang List<TacGiaTaiLieuDTO> (Mutable DTO)
                 var dtoTacGiaList = rawTacGiaList.Select(tg => new TacGiaTaiLieuDTO
                 {
-                    MaTG = tg.GetType().GetProperty("MaTG")?.GetValue(tg)?.ToString(),
-                    TenTacGia = tg.GetType().GetProperty("TenTacGia")?.GetValue(tg)?.ToString(),
-                    VaiTro = tg.GetType().GetProperty("VaiTro")?.GetValue(tg)?.ToString()
+                    MaTG = tg?.GetType().GetProperty("MaTG")?.GetValue(tg)?.ToString(),
+                    TenTacGia = tg?.GetType().GetProperty("TenTacGia")?.GetValue(tg)?.ToString(),
+                    VaiTro = tg?.GetType().GetProperty("VaiTro")?.GetValue(tg)?.ToString()
                 }).ToList();
 
                 // 3. Gán nguồn dữ liệu cho dgvQLTacGia_TaiLieu
                 dgvQLTacGia_TaiLieu.DataSource = dtoTacGiaList;
 
-                // 4. Gọi Setup
+                // 4. Gọi Setup và chọn dòng đầu tiên
                 SetupTacGiaGridView();
+                if (dgvQLTacGia_TaiLieu.Rows.Count > 0)
+                {
+                    dgvQLTacGia_TaiLieu.Rows[0].Selected = true;
+                    dgvQLTacGia_TaiLieu.CurrentCell = dgvQLTacGia_TaiLieu.Rows[0].Cells[1];
+                }
             }
             catch (Exception ex)
             {
@@ -224,7 +244,7 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         /// <summary>
-        /// Tải thông tin chi tiết tài liệu từ dòng đang chọn trong dgvQLTaiLieu lên các controls nhập liệu (TextBox, ComboBox).
+        /// Tải thông tin chi tiết tài liệu từ dòng đang chọn trong dgvQLTaiLieu lên các controls nhập liệu.
         /// </summary>
         private void LoadTaiLieuToForm()
         {
@@ -247,25 +267,25 @@ namespace QuanLyThuVien.GUI.UserControls
             // 3. Tải dữ liệu Tài liệu lên các controls
             var row = dgvQLTaiLieu.CurrentRow.DataBoundItem;
 
-            txtMaTaiLieu.Text = row.GetType().GetProperty("MaTL")?.GetValue(row)?.ToString();
-            txtTenTaiLieu.Text = row.GetType().GetProperty("TenTL")?.GetValue(row)?.ToString();
-            txtNamXuatBan.Text = row.GetType().GetProperty("NamXuatBan")?.GetValue(row)?.ToString();
-            txtLanXuatBan.Text = row.GetType().GetProperty("LanXuatBan")?.GetValue(row)?.ToString();
-            txtSoTrang.Text = row.GetType().GetProperty("SoTrang")?.GetValue(row)?.ToString();
-            txtKhoCo.Text = row.GetType().GetProperty("KhoCo")?.GetValue(row)?.ToString();
+            txtMaTaiLieu.Text = row?.GetType().GetProperty("MaTL")?.GetValue(row)?.ToString();
+            txtTenTaiLieu.Text = row?.GetType().GetProperty("TenTL")?.GetValue(row)?.ToString();
+            txtNamXuatBan.Text = row?.GetType().GetProperty("NamXuatBan")?.GetValue(row)?.ToString();
+            txtLanXuatBan.Text = row?.GetType().GetProperty("LanXuatBan")?.GetValue(row)?.ToString();
+            txtSoTrang.Text = row?.GetType().GetProperty("SoTrang")?.GetValue(row)?.ToString();
+            txtKhoCo.Text = row?.GetType().GetProperty("KhoCo")?.GetValue(row)?.ToString();
 
-            // ComboBoxes
-            cbNhaXuatBan.SelectedItem = row.GetType().GetProperty("TenNXB")?.GetValue(row)?.ToString();
-            cbNgonNgu.SelectedItem = row.GetType().GetProperty("TenNN")?.GetValue(row)?.ToString();
-            cbTheLoai.SelectedItem = row.GetType().GetProperty("TenTheLoai")?.GetValue(row)?.ToString();
-            cbDinhDang.SelectedItem = row.GetType().GetProperty("TenDinhDang")?.GetValue(row)?.ToString();
+            // ComboBoxes (Chọn item dựa trên giá trị hiển thị)
+            cbNhaXuatBan.SelectedItem = row?.GetType().GetProperty("TenNXB")?.GetValue(row)?.ToString();
+            cbNgonNgu.SelectedItem = row?.GetType().GetProperty("TenNN")?.GetValue(row)?.ToString();
+            cbTheLoai.SelectedItem = row?.GetType().GetProperty("TenTheLoai")?.GetValue(row)?.ToString();
+            cbDinhDang.SelectedItem = row?.GetType().GetProperty("TenDinhDang")?.GetValue(row)?.ToString();
 
             // 4. Tải thông tin Tác giả đang được chọn trong DGV tác giả lên các ComboBox tác giả
             LoadTacGiaToComboboxes();
         }
 
         /// <summary>
-        /// Tải thông tin tác giả từ dòng đang chọn trong dgvQLTacGia_TaiLieu lên cbTacGia và cbVaiTro.
+        /// Tải thông tin tác giả (Tên, Vai trò) từ dòng đang chọn trong dgvQLTacGia_TaiLieu lên cbTacGia và cbVaiTro.
         /// </summary>
         private void LoadTacGiaToComboboxes()
         {
@@ -277,8 +297,8 @@ namespace QuanLyThuVien.GUI.UserControls
             }
 
             var row = dgvQLTacGia_TaiLieu.CurrentRow.DataBoundItem;
-            cbTacGia.SelectedItem = row.GetType().GetProperty("TenTacGia")?.GetValue(row)?.ToString();
-            cbVaiTro.SelectedItem = row.GetType().GetProperty("VaiTro")?.GetValue(row)?.ToString();
+            cbTacGia.SelectedItem = row?.GetType().GetProperty("TenTacGia")?.GetValue(row)?.ToString();
+            cbVaiTro.SelectedItem = row?.GetType().GetProperty("VaiTro")?.GetValue(row)?.ToString();
         }
 
         /// <summary>
@@ -304,17 +324,19 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         /// <summary>
-        /// Lấy dữ liệu Tài liệu từ các controls nhập liệu và danh sách Tác giả từ dgvQLTacGia_TaiLieu.
+        /// Lấy dữ liệu Tài liệu từ các controls nhập liệu và danh sách Tác giả từ dgvQLTacGia_TaiLieu 
+        /// để chuẩn bị cho thao tác CRUD.
         /// </summary>
-        /// <returns>Tuple chứa đối tượng tTaiLieu và List<tTaiLieu_TacGia>.</returns>
+        /// <returns>Tuple chứa đối tượng tTaiLieu và List&lt;tTaiLieu_TacGia&gt;.</returns>
         private (tTaiLieu, List<tTaiLieu_TacGia>) GetTaiLieuFromForm()
         {
-            // --- Ánh xạ Tên sang Mã ---
+            // --- Ánh xạ Tên sang Mã (Sử dụng BLL) ---
             string maNXB = taiLieuBLL.LayMaNXB(cbNhaXuatBan.SelectedItem?.ToString());
             string maNN = taiLieuBLL.LayMaNN(cbNgonNgu.SelectedItem?.ToString());
             string maThL = taiLieuBLL.LayMaThL(cbTheLoai.SelectedItem?.ToString());
             string maDD = taiLieuBLL.LayMaDD(cbDinhDang.SelectedItem?.ToString());
 
+            // Tạo đối tượng Tài liệu
             var taiLieu = new tTaiLieu
             {
                 MaTL = txtMaTaiLieu.Text.Trim(),
@@ -329,7 +351,7 @@ namespace QuanLyThuVien.GUI.UserControls
                 MaThL = maThL,
                 MaDD = maDD,
 
-                MaTK = "TK03" // Giả định: Người dùng đang đăng nhập (MaTK)
+                MaTK = "TK03" // Giả định: Mã tài khoản người dùng đang thao tác
             };
 
             // --- Lấy Danh sách Tác giả từ dgvQLTacGia_TaiLieu ---
@@ -354,11 +376,11 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         // ====================================================
-        // III. XỬ LÝ TRẠNG THÁI & GIAO DIỆN
+        // IV. XỬ LÝ TRẠNG THÁI & GIAO DIỆN
         // ====================================================
 
         /// <summary>
-        /// Thiết lập trạng thái hoạt động của form và cập nhật giao diện (Controls/Buttons).
+        /// Thiết lập trạng thái hoạt động của form và cập nhật giao diện (Controls/Buttons) tương ứng.
         /// </summary>
         /// <param name="state">Trạng thái mới của form (View, Add, Edit, Delete, Search).</param>
         private void SetState(FormState state)
@@ -377,39 +399,38 @@ namespace QuanLyThuVien.GUI.UserControls
             btnXoaTL.Enabled = isView || state == FormState.Search;
             btnTimKiem.Enabled = isView || state == FormState.Search;
             btnDanhMucTaiLieu.Enabled = isView;
+            btnXemBanSao.Enabled = isView || state == FormState.Search; // Nút Xem Bản sao
 
             btnLuu.Enabled = isAdd || isEdit || isDelete;
             btnHuy.Enabled = isAdd || isEdit || isDelete || state == FormState.Search;
 
-            // --- QUẢN LÝ CÁC NÚT TÁC GIẢ ---
+            // --- QUẢN LÝ CÁC NÚT TÁC GIẢ (Chỉ cho phép khi ở chế độ Thêm/Sửa) ---
             btnThemTG.Enabled = isModifying;
             btnSuaTG.Enabled = isModifying;
             btnXoaTG.Enabled = isModifying;
+            cbTacGia.Enabled = isModifying;
+            cbVaiTro.Enabled = isModifying;
+
 
             // --- Quản lý DGV & Input Controls ---
-            dgvQLTaiLieu.ReadOnly = !(isView || state == FormState.Search);
+            dgvQLTaiLieu.ReadOnly = !isView; // DGV chính chỉ cho phép tương tác (CellClick) khi View
+            dgvQLTacGia_TaiLieu.ReadOnly = !isEdit; // DGV tác giả cho phép sửa Vai trò trực tiếp khi Edit
+            dgvQLTacGia_TaiLieu.Enabled = !isDelete; // Vẫn cho phép xem khi Delete
 
-            // Cho phép sửa Vai trò trực tiếp trên lưới chỉ khi EDIT (nếu DGV đang hiển thị DTO)
-            dgvQLTacGia_TaiLieu.ReadOnly = !(isEdit);
-            dgvQLTacGia_TaiLieu.Enabled = !isDelete;
-
-            // Quản lý input
+            // Quản lý input (ReadOnly)
             txtMaTaiLieu.ReadOnly = !isAdd;
-            txtTenTaiLieu.ReadOnly = !(isModifying);
-            txtNamXuatBan.ReadOnly = !(isModifying);
-            txtLanXuatBan.ReadOnly = !(isModifying);
-            txtSoTrang.ReadOnly = !(isModifying);
-            txtKhoCo.ReadOnly = !(isModifying);
+            txtTenTaiLieu.ReadOnly = !isModifying;
+            txtNamXuatBan.ReadOnly = !isModifying;
+            txtLanXuatBan.ReadOnly = !isModifying;
+            txtSoTrang.ReadOnly = !isModifying;
+            txtKhoCo.ReadOnly = !isModifying;
 
-            // Quản lý ComboBoxes chính
+            // Quản lý ComboBoxes chính (Enabled)
             cbNhaXuatBan.Enabled = isModifying;
             cbNgonNgu.Enabled = isModifying;
             cbTheLoai.Enabled = isModifying;
             cbDinhDang.Enabled = isModifying;
 
-            // Quản lý ComboBoxes Tác giả
-            cbTacGia.Enabled = isModifying;
-            cbVaiTro.Enabled = isModifying;
 
             // --- Màu nền theo trạng thái ---
             switch (state)
@@ -434,7 +455,7 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         // ====================================================
-        // IV. XỬ LÝ THAO TÁC CRUD
+        // V. XỬ LÝ THAO TÁC CRUD TRÊN TÀI LIỆU
         // ====================================================
 
         private void btnThemTL_Click(object sender, EventArgs e)
@@ -446,8 +467,7 @@ namespace QuanLyThuVien.GUI.UserControls
         private void btnSuaTL_Click(object sender, EventArgs e)
         {
             if (dgvQLTaiLieu.CurrentRow == null) return;
-            // Tải lại dữ liệu chi tiết của dòng đang chọn (đảm bảo dữ liệu mới nhất được load vào form)
-            LoadTaiLieuToForm();
+            LoadTaiLieuToForm(); // Đảm bảo dữ liệu chi tiết mới nhất được load vào form
             previousState = currentState;
             SetState(FormState.Edit);
         }
@@ -455,8 +475,7 @@ namespace QuanLyThuVien.GUI.UserControls
         private void btnXoaTL_Click(object sender, EventArgs e)
         {
             if (dgvQLTaiLieu.CurrentRow == null) return;
-            // Tải lại dữ liệu chi tiết của dòng đang chọn
-            LoadTaiLieuToForm();
+            LoadTaiLieuToForm(); // Đảm bảo dữ liệu chi tiết mới nhất được load vào form
             previousState = currentState;
             SetState(FormState.Delete);
         }
@@ -468,6 +487,7 @@ namespace QuanLyThuVien.GUI.UserControls
             string maTLVuaThaoTac = taiLieu.MaTL;
             bool success = false;
 
+            // Xử lý logic theo trạng thái
             switch (currentState)
             {
                 case FormState.Add:
@@ -496,52 +516,8 @@ namespace QuanLyThuVien.GUI.UserControls
                 return;
             }
 
-            // --- Cập nhật DGV và Trạng thái sau khi thao tác thành công ---
+            // Cập nhật DGV và Trạng thái sau khi thao tác thành công
             UpdateGridViewAndState(maTLVuaThaoTac);
-        }
-
-        /// <summary>
-        /// Tải lại DGV chính, tái chọn dòng vừa thao tác và đặt lại trạng thái.
-        /// </summary>
-        /// <param name="maTLVuaThaoTac">Mã Tài liệu vừa được Thêm/Sửa/Xóa.</param>
-        private void UpdateGridViewAndState(string maTLVuaThaoTac)
-        {
-            // 1. Tải lại toàn bộ danh sách Tài liệu
-            dgvQLTaiLieu.DataSource = taiLieuBLL.LayTatCaThongTinTaiLieu();
-            SetupTaiLieuGridView();
-
-            // 2. Tái chọn dòng
-            bool found = false;
-            if (!string.IsNullOrEmpty(maTLVuaThaoTac))
-            {
-                foreach (DataGridViewRow row in dgvQLTaiLieu.Rows)
-                {
-                    var rowData = row.DataBoundItem;
-                    string maTLTrongDGV = rowData?.GetType().GetProperty("MaTL")?.GetValue(rowData)?.ToString();
-
-                    if (maTLTrongDGV == maTLVuaThaoTac)
-                    {
-                        dgvQLTaiLieu.ClearSelection();
-                        row.Selected = true;
-                        dgvQLTaiLieu.CurrentCell = row.Cells[0];
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // Nếu không tìm thấy (hoặc vừa xóa) và còn dữ liệu, chọn dòng đầu tiên
-            if (!found && dgvQLTaiLieu.Rows.Count > 0)
-            {
-                dgvQLTaiLieu.ClearSelection();
-                dgvQLTaiLieu.Rows[0].Selected = true;
-                dgvQLTaiLieu.CurrentCell = dgvQLTaiLieu.Rows[0].Cells[0];
-            }
-
-            // 3. Đặt trạng thái về View/Search và tải lại form chi tiết
-            SetState(previousState == FormState.Search ? FormState.Search : FormState.View);
-            previousState = FormState.View; // Reset
-            LoadTaiLieuToForm();
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
@@ -555,17 +531,44 @@ namespace QuanLyThuVien.GUI.UserControls
             }
             else
             {
-                // Hủy thao tác Add/Edit/Delete, quay lại trạng thái trước đó (View hoặc Search)
+                // Hủy thao tác Add/Edit/Delete, quay lại trạng thái trước đó
                 SetState(previousState);
             }
 
             // Tải lại thông tin chi tiết của dòng đang chọn (để khôi phục dữ liệu)
             LoadTaiLieuToForm();
-            previousState = FormState.View;
+            previousState = FormState.View; // Reset
+        }
+
+        /// <summary>
+        /// Xử lý sự kiện click nút "Xem Bản sao". Mở form quản lý bản sao của tài liệu đang chọn.
+        /// </summary>
+        private void btnXemBanSao_Click(object sender, EventArgs e)
+        {
+            if (dgvQLTaiLieu.CurrentRow == null || dgvQLTaiLieu.Rows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn một Tài liệu để xem Bản sao.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Lấy Mã Tài liệu của dòng đang chọn (cần dùng reflection vì DataSource là anonymous type)
+            var row = dgvQLTaiLieu.CurrentRow.DataBoundItem;
+            string maTL = row?.GetType().GetProperty("MaTL")?.GetValue(row)?.ToString();
+
+            if (!string.IsNullOrEmpty(maTL))
+            {
+                // Khởi tạo và hiển thị form quản lý bản sao
+                frmBanSao frm = new frmBanSao(maTL);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy Mã Tài liệu hợp lệ.", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // ====================================================
-        // V. XỬ LÝ TÌM KIẾM & DANH MỤC
+        // VI. XỬ LÝ TÌM KIẾM & DANH MỤC
         // ====================================================
 
         private void btnTimKiem_Click(object sender, EventArgs e)
@@ -580,6 +583,7 @@ namespace QuanLyThuVien.GUI.UserControls
             {
                 _frmTimKiem = new frmTimKiem(ds);
 
+                // Đăng ký sự kiện khi form tìm kiếm trả về kết quả lọc
                 _frmTimKiem.OnSearch += (s, filters) =>
                 {
                     if (filters == null || filters.Count == 0 || filters.All(f => string.IsNullOrWhiteSpace(f.Value)))
@@ -613,7 +617,7 @@ namespace QuanLyThuVien.GUI.UserControls
         }
 
         // ====================================================
-        // VI. XỬ LÝ THAO TÁC TÁC GIẢ (TẠM THỜI TRONG DGV PHỤ)
+        // VII. XỬ LÝ THAO TÁC TÁC GIẢ (TRONG DGV PHỤ)
         // ====================================================
 
         private void btnThemTG_Click(object sender, EventArgs e)
@@ -649,7 +653,7 @@ namespace QuanLyThuVien.GUI.UserControls
                 return;
             }
 
-            // 4. Thêm tác giả mới vào danh sách DTO
+            // 4. Thêm tác giả mới vào danh sách DTO (sẽ được lưu vào DB khi nhấn btnLuu)
             currentTacGiaList.Add(new TacGiaTaiLieuDTO
             {
                 MaTG = maTG,
@@ -679,7 +683,7 @@ namespace QuanLyThuVien.GUI.UserControls
                 return;
             }
 
-            // Lấy đối tượng DTO đang được chọn trong DGV (vì DGV dùng List<DTO> nên sửa trực tiếp được)
+            // Lấy đối tượng DTO đang được chọn và danh sách hiện tại
             var selectedItem = dgvQLTacGia_TaiLieu.CurrentRow.DataBoundItem as TacGiaTaiLieuDTO;
             var currentTacGiaList = dgvQLTacGia_TaiLieu.DataSource as List<TacGiaTaiLieuDTO>;
             int rowIndex = dgvQLTacGia_TaiLieu.CurrentRow.Index;
@@ -706,7 +710,7 @@ namespace QuanLyThuVien.GUI.UserControls
         {
             if (dgvQLTacGia_TaiLieu.CurrentRow == null || dgvQLTacGia_TaiLieu.Rows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn một Tác giả để xóa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn một Tác giả để xóa khỏi danh sách Tài liệu.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -715,7 +719,7 @@ namespace QuanLyThuVien.GUI.UserControls
 
             if (selectedItem != null && currentTacGiaList != null)
             {
-                // Xóa khỏi danh sách DTO
+                // Xóa khỏi danh sách DTO (sẽ được cập nhật vào DB khi nhấn btnLuu)
                 currentTacGiaList.Remove(selectedItem);
 
                 // Cập nhật DGV
@@ -723,9 +727,57 @@ namespace QuanLyThuVien.GUI.UserControls
                 dgvQLTacGia_TaiLieu.DataSource = currentTacGiaList;
                 SetupTacGiaGridView();
 
-                // Tải lại combobox tác giả/vai trò (vì dòng đã bị xóa)
+                // Tải lại combobox tác giả/vai trò (vì dòng đã bị xóa, dòng chọn có thể thay đổi)
                 LoadTacGiaToComboboxes();
             }
+        }
+
+        // ====================================================
+        // VIII. PHƯƠNG THỨC HỖ TRỢ
+        // ====================================================
+
+        /// <summary>
+        /// Tải lại DGV chính, tái chọn dòng vừa thao tác và đặt lại trạng thái.
+        /// </summary>
+        /// <param name="maTLVuaThaoTac">Mã Tài liệu vừa được Thêm/Sửa/Xóa.</param>
+        private void UpdateGridViewAndState(string maTLVuaThaoTac)
+        {
+            // 1. Tải lại toàn bộ danh sách Tài liệu
+            dgvQLTaiLieu.DataSource = taiLieuBLL.LayTatCaThongTinTaiLieu();
+            SetupTaiLieuGridView();
+
+            // 2. Tái chọn dòng (Tìm và chọn lại tài liệu vừa thao tác)
+            bool found = false;
+            if (!string.IsNullOrEmpty(maTLVuaThaoTac))
+            {
+                foreach (DataGridViewRow row in dgvQLTaiLieu.Rows)
+                {
+                    var rowData = row.DataBoundItem;
+                    string maTLTrongDGV = rowData?.GetType().GetProperty("MaTL")?.GetValue(rowData)?.ToString();
+
+                    if (maTLTrongDGV == maTLVuaThaoTac)
+                    {
+                        dgvQLTaiLieu.ClearSelection();
+                        row.Selected = true;
+                        dgvQLTaiLieu.CurrentCell = row.Cells[0];
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // Nếu không tìm thấy (hoặc vừa xóa) và còn dữ liệu, chọn dòng đầu tiên
+            if (!found && dgvQLTaiLieu.Rows.Count > 0)
+            {
+                dgvQLTaiLieu.ClearSelection();
+                dgvQLTaiLieu.Rows[0].Selected = true;
+                dgvQLTaiLieu.CurrentCell = dgvQLTaiLieu.Rows[0].Cells[0];
+            }
+
+            // 3. Đặt trạng thái về View/Search và tải lại form chi tiết
+            SetState(previousState == FormState.Search ? FormState.Search : FormState.View);
+            LoadTaiLieuToForm();
+            previousState = FormState.View; // Reset trạng thái trước đó
         }
     }
 }

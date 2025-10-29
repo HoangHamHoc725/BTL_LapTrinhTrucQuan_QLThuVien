@@ -18,3 +18,4 @@ E:\00_UNIVERSITY\TERM_05\LapTrinhTrucQuan\BTL\QuanLyThuVien\obj\Debug\QuanLyThuV
 E:\00_UNIVERSITY\TERM_05\LapTrinhTrucQuan\BTL\QuanLyThuVien\obj\Debug\QuanLyThuVien.GUI.Forms.frmTimKiem.resources
 E:\00_UNIVERSITY\TERM_05\LapTrinhTrucQuan\BTL\QuanLyThuVien\obj\Debug\QuanLyThuVien.GUI.UserControls.ucFrmQLMuonTra.resources
 E:\00_UNIVERSITY\TERM_05\LapTrinhTrucQuan\BTL\QuanLyThuVien\obj\Debug\QuanLyThuVien.GUI.Forms.frmDanhMucTaiLieu.resources
+E:\00_UNIVERSITY\TERM_05\LapTrinhTrucQuan\BTL\QuanLyThuVien\obj\Debug\QuanLyThuVien.GUI.Forms.frmBanSao.resources

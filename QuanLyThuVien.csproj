@@ -50,11 +50,13 @@
     <Compile Include="BLL\AccountBLL.cs" />
     <Compile Include="BLL\BanDocBLL.cs" />
     <Compile Include="BLL\DanhMucTaiLieuBLL.cs" />
+    <Compile Include="BLL\QLBanSaoBLL.cs" />
     <Compile Include="BLL\QLTaiLieuBLL.cs" />
     <Compile Include="BLL\TaiKhoanNhanVienBLL.cs" />
     <Compile Include="DAL\AccountDAL.cs" />
     <Compile Include="DAL\BanDocDAL.cs" />
     <Compile Include="DAL\DanhMucTaiLieuDAL.cs" />
+    <Compile Include="DAL\QLBanSaoDAL.cs" />
     <Compile Include="DAL\QLTaiLieuDAL.cs" />
     <Compile Include="DAL\QLThuVien.designer.cs">
       <AutoGen>True</AutoGen>
@@ -70,6 +72,12 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\frmBanSao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmBanSao.Designer.cs">
+      <DependentUpon>frmBanSao.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Forms\frmDangNhapDangKy.cs">
       <SubType>Form</SubType>
@@ -138,6 +146,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\frmBanSao.resx">
+      <DependentUpon>frmBanSao.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\frmDangNhapDangKy.resx">
       <DependentUpon>frmDangNhapDangKy.cs</DependentUpon>

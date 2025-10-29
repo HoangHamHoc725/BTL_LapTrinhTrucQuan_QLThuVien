@@ -35,6 +35,7 @@
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnLuu = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDanhMucTaiLieu = new System.Windows.Forms.Button();
             this.cbVaiTro = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.cbTacGia = new System.Windows.Forms.ComboBox();
@@ -70,7 +71,6 @@
             this.dgvQLTacGia_TaiLieu = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dgvQLTaiLieu = new System.Windows.Forms.DataGridView();
-            this.btnDanhMucTaiLieu = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -187,6 +187,18 @@
             this.groupBox1.TabIndex = 87;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin Tài liệu";
+            // 
+            // btnDanhMucTaiLieu
+            // 
+            this.btnDanhMucTaiLieu.Font = new System.Drawing.Font("Cascadia Code", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDanhMucTaiLieu.Location = new System.Drawing.Point(527, 252);
+            this.btnDanhMucTaiLieu.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDanhMucTaiLieu.Name = "btnDanhMucTaiLieu";
+            this.btnDanhMucTaiLieu.Size = new System.Drawing.Size(199, 33);
+            this.btnDanhMucTaiLieu.TabIndex = 91;
+            this.btnDanhMucTaiLieu.Text = "Tùy chỉnh Danh mục";
+            this.btnDanhMucTaiLieu.UseVisualStyleBackColor = true;
+            this.btnDanhMucTaiLieu.Click += new System.EventHandler(this.btnDanhMucTaiLieu_Click);
             // 
             // cbVaiTro
             // 
@@ -492,6 +504,7 @@
             this.btnXemBanSao.TabIndex = 87;
             this.btnXemBanSao.Text = "Xem bản sao";
             this.btnXemBanSao.UseVisualStyleBackColor = true;
+            this.btnXemBanSao.Click += new System.EventHandler(this.btnXemBanSao_Click);
             // 
             // panel1
             // 
@@ -552,18 +565,6 @@
             this.dgvQLTaiLieu.Name = "dgvQLTaiLieu";
             this.dgvQLTaiLieu.Size = new System.Drawing.Size(612, 260);
             this.dgvQLTaiLieu.TabIndex = 0;
-            // 
-            // btnDanhMucTaiLieu
-            // 
-            this.btnDanhMucTaiLieu.Font = new System.Drawing.Font("Cascadia Code", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDanhMucTaiLieu.Location = new System.Drawing.Point(527, 252);
-            this.btnDanhMucTaiLieu.Margin = new System.Windows.Forms.Padding(2);
-            this.btnDanhMucTaiLieu.Name = "btnDanhMucTaiLieu";
-            this.btnDanhMucTaiLieu.Size = new System.Drawing.Size(199, 33);
-            this.btnDanhMucTaiLieu.TabIndex = 91;
-            this.btnDanhMucTaiLieu.Text = "Tùy chỉnh Danh mục";
-            this.btnDanhMucTaiLieu.UseVisualStyleBackColor = true;
-            this.btnDanhMucTaiLieu.Click += new System.EventHandler(this.btnDanhMucTaiLieu_Click);
             // 
             // ucFrmQLTaiLieu
             // 

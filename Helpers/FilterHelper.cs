@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace QuanLyThuVien.Helpers
 {
+    /// <summary>
+    /// Lớp tiện ích cung cấp danh sách các thuộc tính có thể lọc (tìm kiếm) 
+    /// cho các module khác nhau trong hệ thống.
+    /// </summary>
     internal class FilterHelper
     {
+        /// <summary>
+        /// Lấy danh sách ánh xạ Tên hiển thị sang Tên cột (dùng trong DAL) cho module cụ thể.
+        /// </summary>
+        /// <param name="module">Tên module (ví dụ: "BanDoc", "TaiLieu", "BanSao").</param>
+        /// <returns>Dictionary&lt;string, string&gt; chứa Tên hiển thị và Tên cột tương ứng.</returns>
         public static Dictionary<string, string> GetFilterAttributes(string module)
         {
             switch (module)
@@ -29,7 +38,7 @@ namespace QuanLyThuVien.Helpers
                         { "Mã tài khoản cấp thẻ", "MaTK" }
                     };
 
-                case "TaiLieu": 
+                case "TaiLieu":
                     return new Dictionary<string, string>
                     {
                         { "Mã tài liệu", "MaTL" },
@@ -42,14 +51,21 @@ namespace QuanLyThuVien.Helpers
                         { "Lần xuất bản", "LanXuatBan" },
                         { "Số trang", "SoTrang" },
                         { "Khổ cỡ", "KhoCo" },
-                        { "Tên Tác giả", "TenTacGia" } 
+                        { "Tên Tác giả", "TenTacGia" }
                     };
 
-                case "DanhMuc": 
+                case "BanSao":
+                    return new Dictionary<string, string>
+                    {
+                        { "Mã Bản sao", "MaBS" },
+                        { "Tình trạng", "TinhTrang" }
+                    };
+
+                case "DanhMuc":
                     return new Dictionary<string, string>
                     {
                         { "Mã", "Ma" },
-                        { "Tên/Họ tên", "Ten" } 
+                        { "Tên/Họ tên", "Ten" }
                     };
 
                 default:

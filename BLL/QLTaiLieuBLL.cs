@@ -2,10 +2,8 @@
 using QuanLyThuVien.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QuanLyThuVien.DAL; // Đảm bảo tTaiLieu được tham chiếu từ DAL
 
 namespace QuanLyThuVien.BLL
 {
@@ -15,7 +13,7 @@ namespace QuanLyThuVien.BLL
     /// </summary>
     internal class QLTaiLieuBLL
     {
-        private QLTaiLieuDAL dal = new QLTaiLieuDAL();
+        private readonly QLTaiLieuDAL dal = new QLTaiLieuDAL();
 
         // ====================================================
         // I. PHƯƠNG THỨC TRUY VẤN & TÌM KIẾM (GET/READ/SEARCH)
@@ -54,7 +52,7 @@ namespace QuanLyThuVien.BLL
         /// <returns>Danh sách các đối tượng Tài liệu khớp với bộ lọc.</returns>
         public List<object> TimKiemTaiLieu(List<Filter> filters)
         {
-            // Kiểm tra bộ lọc rỗng. Nếu rỗng, trả về tất cả tài liệu.
+            // Nếu bộ lọc rỗng, trả về tất cả tài liệu.
             if (filters == null || filters.Count == 0 || filters.All(f => string.IsNullOrWhiteSpace(f.Value)))
             {
                 return dal.LayTatCaThongTinTaiLieu();
@@ -78,12 +76,21 @@ namespace QuanLyThuVien.BLL
         public bool ThemTaiLieu(tTaiLieu taiLieu, List<tTaiLieu_TacGia> danhSachTacGia, out string errorMessage)
         {
             // ************ Kiểm tra Logic Nghiệp vụ (Business Logic) ************
-            if (taiLieu.NamXuatBan > DateTime.Now.Year)
+            // Kiểm tra Năm xuất bản
+            if (taiLieu.NamXuatBan.HasValue && taiLieu.NamXuatBan.Value > DateTime.Now.Year)
             {
                 errorMessage = "Năm xuất bản không thể lớn hơn năm hiện tại.";
                 return false;
             }
-            // Thêm các kiểm tra khác nếu cần (ví dụ: Số trang phải > 0, KhoCo không được rỗng,...)
+
+            // Kiểm tra số trang
+            if (taiLieu.SoTrang.HasValue && taiLieu.SoTrang.Value <= 0)
+            {
+                errorMessage = "Số trang phải là một số dương.";
+                return false;
+            }
+
+            // ... (Thêm các kiểm tra nghiệp vụ khác tại đây) ...
 
             // Gọi DAL để thực hiện thao tác cơ sở dữ liệu
             return dal.ThemTaiLieu(taiLieu, danhSachTacGia, out errorMessage);
@@ -99,11 +106,21 @@ namespace QuanLyThuVien.BLL
         public bool SuaTaiLieu(tTaiLieu taiLieu, List<tTaiLieu_TacGia> danhSachTacGia, out string errorMessage)
         {
             // ************ Kiểm tra Logic Nghiệp vụ (Business Logic) ************
-            if (taiLieu.NamXuatBan > DateTime.Now.Year)
+            // Kiểm tra Năm xuất bản
+            if (taiLieu.NamXuatBan.HasValue && taiLieu.NamXuatBan.Value > DateTime.Now.Year)
             {
                 errorMessage = "Năm xuất bản không thể lớn hơn năm hiện tại.";
                 return false;
             }
+
+            // Kiểm tra số trang
+            if (taiLieu.SoTrang.HasValue && taiLieu.SoTrang.Value <= 0)
+            {
+                errorMessage = "Số trang phải là một số dương.";
+                return false;
+            }
+
+            // ... (Thêm các kiểm tra nghiệp vụ khác tại đây) ...
 
             // Gọi DAL để thực hiện thao tác cơ sở dữ liệu
             return dal.SuaTaiLieu(taiLieu, danhSachTacGia, out errorMessage);
@@ -118,9 +135,7 @@ namespace QuanLyThuVien.BLL
         public bool XoaTaiLieu(string maTL, out string errorMessage)
         {
             // ************ Kiểm tra Logic Nghiệp vụ (Business Logic) ************
-            // Tại BLL, bạn có thể kiểm tra xem tài liệu này có đang được mượn hay không
-            // trước khi gọi DAL để giảm tải cho DB (tùy thuộc vào thiết kế hệ thống).
-            // Hiện tại, ta giả định việc kiểm tra khóa ngoại được xử lý chủ yếu ở DAL.
+            // (Tại đây có thể thêm logic kiểm tra xem tài liệu có đang được mượn hay không)
 
             // Gọi DAL để thực hiện thao tác cơ sở dữ liệu
             return dal.XoaTaiLieu(maTL, out errorMessage);
@@ -129,6 +144,8 @@ namespace QuanLyThuVien.BLL
         // ====================================================
         // III. PHƯƠNG THỨC HỖ TRỢ & MAPPING (COMBOBOX DATA & ID LOOKUP)
         // ====================================================
+
+        // Các phương thức chỉ gọi DAL, sử dụng expression body (=>)
 
         /// <summary>
         /// Lấy danh sách tên Nhà xuất bản (dùng cho ComboBox/Filter).
