@@ -1,0 +1,38 @@
+#----------------------------------------------------------------------
+# Visual Studio / IDE Files
+#----------------------------------------------------------------------
+
+# Thư mục cache của Visual Studio (chứa cấu hình người dùng)
+.vs/
+*.user
+*.suo
+
+# Project files
+*.userprefs
+
+# Thư mục build output (sản phẩm đầu ra)
+[Bb]in/
+[Oo]bj/
+
+# Cấu hình NuGet
+*.nuget.props
+*.nuget.targets
+
+# Thư mục gói NuGet được restore
+packages/
+*.nupkg
+
+#----------------------------------------------------------------------
+# Database Files (LocalDB / SQL Server)
+#----------------------------------------------------------------------
+
+# Loại trừ các file Database cục bộ (MDF và LDF)
+# Chúng là các file nhị phân lớn và thay đổi thường xuyên
+*.mdf
+*.ldf
+
+#----------------------------------------------------------------------
+# Backup and Log Files
+#----------------------------------------------------------------------
+*.[Bb]ak
+*.log
