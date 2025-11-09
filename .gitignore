@@ -28,7 +28,6 @@ packages/
 
 # Loại trừ các file Database cục bộ (MDF và LDF)
 # Chúng là các file nhị phân lớn và thay đổi thường xuyên
-*.mdf
 *.ldf
 
 #----------------------------------------------------------------------
