@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLThuVien" Class="QLThuVienDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=HOANGNGUYEN\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="LibraryManagerApp.Properties.Settings" SettingsPropertyName="QLThuVienConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tBanDoc" Member="tBanDocs">
+    <Type Name="tBanDoc">
+      <Column Name="MaBD" Type="System.String" DbType="Char(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HoDem" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ten" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="SDT" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="tBanDoc_tTheBanDoc" Member="tTheBanDocs" ThisKey="MaBD" OtherKey="MaBD" Type="tTheBanDoc" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tBanSao" Member="tBanSaos">
+    <Type Name="tBanSao">
+      <Column Name="MaBS" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaTL" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="tBanSao_tGiaoDich_BanSao" Member="tGiaoDich_BanSaos" ThisKey="MaBS" OtherKey="MaBS" Type="tGiaoDich_BanSao" />
+      <Association Name="tTaiLieu_tBanSao" Member="tTaiLieu" ThisKey="MaTL" OtherKey="MaTL" Type="tTaiLieu" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tDinhDang" Member="tDinhDangs">
+    <Type Name="tDinhDang">
+      <Column Name="MaDD" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenDD" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="tDinhDang_tTaiLieu" Member="tTaiLieus" ThisKey="MaDD" OtherKey="MaDD" Type="tTaiLieu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tGiaoDich_BanSao" Member="tGiaoDich_BanSaos">
+    <Type Name="tGiaoDich_BanSao">
+      <Column Name="MaGD" Type="System.String" DbType="Char(12) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaBS" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TinhTrang" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tBanSao_tGiaoDich_BanSao" Member="tBanSao" ThisKey="MaBS" OtherKey="MaBS" Type="tBanSao" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="tGiaoDichMuonTra_tGiaoDich_BanSao" Member="tGiaoDichMuonTra" ThisKey="MaGD" OtherKey="MaGD" Type="tGiaoDichMuonTra" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tGiaoDichMuonTra" Member="tGiaoDichMuonTras">
+    <Type Name="tGiaoDichMuonTra">
+      <Column Name="MaGD" Type="System.String" DbType="Char(12) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaTBD" Type="System.String" DbType="Char(12) NOT NULL" CanBeNull="false" />
+      <Column Name="MaTK" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayMuon" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayHenTra" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayTra" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="tGiaoDichMuonTra_tGiaoDich_BanSao" Member="tGiaoDich_BanSaos" ThisKey="MaGD" OtherKey="MaGD" Type="tGiaoDich_BanSao" />
+      <Association Name="tTheBanDoc_tGiaoDichMuonTra" Member="tTheBanDoc" ThisKey="MaTBD" OtherKey="MaTBD" Type="tTheBanDoc" IsForeignKey="true" />
+      <Association Name="tTaiKhoan_tGiaoDichMuonTra" Member="tTaiKhoan" ThisKey="MaTK" OtherKey="MaTK" Type="tTaiKhoan" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tNgonNgu" Member="tNgonNgus">
+    <Type Name="tNgonNgu">
+      <Column Name="MaNN" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenNN" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="tNgonNgu_tTaiLieu" Member="tTaiLieus" ThisKey="MaNN" OtherKey="MaNN" Type="tTaiLieu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tNhanVien" Member="tNhanViens">
+    <Type Name="tNhanVien">
+      <Column Name="MaNV" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HoDem" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ten" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="SDT" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="PhuTrach" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="tNhanVien_tTaiKhoan" Member="tTaiKhoans" ThisKey="MaNV" OtherKey="MaNV" Type="tTaiKhoan" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tNhaXuatBan" Member="tNhaXuatBans">
+    <Type Name="tNhaXuatBan">
+      <Column Name="MaNXB" Type="System.String" DbType="Char(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaQG" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="TenNXB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="tNhaXuatBan_tTaiLieu" Member="tTaiLieus" ThisKey="MaNXB" OtherKey="MaNXB" Type="tTaiLieu" />
+      <Association Name="tQuocGia_tNhaXuatBan" Member="tQuocGia" ThisKey="MaQG" OtherKey="MaQG" Type="tQuocGia" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tQuocGia" Member="tQuocGias">
+    <Type Name="tQuocGia">
+      <Column Name="MaQG" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenQG" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="tQuocGia_tNhaXuatBan" Member="tNhaXuatBans" ThisKey="MaQG" OtherKey="MaQG" Type="tNhaXuatBan" />
+      <Association Name="tQuocGia_tTacGia" Member="tTacGias" ThisKey="MaQG" OtherKey="MaQG" Type="tTacGia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTacGia" Member="tTacGias">
+    <Type Name="tTacGia">
+      <Column Name="MaTG" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaQG" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="HoDem" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ten" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="tTacGia_tTaiLieu_TacGia" Member="tTaiLieu_TacGias" ThisKey="MaTG" OtherKey="MaTG" Type="tTaiLieu_TacGia" />
+      <Association Name="tQuocGia_tTacGia" Member="tQuocGia" ThisKey="MaQG" OtherKey="MaQG" Type="tQuocGia" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tVaiTro" Member="tVaiTros">
+    <Type Name="tVaiTro">
+      <Column Name="MaVT" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenVT" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="tVaiTro_tTaiKhoan" Member="tTaiKhoans" ThisKey="MaVT" OtherKey="MaVT" Type="tTaiKhoan" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTheLoai" Member="tTheLoais">
+    <Type Name="tTheLoai">
+      <Column Name="MaThL" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenThL" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="tTheLoai_tTaiLieu" Member="tTaiLieus" ThisKey="MaThL" OtherKey="MaThL" Type="tTaiLieu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTheBanDoc" Member="tTheBanDocs">
+    <Type Name="tTheBanDoc">
+      <Column Name="MaTBD" Type="System.String" DbType="Char(12) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaBD" Type="System.String" DbType="Char(9) NOT NULL" CanBeNull="false" />
+      <Column Name="MaTK" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayCap" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayHetHan" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="tTheBanDoc_tGiaoDichMuonTra" Member="tGiaoDichMuonTras" ThisKey="MaTBD" OtherKey="MaTBD" Type="tGiaoDichMuonTra" />
+      <Association Name="tBanDoc_tTheBanDoc" Member="tBanDoc" ThisKey="MaBD" OtherKey="MaBD" Type="tBanDoc" IsForeignKey="true" />
+      <Association Name="tTaiKhoan_tTheBanDoc" Member="tTaiKhoan" ThisKey="MaTK" OtherKey="MaTK" Type="tTaiKhoan" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTaiLieu_TacGia" Member="tTaiLieu_TacGias">
+    <Type Name="tTaiLieu_TacGia">
+      <Column Name="MaTL" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaTG" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VaiTro" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tTacGia_tTaiLieu_TacGia" Member="tTacGia" ThisKey="MaTG" OtherKey="MaTG" Type="tTacGia" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="tTaiLieu_tTaiLieu_TacGia" Member="tTaiLieu" ThisKey="MaTL" OtherKey="MaTL" Type="tTaiLieu" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTaiLieu" Member="tTaiLieus">
+    <Type Name="tTaiLieu">
+      <Column Name="MaTL" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaNXB" Type="System.String" DbType="Char(9) NOT NULL" CanBeNull="false" />
+      <Column Name="MaNN" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="MaThL" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="MaDD" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="MaTK" Type="System.String" DbType="Char(7)" CanBeNull="true" />
+      <Column Name="TenTL" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="LanXuatBan" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NamXuatBan" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoTrang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KhoCo" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="Anh" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="tTaiLieu_tBanSao" Member="tBanSaos" ThisKey="MaTL" OtherKey="MaTL" Type="tBanSao" />
+      <Association Name="tTaiLieu_tTaiLieu_TacGia" Member="tTaiLieu_TacGias" ThisKey="MaTL" OtherKey="MaTL" Type="tTaiLieu_TacGia" />
+      <Association Name="tDinhDang_tTaiLieu" Member="tDinhDang" ThisKey="MaDD" OtherKey="MaDD" Type="tDinhDang" IsForeignKey="true" />
+      <Association Name="tNgonNgu_tTaiLieu" Member="tNgonNgu" ThisKey="MaNN" OtherKey="MaNN" Type="tNgonNgu" IsForeignKey="true" />
+      <Association Name="tNhaXuatBan_tTaiLieu" Member="tNhaXuatBan" ThisKey="MaNXB" OtherKey="MaNXB" Type="tNhaXuatBan" IsForeignKey="true" />
+      <Association Name="tTheLoai_tTaiLieu" Member="tTheLoai" ThisKey="MaThL" OtherKey="MaThL" Type="tTheLoai" IsForeignKey="true" />
+      <Association Name="tTaiKhoan_tTaiLieu" Member="tTaiKhoan" ThisKey="MaTK" OtherKey="MaTK" Type="tTaiKhoan" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tTaiKhoan" Member="tTaiKhoans">
+    <Type Name="tTaiKhoan">
+      <Column Name="MaTK" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaNV" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="MaVT" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="TenDangNhap" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="MatKhau" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayTao" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="tTaiKhoan_tGiaoDichMuonTra" Member="tGiaoDichMuonTras" ThisKey="MaTK" OtherKey="MaTK" Type="tGiaoDichMuonTra" />
+      <Association Name="tTaiKhoan_tTheBanDoc" Member="tTheBanDocs" ThisKey="MaTK" OtherKey="MaTK" Type="tTheBanDoc" />
+      <Association Name="tTaiKhoan_tTaiLieu" Member="tTaiLieus" ThisKey="MaTK" OtherKey="MaTK" Type="tTaiLieu" />
+      <Association Name="tNhanVien_tTaiKhoan" Member="tNhanVien" ThisKey="MaNV" OtherKey="MaNV" Type="tNhanVien" IsForeignKey="true" />
+      <Association Name="tVaiTro_tTaiKhoan" Member="tVaiTro" ThisKey="MaVT" OtherKey="MaVT" Type="tVaiTro" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
