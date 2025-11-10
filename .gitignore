@@ -48,3 +48,4 @@ packages/
 #----------------------------------------------------------------------
 *.[Bb]ak
 *.log
+Properties/Settings.Designer.cs
