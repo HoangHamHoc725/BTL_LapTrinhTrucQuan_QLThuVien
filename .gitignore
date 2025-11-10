@@ -1,4 +1,11 @@
 #----------------------------------------------------------------------
+# LINQ to SQL Files (Không nên theo dõi vì chúng được sinh tự động)
+#----------------------------------------------------------------------
+DAL/QLThuVien.dbml
+DAL/QLThuVien.dbml.layout
+DAL/QLThuVien.designer.cs
+
+#----------------------------------------------------------------------
 # Visual Studio / IDE Files
 #----------------------------------------------------------------------
 
@@ -6,19 +13,15 @@
 .vs/
 *.user
 *.suo
-
-# Project files
 *.userprefs
 
 # Thư mục build output (sản phẩm đầu ra)
 [Bb]in/
 [Oo]bj/
 
-# Cấu hình NuGet
+# Cấu hình NuGet và thư mục gói
 *.nuget.props
 *.nuget.targets
-
-# Thư mục gói NuGet được restore
 packages/
 *.nupkg
 
@@ -26,8 +29,8 @@ packages/
 # Database Files (LocalDB / SQL Server)
 #----------------------------------------------------------------------
 
-# Loại trừ các file Database cục bộ (MDF và LDF)
-# Chúng là các file nhị phân lớn và thay đổi thường xuyên
+# Loại trừ các file Database cục bộ (MDF, LDF)
+*.mdf
 *.ldf
 
 #----------------------------------------------------------------------
@@ -35,6 +38,3 @@ packages/
 #----------------------------------------------------------------------
 *.[Bb]ak
 *.log
-DAL/QLThuVien.dbml
-DAL/QLThuVien.dbml.layout
-DAL/QLThuVien.designer.cs
