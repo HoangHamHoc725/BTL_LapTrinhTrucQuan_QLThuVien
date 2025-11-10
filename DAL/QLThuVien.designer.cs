@@ -33,6 +33,9 @@ namespace LibraryManagerApp.DAL
     partial void InserttBanDoc(tBanDoc instance);
     partial void UpdatetBanDoc(tBanDoc instance);
     partial void DeletetBanDoc(tBanDoc instance);
+    partial void InserttVaiTro(tVaiTro instance);
+    partial void UpdatetVaiTro(tVaiTro instance);
+    partial void DeletetVaiTro(tVaiTro instance);
     partial void InserttBanSao(tBanSao instance);
     partial void UpdatetBanSao(tBanSao instance);
     partial void DeletetBanSao(tBanSao instance);
@@ -75,13 +78,10 @@ namespace LibraryManagerApp.DAL
     partial void InserttTheLoai(tTheLoai instance);
     partial void UpdatetTheLoai(tTheLoai instance);
     partial void DeletetTheLoai(tTheLoai instance);
-    partial void InserttVaiTro(tVaiTro instance);
-    partial void UpdatetVaiTro(tVaiTro instance);
-    partial void DeletetVaiTro(tVaiTro instance);
     #endregion
 		
 		public QLThuVienDataContext() : 
-				base(global::LibraryManagerApp.Properties.Settings.Default.QLThuVienConnectionString2, mappingSource)
+				base(global::LibraryManagerApp.Properties.Settings.Default.QLThuVienConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -115,6 +115,14 @@ namespace LibraryManagerApp.DAL
 			get
 			{
 				return this.GetTable<tBanDoc>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tVaiTro> tVaiTros
+		{
+			get
+			{
+				return this.GetTable<tVaiTro>();
 			}
 		}
 		
@@ -227,14 +235,6 @@ namespace LibraryManagerApp.DAL
 			get
 			{
 				return this.GetTable<tTheLoai>();
-			}
-		}
-		
-		public System.Data.Linq.Table<tVaiTro> tVaiTros
-		{
-			get
-			{
-				return this.GetTable<tVaiTro>();
 			}
 		}
 	}
@@ -494,6 +494,120 @@ namespace LibraryManagerApp.DAL
 		{
 			this.SendPropertyChanging();
 			entity.tBanDoc = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tVaiTro")]
+	public partial class tVaiTro : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _MaVT;
+		
+		private string _TenVT;
+		
+		private EntitySet<tTaiKhoan> _tTaiKhoans;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaVTChanging(string value);
+    partial void OnMaVTChanged();
+    partial void OnTenVTChanging(string value);
+    partial void OnTenVTChanged();
+    #endregion
+		
+		public tVaiTro()
+		{
+			this._tTaiKhoans = new EntitySet<tTaiKhoan>(new Action<tTaiKhoan>(this.attach_tTaiKhoans), new Action<tTaiKhoan>(this.detach_tTaiKhoans));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaVT", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string MaVT
+		{
+			get
+			{
+				return this._MaVT;
+			}
+			set
+			{
+				if ((this._MaVT != value))
+				{
+					this.OnMaVTChanging(value);
+					this.SendPropertyChanging();
+					this._MaVT = value;
+					this.SendPropertyChanged("MaVT");
+					this.OnMaVTChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenVT", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TenVT
+		{
+			get
+			{
+				return this._TenVT;
+			}
+			set
+			{
+				if ((this._TenVT != value))
+				{
+					this.OnTenVTChanging(value);
+					this.SendPropertyChanging();
+					this._TenVT = value;
+					this.SendPropertyChanged("TenVT");
+					this.OnTenVTChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tVaiTro_tTaiKhoan", Storage="_tTaiKhoans", ThisKey="MaVT", OtherKey="MaVT")]
+		public EntitySet<tTaiKhoan> tTaiKhoans
+		{
+			get
+			{
+				return this._tTaiKhoans;
+			}
+			set
+			{
+				this._tTaiKhoans.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tTaiKhoans(tTaiKhoan entity)
+		{
+			this.SendPropertyChanging();
+			entity.tVaiTro = this;
+		}
+		
+		private void detach_tTaiKhoans(tTaiKhoan entity)
+		{
+			this.SendPropertyChanging();
+			entity.tVaiTro = null;
 		}
 	}
 	
@@ -2626,9 +2740,9 @@ namespace LibraryManagerApp.DAL
 		
 		private EntityRef<tDinhDang> _tDinhDang;
 		
-		private EntityRef<tNhaXuatBan> _tNhaXuatBan;
-		
 		private EntityRef<tNgonNgu> _tNgonNgu;
+		
+		private EntityRef<tNhaXuatBan> _tNhaXuatBan;
 		
 		private EntityRef<tTaiKhoan> _tTaiKhoan;
 		
@@ -2669,8 +2783,8 @@ namespace LibraryManagerApp.DAL
 			this._tBanSaos = new EntitySet<tBanSao>(new Action<tBanSao>(this.attach_tBanSaos), new Action<tBanSao>(this.detach_tBanSaos));
 			this._tTaiLieu_TacGias = new EntitySet<tTaiLieu_TacGia>(new Action<tTaiLieu_TacGia>(this.attach_tTaiLieu_TacGias), new Action<tTaiLieu_TacGia>(this.detach_tTaiLieu_TacGias));
 			this._tDinhDang = default(EntityRef<tDinhDang>);
-			this._tNhaXuatBan = default(EntityRef<tNhaXuatBan>);
 			this._tNgonNgu = default(EntityRef<tNgonNgu>);
+			this._tNhaXuatBan = default(EntityRef<tNhaXuatBan>);
 			this._tTaiKhoan = default(EntityRef<tTaiKhoan>);
 			this._tTheLoai = default(EntityRef<tTheLoai>);
 			OnCreated();
@@ -2996,40 +3110,6 @@ namespace LibraryManagerApp.DAL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tNhaXuatBan_tTaiLieu", Storage="_tNhaXuatBan", ThisKey="MaNXB", OtherKey="MaNXB", IsForeignKey=true)]
-		public tNhaXuatBan tNhaXuatBan
-		{
-			get
-			{
-				return this._tNhaXuatBan.Entity;
-			}
-			set
-			{
-				tNhaXuatBan previousValue = this._tNhaXuatBan.Entity;
-				if (((previousValue != value) 
-							|| (this._tNhaXuatBan.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tNhaXuatBan.Entity = null;
-						previousValue.tTaiLieus.Remove(this);
-					}
-					this._tNhaXuatBan.Entity = value;
-					if ((value != null))
-					{
-						value.tTaiLieus.Add(this);
-						this._MaNXB = value.MaNXB;
-					}
-					else
-					{
-						this._MaNXB = default(string);
-					}
-					this.SendPropertyChanged("tNhaXuatBan");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tNgonNgu_tTaiLieu", Storage="_tNgonNgu", ThisKey="MaNN", OtherKey="MaNN", IsForeignKey=true)]
 		public tNgonNgu tNgonNgu
 		{
@@ -3060,6 +3140,40 @@ namespace LibraryManagerApp.DAL
 						this._MaNN = default(string);
 					}
 					this.SendPropertyChanged("tNgonNgu");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tNhaXuatBan_tTaiLieu", Storage="_tNhaXuatBan", ThisKey="MaNXB", OtherKey="MaNXB", IsForeignKey=true)]
+		public tNhaXuatBan tNhaXuatBan
+		{
+			get
+			{
+				return this._tNhaXuatBan.Entity;
+			}
+			set
+			{
+				tNhaXuatBan previousValue = this._tNhaXuatBan.Entity;
+				if (((previousValue != value) 
+							|| (this._tNhaXuatBan.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tNhaXuatBan.Entity = null;
+						previousValue.tTaiLieus.Remove(this);
+					}
+					this._tNhaXuatBan.Entity = value;
+					if ((value != null))
+					{
+						value.tTaiLieus.Add(this);
+						this._MaNXB = value.MaNXB;
+					}
+					else
+					{
+						this._MaNXB = default(string);
+					}
+					this.SendPropertyChanged("tNhaXuatBan");
 				}
 			}
 		}
@@ -3772,120 +3886,6 @@ namespace LibraryManagerApp.DAL
 		{
 			this.SendPropertyChanging();
 			entity.tTheLoai = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tVaiTro")]
-	public partial class tVaiTro : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _MaVT;
-		
-		private string _TenVT;
-		
-		private EntitySet<tTaiKhoan> _tTaiKhoans;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnMaVTChanging(string value);
-    partial void OnMaVTChanged();
-    partial void OnTenVTChanging(string value);
-    partial void OnTenVTChanged();
-    #endregion
-		
-		public tVaiTro()
-		{
-			this._tTaiKhoans = new EntitySet<tTaiKhoan>(new Action<tTaiKhoan>(this.attach_tTaiKhoans), new Action<tTaiKhoan>(this.detach_tTaiKhoans));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaVT", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string MaVT
-		{
-			get
-			{
-				return this._MaVT;
-			}
-			set
-			{
-				if ((this._MaVT != value))
-				{
-					this.OnMaVTChanging(value);
-					this.SendPropertyChanging();
-					this._MaVT = value;
-					this.SendPropertyChanged("MaVT");
-					this.OnMaVTChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenVT", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string TenVT
-		{
-			get
-			{
-				return this._TenVT;
-			}
-			set
-			{
-				if ((this._TenVT != value))
-				{
-					this.OnTenVTChanging(value);
-					this.SendPropertyChanging();
-					this._TenVT = value;
-					this.SendPropertyChanged("TenVT");
-					this.OnTenVTChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tVaiTro_tTaiKhoan", Storage="_tTaiKhoans", ThisKey="MaVT", OtherKey="MaVT")]
-		public EntitySet<tTaiKhoan> tTaiKhoans
-		{
-			get
-			{
-				return this._tTaiKhoans;
-			}
-			set
-			{
-				this._tTaiKhoans.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_tTaiKhoans(tTaiKhoan entity)
-		{
-			this.SendPropertyChanging();
-			entity.tVaiTro = this;
-		}
-		
-		private void detach_tTaiKhoans(tTaiKhoan entity)
-		{
-			this.SendPropertyChanging();
-			entity.tVaiTro = null;
 		}
 	}
 }

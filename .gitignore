@@ -35,3 +35,6 @@ packages/
 #----------------------------------------------------------------------
 *.[Bb]ak
 *.log
+DAL/QLThuVien.dbml
+DAL/QLThuVien.dbml.layout
+DAL/QLThuVien.designer.cs

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLThuVien" Class="QLThuVienDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-68L4LFP\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="LibraryManagerApp.Properties.Settings" SettingsPropertyName="QLThuVienConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=HOANGNGUYEN\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="LibraryManagerApp.Properties.Settings" SettingsPropertyName="QLThuVienConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tBanDoc" Member="tBanDocs">
     <Type Name="tBanDoc">
       <Column Name="MaBD" Type="System.String" DbType="Char(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -11,6 +11,13 @@
       <Column Name="SDT" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Association Name="tBanDoc_tTheBanDoc" Member="tTheBanDocs" ThisKey="MaBD" OtherKey="MaBD" Type="tTheBanDoc" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tVaiTro" Member="tVaiTros">
+    <Type Name="tVaiTro">
+      <Column Name="MaVT" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenVT" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="tVaiTro_tTaiKhoan" Member="tTaiKhoans" ThisKey="MaVT" OtherKey="MaVT" Type="tTaiKhoan" />
     </Type>
   </Table>
   <Table Name="dbo.tBanSao" Member="tBanSaos">
@@ -133,8 +140,8 @@
       <Association Name="tTaiLieu_tBanSao" Member="tBanSaos" ThisKey="MaTL" OtherKey="MaTL" Type="tBanSao" />
       <Association Name="tTaiLieu_tTaiLieu_TacGia" Member="tTaiLieu_TacGias" ThisKey="MaTL" OtherKey="MaTL" Type="tTaiLieu_TacGia" />
       <Association Name="tDinhDang_tTaiLieu" Member="tDinhDang" ThisKey="MaDD" OtherKey="MaDD" Type="tDinhDang" IsForeignKey="true" />
-      <Association Name="tNhaXuatBan_tTaiLieu" Member="tNhaXuatBan" ThisKey="MaNXB" OtherKey="MaNXB" Type="tNhaXuatBan" IsForeignKey="true" />
       <Association Name="tNgonNgu_tTaiLieu" Member="tNgonNgu" ThisKey="MaNN" OtherKey="MaNN" Type="tNgonNgu" IsForeignKey="true" />
+      <Association Name="tNhaXuatBan_tTaiLieu" Member="tNhaXuatBan" ThisKey="MaNXB" OtherKey="MaNXB" Type="tNhaXuatBan" IsForeignKey="true" />
       <Association Name="tTaiKhoan_tTaiLieu" Member="tTaiKhoan" ThisKey="MaTK" OtherKey="MaTK" Type="tTaiKhoan" IsForeignKey="true" />
       <Association Name="tTheLoai_tTaiLieu" Member="tTheLoai" ThisKey="MaThL" OtherKey="MaThL" Type="tTheLoai" IsForeignKey="true" />
     </Type>
@@ -166,13 +173,6 @@
       <Column Name="MaThL" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="TenThL" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="tTheLoai_tTaiLieu" Member="tTaiLieus" ThisKey="MaThL" OtherKey="MaThL" Type="tTaiLieu" />
-    </Type>
-  </Table>
-  <Table Name="dbo.tVaiTro" Member="tVaiTros">
-    <Type Name="tVaiTro">
-      <Column Name="MaVT" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="TenVT" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="tVaiTro_tTaiKhoan" Member="tTaiKhoans" ThisKey="MaVT" OtherKey="MaVT" Type="tTaiKhoan" />
     </Type>
   </Table>
 </Database>
