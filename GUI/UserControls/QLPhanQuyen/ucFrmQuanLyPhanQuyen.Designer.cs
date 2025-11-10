@@ -1,6 +1,6 @@
-﻿namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
+﻿namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 {
-    partial class ucFrmQuanLyTaiLieu
+    partial class ucFrmQuanLyPhanQuyen
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,8 +30,8 @@
         {
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.tlpChuyenChucNang = new System.Windows.Forms.TableLayoutPanel();
-            this.btnThongTinDanhMuc = new System.Windows.Forms.Button();
-            this.btnThongTinTaiLieu = new System.Windows.Forms.Button();
+            this.btnThongTinTaiKhoan = new System.Windows.Forms.Button();
+            this.btnThongTinNhanVien = new System.Windows.Forms.Button();
             this.pnlTitle = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,8 +57,8 @@
             this.tlpChuyenChucNang.ColumnCount = 2;
             this.tlpChuyenChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpChuyenChucNang.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpChuyenChucNang.Controls.Add(this.btnThongTinDanhMuc, 1, 0);
-            this.tlpChuyenChucNang.Controls.Add(this.btnThongTinTaiLieu, 0, 0);
+            this.tlpChuyenChucNang.Controls.Add(this.btnThongTinTaiKhoan, 1, 0);
+            this.tlpChuyenChucNang.Controls.Add(this.btnThongTinNhanVien, 0, 0);
             this.tlpChuyenChucNang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpChuyenChucNang.Location = new System.Drawing.Point(0, 59);
             this.tlpChuyenChucNang.Name = "tlpChuyenChucNang";
@@ -68,31 +68,31 @@
             this.tlpChuyenChucNang.Size = new System.Drawing.Size(864, 59);
             this.tlpChuyenChucNang.TabIndex = 1;
             // 
-            // btnThongTinDanhMuc
+            // btnThongTinTaiKhoan
             // 
-            this.btnThongTinDanhMuc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnThongTinDanhMuc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThongTinDanhMuc.Location = new System.Drawing.Point(432, 0);
-            this.btnThongTinDanhMuc.Margin = new System.Windows.Forms.Padding(0);
-            this.btnThongTinDanhMuc.Name = "btnThongTinDanhMuc";
-            this.btnThongTinDanhMuc.Size = new System.Drawing.Size(432, 59);
-            this.btnThongTinDanhMuc.TabIndex = 2;
-            this.btnThongTinDanhMuc.Text = "Thông tin danh mục";
-            this.btnThongTinDanhMuc.UseVisualStyleBackColor = true;
-            this.btnThongTinDanhMuc.Click += new System.EventHandler(this.btnThongTinDanhMuc_Click);
+            this.btnThongTinTaiKhoan.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnThongTinTaiKhoan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnThongTinTaiKhoan.Location = new System.Drawing.Point(432, 0);
+            this.btnThongTinTaiKhoan.Margin = new System.Windows.Forms.Padding(0);
+            this.btnThongTinTaiKhoan.Name = "btnThongTinTaiKhoan";
+            this.btnThongTinTaiKhoan.Size = new System.Drawing.Size(432, 59);
+            this.btnThongTinTaiKhoan.TabIndex = 2;
+            this.btnThongTinTaiKhoan.Text = "Thông tin tài khoản";
+            this.btnThongTinTaiKhoan.UseVisualStyleBackColor = true;
+            this.btnThongTinTaiKhoan.Click += new System.EventHandler(this.btnThongTinTaiKhoan_Click);
             // 
-            // btnThongTinTaiLieu
+            // btnThongTinNhanVien
             // 
-            this.btnThongTinTaiLieu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnThongTinTaiLieu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThongTinTaiLieu.Location = new System.Drawing.Point(0, 0);
-            this.btnThongTinTaiLieu.Margin = new System.Windows.Forms.Padding(0);
-            this.btnThongTinTaiLieu.Name = "btnThongTinTaiLieu";
-            this.btnThongTinTaiLieu.Size = new System.Drawing.Size(432, 59);
-            this.btnThongTinTaiLieu.TabIndex = 1;
-            this.btnThongTinTaiLieu.Text = "Thông tin tài liệu";
-            this.btnThongTinTaiLieu.UseVisualStyleBackColor = true;
-            this.btnThongTinTaiLieu.Click += new System.EventHandler(this.btnThongTinTaiLieu_Click);
+            this.btnThongTinNhanVien.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnThongTinNhanVien.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnThongTinNhanVien.Location = new System.Drawing.Point(0, 0);
+            this.btnThongTinNhanVien.Margin = new System.Windows.Forms.Padding(0);
+            this.btnThongTinNhanVien.Name = "btnThongTinNhanVien";
+            this.btnThongTinNhanVien.Size = new System.Drawing.Size(432, 59);
+            this.btnThongTinNhanVien.TabIndex = 1;
+            this.btnThongTinNhanVien.Text = "Thông tin nhân viên";
+            this.btnThongTinNhanVien.UseVisualStyleBackColor = true;
+            this.btnThongTinNhanVien.Click += new System.EventHandler(this.btnThongTinNhanVien_Click);
             // 
             // pnlTitle
             // 
@@ -121,11 +121,11 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(134, 1);
+            this.label1.Location = new System.Drawing.Point(147, 1);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(596, 56);
+            this.label1.Size = new System.Drawing.Size(570, 56);
             this.label1.TabIndex = 0;
-            this.label1.Text = "XEM THÔNG TIN TÀI LIỆU";
+            this.label1.Text = "XEM THÔNG TIN BẠN ĐỌC";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlContent
@@ -137,15 +137,15 @@
             this.pnlContent.Size = new System.Drawing.Size(864, 563);
             this.pnlContent.TabIndex = 1;
             // 
-            // ucFrmQuanLyTaiLieu
+            // ucFrmQuanLyPhanQuyen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnlContent);
             this.Controls.Add(this.pnlHeader);
-            this.Name = "ucFrmQuanLyTaiLieu";
+            this.Name = "ucFrmQuanLyPhanQuyen";
             this.Size = new System.Drawing.Size(864, 681);
-            this.Load += new System.EventHandler(this.ucFrmQuanLyTaiLieu_Load);
+            this.Load += new System.EventHandler(this.ucFrmQuanLyPhanQuyen_Load);
             this.pnlHeader.ResumeLayout(false);
             this.tlpChuyenChucNang.ResumeLayout(false);
             this.pnlTitle.ResumeLayout(false);
@@ -159,8 +159,8 @@
 
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Panel pnlContent;
-        private System.Windows.Forms.Button btnThongTinDanhMuc;
-        private System.Windows.Forms.Button btnThongTinTaiLieu;
+        private System.Windows.Forms.Button btnThongTinTaiKhoan;
+        private System.Windows.Forms.Button btnThongTinNhanVien;
         private System.Windows.Forms.Panel pnlTitle;
         private System.Windows.Forms.TableLayoutPanel tlpChuyenChucNang;
         private System.Windows.Forms.Label label1;

@@ -1,5 +1,8 @@
 ﻿using LibraryManagerApp.GUI.UserControls;
 using LibraryManagerApp.GUI.UserControls.QLBanDoc;
+using LibraryManagerApp.GUI.UserControls.QLMuonTra;
+using LibraryManagerApp.GUI.UserControls.QLPhanQuyen;
+using LibraryManagerApp.GUI.UserControls.QLTaiLieu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -81,16 +84,19 @@ namespace LibraryManagerApp
         private void btnQLTaiLieu_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnQLTaiLieu);
+            LoadUserControl(new ucFrmQuanLyTaiLieu());
         }
 
         private void btnQLMuonTra_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnQLMuonTra);
+            LoadUserControl(new ucFrmQuanLyMuonTra());
         }
 
         private void btnQLPhanQuyen_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnQLPhanQuyen);
+            LoadUserControl(new ucFrmQuanLyPhanQuyen());
         }
 
         private void btnThongKeBaoCao_Click(object sender, EventArgs e)
