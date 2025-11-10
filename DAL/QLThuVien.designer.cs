@@ -81,7 +81,7 @@ namespace LibraryManagerApp.DAL
     #endregion
 		
 		public QLThuVienDataContext() : 
-				base(global::LibraryManagerApp.Properties.Settings.Default.QLThuVienConnectionString1, mappingSource)
+				base(global::LibraryManagerApp.Properties.Settings.Default.QLThuVienConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

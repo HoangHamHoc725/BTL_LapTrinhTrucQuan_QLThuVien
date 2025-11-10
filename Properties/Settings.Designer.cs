@@ -33,16 +33,5 @@ namespace LibraryManagerApp.Properties {
                 return ((string)(this["QLThuVienConnectionString"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=HOANGNGUYEN\\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Security=" +
-            "True;TrustServerCertificate=True")]
-        public string QLThuVienConnectionString1 {
-            get {
-                return ((string)(this["QLThuVienConnectionString1"]));
-            }
-        }
     }
 }
