@@ -9,16 +9,17 @@ namespace LibraryManagerApp.DAL
 {
     internal class BanDocDAL
     {
-        public List<BanDocDTO> GetAllBanDocDTO() // Đổi tên phương thức cho rõ ràng hơn
+        public List<BanDocDTO> GetAllBanDocDTO() 
         {
             using (var db = new QLThuVienDataContext())
             {
                 var query = from bd in db.tBanDocs
-                            select new BanDocDTO // Chiếu dữ liệu sang BanDocDTO
+                            select new BanDocDTO
                             {
                                 MaBD = bd.MaBD,
-                                HoTen = bd.HoDem + " " + bd.Ten,
-                                GioiTinhHienThi = bd.GioiTinh.Equals("M") ? "Nam" : "Nữ",
+                                HoDem = bd.HoDem, 
+                                Ten = bd.Ten,     
+                                GioiTinh = bd.GioiTinh.ToString(), 
                                 NgaySinh = bd.NgaySinh,
                                 DiaChi = bd.DiaChi,
                                 SDT = bd.SDT,
@@ -26,6 +27,29 @@ namespace LibraryManagerApp.DAL
                             };
 
                 return query.ToList();
+            }
+        }
+
+        public BanDocDTO GetBanDocByMaBD(string maBD) 
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var bd = db.tBanDocs.SingleOrDefault(p => p.MaBD == maBD);
+                if (bd != null)
+                {
+                    return new BanDocDTO
+                    {
+                        MaBD = bd.MaBD,
+                        HoDem = bd.HoDem,
+                        Ten = bd.Ten,
+                        GioiTinh = bd.GioiTinh.ToString(),
+                        NgaySinh = bd.NgaySinh,
+                        DiaChi = bd.DiaChi,
+                        SDT = bd.SDT,
+                        Email = bd.Email
+                    };
+                }
+                return null;
             }
         }
     }

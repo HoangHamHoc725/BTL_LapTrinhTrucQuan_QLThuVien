@@ -12,9 +12,14 @@ namespace LibraryManagerApp.BLL
     {
         private BanDocDAL _dal = new BanDocDAL();
 
-        public List<BanDocDTO> LayThongTinBanDoc() // Đổi tên phương thức cho rõ ràng
+        public List<BanDocDTO> LayThongTinBanDoc()
         {
             return _dal.GetAllBanDocDTO();
+        }
+
+        public BanDocDTO LayChiTietBanDoc(string maBD)
+        {
+            return _dal.GetBanDocByMaBD(maBD);
         }
     }
 }
