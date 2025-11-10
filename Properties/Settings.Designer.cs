@@ -44,5 +44,16 @@ namespace LibraryManagerApp.Properties {
                 return ((string)(this["QLThuVienConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-68L4LFP\\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Secur" +
+            "ity=True;Encrypt=True;TrustServerCertificate=True")]
+        public string QLThuVienConnectionString2 {
+            get {
+                return ((string)(this["QLThuVienConnectionString2"]));
+            }
+        }
     }
 }
