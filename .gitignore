@@ -17,7 +17,7 @@ Properties/Settings.settings
 # app.config 
 # => KHUYẾN NGHỊ: GIỮ app.config nếu nó chứa connection strings hoặc configs chung.
 # Nếu bạn muốn loại trừ nó, hãy thêm:
-app.config 
+# app.config 
 
 # Thư mục cache của Visual Studio (chứa cấu hình người dùng)
 .vs/
