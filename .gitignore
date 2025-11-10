@@ -10,8 +10,8 @@ DAL/QLThuVien.designer.cs
 #----------------------------------------------------------------------
 
 # Loại trừ các file Settings tự động sinh ra/cục bộ
-Properties/Settings.Designer.cs
-Properties/Settings.settings
+# Properties/Settings.Designer.cs
+# Properties/Settings.settings
 
 # File cấu hình ứng dụng (Thường cần được theo dõi, nhưng nếu có xung đột, bạn có thể loại trừ)
 # app.config 
