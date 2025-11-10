@@ -123,8 +123,8 @@
     <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmTheBanDoc.resx">
       <DependentUpon>ucFrmTheBanDoc.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.resx">
-      <DependentUpon>ucFrmThongTinBanDoc.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\UserControls\QLTaiLieu\ucFrmQuanLyTaiLieu.resx">
+      <DependentUpon>ucFrmQuanLyTaiLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 {
-    partial class ucFrmQuanLyTaiLieu
+    partial class ucFrmThongTinDanhMuc
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,16 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // ucFrmQuanLyTaiLieu
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "ucFrmQuanLyTaiLieu";
-            this.Size = new System.Drawing.Size(609, 455);
-            this.ResumeLayout(false);
-
         }
 
         #endregion
