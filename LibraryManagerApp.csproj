@@ -103,6 +103,12 @@
     <Compile Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.Designer.cs">
       <DependentUpon>ucFrmThongTinBanDoc.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmQuanLyTaiLieu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmQuanLyTaiLieu.Designer.cs">
+      <DependentUpon>ucFrmQuanLyTaiLieu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Forms\frmMain.resx">
@@ -155,7 +161,6 @@
   <ItemGroup>
     <Folder Include="GUI\UserControls\QLMuonTra\" />
     <Folder Include="GUI\UserControls\QLPhanQuyen\" />
-    <Folder Include="GUI\UserControls\QLTaiLieu\" />
     <Folder Include="GUI\UserControls\ThongKeBaoCao\" />
   </ItemGroup>
   <ItemGroup>
