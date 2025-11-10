@@ -79,17 +79,45 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Program.cs" />
-    <Compile Include="GUI\UserControls\ucFrmThongTinBanDoc.cs">
+    <Compile Include="GUI\Temp.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\UserControls\ucFrmThongTinBanDoc.Designer.cs">
+    <Compile Include="GUI\Temp.Designer.cs">
+      <DependentUpon>Temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLBanDoc\ucFrmQuanLyBanDoc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLBanDoc\ucFrmQuanLyBanDoc.Designer.cs">
+      <DependentUpon>ucFrmQuanLyBanDoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLBanDoc\ucFrmTheBanDoc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLBanDoc\ucFrmTheBanDoc.Designer.cs">
+      <DependentUpon>ucFrmTheBanDoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.Designer.cs">
       <DependentUpon>ucFrmThongTinBanDoc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\UserControls\ucFrmThongTinBanDoc.resx">
+    <EmbeddedResource Include="GUI\Temp.resx">
+      <DependentUpon>Temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmQuanLyBanDoc.resx">
+      <DependentUpon>ucFrmQuanLyBanDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmTheBanDoc.resx">
+      <DependentUpon>ucFrmTheBanDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.resx">
       <DependentUpon>ucFrmThongTinBanDoc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -125,7 +153,10 @@
     <None Include="GUI\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <Folder Include="GUI\UserControls\QLMuonTra\" />
+    <Folder Include="GUI\UserControls\QLPhanQuyen\" />
+    <Folder Include="GUI\UserControls\QLTaiLieu\" />
+    <Folder Include="GUI\UserControls\ThongKeBaoCao\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\img\icon\icon_thongke.png" />

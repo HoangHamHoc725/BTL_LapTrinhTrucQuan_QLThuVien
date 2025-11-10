@@ -1,4 +1,5 @@
 ﻿using LibraryManagerApp.GUI.UserControls;
+using LibraryManagerApp.GUI.UserControls.QLBanDoc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -74,7 +75,7 @@ namespace LibraryManagerApp
         private void btnQLBanDoc_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnQLBanDoc);
-            LoadUserControl(new ucFrmThongTinBanDoc());
+            LoadUserControl(new ucFrmQuanLyBanDoc());
         }
 
         private void btnQLTaiLieu_Click(object sender, EventArgs e)
