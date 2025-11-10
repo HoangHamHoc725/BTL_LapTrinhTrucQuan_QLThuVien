@@ -6,8 +6,18 @@ DAL/QLThuVien.dbml.layout
 DAL/QLThuVien.designer.cs
 
 #----------------------------------------------------------------------
-# Visual Studio / IDE Files
+# WinForms/Visual Studio Generated Files
 #----------------------------------------------------------------------
+
+# Loại trừ các file Settings tự động sinh ra/cục bộ
+Properties/Settings.Designer.cs
+Properties/Settings.settings
+
+# File cấu hình ứng dụng (Thường cần được theo dõi, nhưng nếu có xung đột, bạn có thể loại trừ)
+# app.config 
+# => KHUYẾN NGHỊ: GIỮ app.config nếu nó chứa connection strings hoặc configs chung.
+# Nếu bạn muốn loại trừ nó, hãy thêm:
+app.config 
 
 # Thư mục cache của Visual Studio (chứa cấu hình người dùng)
 .vs/
