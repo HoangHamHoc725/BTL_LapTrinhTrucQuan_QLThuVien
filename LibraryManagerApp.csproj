@@ -72,11 +72,29 @@
       <DependentUpon>QLThuVien.dbml</DependentUpon>
     </Compile>
     <Compile Include="DTO\BanDocDTO.cs" />
+    <Compile Include="GUI\Forms\frmBanSao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmBanSao.Designer.cs">
+      <DependentUpon>frmBanSao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\frmHinhAnh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmHinhAnh.Designer.cs">
+      <DependentUpon>frmHinhAnh.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\frmTimKiem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmTimKiem.Designer.cs">
+      <DependentUpon>frmTimKiem.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Program.cs" />
     <Compile Include="GUI\Temp.cs">
@@ -103,16 +121,73 @@
     <Compile Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.Designer.cs">
       <DependentUpon>ucFrmThongTinBanDoc.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UserControls\QLMuonTra\ucFrmQuanLyMuonTra.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLMuonTra\ucFrmQuanLyMuonTra.Designer.cs">
+      <DependentUpon>ucFrmQuanLyMuonTra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLMuonTra\ucFrmThongTinPhieuMuon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLMuonTra\ucFrmThongTinPhieuMuon.Designer.cs">
+      <DependentUpon>ucFrmThongTinPhieuMuon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLMuonTra\ucFrmThongTinPhieuTra.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLMuonTra\ucFrmThongTinPhieuTra.Designer.cs">
+      <DependentUpon>ucFrmThongTinPhieuTra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLPhanQuyen\ucFrmQuanLyPhanQuyen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLPhanQuyen\ucFrmQuanLyPhanQuyen.Designer.cs">
+      <DependentUpon>ucFrmQuanLyPhanQuyen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLPhanQuyen\ucFrmThongTinNhanVien.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLPhanQuyen\ucFrmThongTinNhanVien.Designer.cs">
+      <DependentUpon>ucFrmThongTinNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLPhanQuyen\ucFrmThongTinTaiKhoan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLPhanQuyen\ucFrmThongTinTaiKhoan.Designer.cs">
+      <DependentUpon>ucFrmThongTinTaiKhoan.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmQuanLyTaiLieu.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmQuanLyTaiLieu.Designer.cs">
       <DependentUpon>ucFrmQuanLyTaiLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinDanhMuc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinDanhMuc.Designer.cs">
+      <DependentUpon>ucFrmThongTinDanhMuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinTaiLieu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinTaiLieu.Designer.cs">
+      <DependentUpon>ucFrmThongTinTaiLieu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\Forms\frmBanSao.resx">
+      <DependentUpon>frmBanSao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\frmHinhAnh.resx">
+      <DependentUpon>frmHinhAnh.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\frmTimKiem.resx">
+      <DependentUpon>frmTimKiem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Temp.resx">
       <DependentUpon>Temp.cs</DependentUpon>
@@ -123,8 +198,29 @@
     <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmTheBanDoc.resx">
       <DependentUpon>ucFrmTheBanDoc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLMuonTra\ucFrmQuanLyMuonTra.resx">
+      <DependentUpon>ucFrmQuanLyMuonTra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLMuonTra\ucFrmThongTinPhieuTra.resx">
+      <DependentUpon>ucFrmThongTinPhieuTra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLPhanQuyen\ucFrmQuanLyPhanQuyen.resx">
+      <DependentUpon>ucFrmQuanLyPhanQuyen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLPhanQuyen\ucFrmThongTinNhanVien.resx">
+      <DependentUpon>ucFrmThongTinNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLPhanQuyen\ucFrmThongTinTaiKhoan.resx">
+      <DependentUpon>ucFrmThongTinTaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\QLTaiLieu\ucFrmQuanLyTaiLieu.resx">
       <DependentUpon>ucFrmQuanLyTaiLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinDanhMuc.resx">
+      <DependentUpon>ucFrmThongTinDanhMuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinTaiLieu.resx">
+      <DependentUpon>ucFrmThongTinTaiLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -159,8 +255,6 @@
     <None Include="GUI\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\UserControls\QLMuonTra\" />
-    <Folder Include="GUI\UserControls\QLPhanQuyen\" />
     <Folder Include="GUI\UserControls\ThongKeBaoCao\" />
   </ItemGroup>
   <ItemGroup>

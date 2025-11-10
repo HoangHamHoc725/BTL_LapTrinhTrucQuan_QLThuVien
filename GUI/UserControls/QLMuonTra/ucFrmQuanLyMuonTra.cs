@@ -8,20 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
+namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
 {
-    public partial class ucFrmQuanLyTaiLieu : UserControl
+    public partial class ucFrmQuanLyMuonTra : UserControl
     {
         private Button currentActiveButton;
 
-        public ucFrmQuanLyTaiLieu()
+        public ucFrmQuanLyMuonTra()
         {
             InitializeComponent();
-        }
-
-        private void ucFrmQuanLyTaiLieu_Load(object sender, EventArgs e)
-        {
-            btnThongTinTaiLieu_Click(btnThongTinTaiLieu, EventArgs.Empty);
         }
 
         private void LoadSubUserControl(UserControl uc)
@@ -31,16 +26,22 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             this.pnlContent.Controls.Add(uc);
             uc.BringToFront();
         }
-        private void btnThongTinTaiLieu_Click(object sender, EventArgs e)
+
+        private void btnThongTinPhieuMuon_Click(object sender, EventArgs e)
         {
-            LoadSubUserControl(new ucFrmThongTinTaiLieu());
-            SetActiveButton(btnThongTinTaiLieu);
+            LoadSubUserControl(new ucFrmThongTinPhieuMuon());
+            SetActiveButton(btnThongTinPhieuMuon);
         }
 
-        private void btnThongTinDanhMuc_Click(object sender, EventArgs e)
+        private void btnThongTinPhieuTra_Click(object sender, EventArgs e)
         {
-            LoadSubUserControl(new ucFrmThongTinDanhMuc());
-            SetActiveButton(btnThongTinDanhMuc);
+            LoadSubUserControl(new ucFrmThongTinPhieuTra());
+            SetActiveButton(btnThongTinPhieuTra);
+        }
+
+        private void ucFrmQuanLyMuonTra_Load(object sender, EventArgs e)
+        {
+            btnThongTinPhieuMuon_Click(btnThongTinPhieuMuon, EventArgs.Empty);
         }
 
         private void SetActiveButton(Button activeButton)
