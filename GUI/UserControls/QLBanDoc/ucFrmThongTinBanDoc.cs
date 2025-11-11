@@ -28,6 +28,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             InitializeComponent();
 
             cboGioiTinh.Items.AddRange(new string[] { "Nam", "Nữ" });
+
             ConfigureDGV();
         }
 

@@ -237,6 +237,94 @@ namespace LibraryManagerApp.DAL
 				return this.GetTable<tVaiTro>();
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_AutoLockExpiredTheBanDoc")]
+		public int SP_AutoLockExpiredTheBanDoc()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaTl")]
+		public int SP_GenerateNewMaTl([global::System.Data.Linq.Mapping.ParameterAttribute(Name="MaNN", DbType="Char(2)")] string maNN, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaTl", DbType="Char(10)")] ref string newMaTl)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), maNN, newMaTl);
+			newMaTl = ((string)(result.GetParameterValue(1)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaBS")]
+		public int SP_GenerateNewMaBS([global::System.Data.Linq.Mapping.ParameterAttribute(Name="MaTL", DbType="Char(10)")] string maTL, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaBS", DbType="Char(14)")] ref string newMaBS)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), maTL, newMaBS);
+			newMaBS = ((string)(result.GetParameterValue(1)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaDD")]
+		public int SP_GenerateNewMaDD([global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaDD", DbType="Char(5)")] ref string newMaDD)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newMaDD);
+			newMaDD = ((string)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaGD")]
+		public int SP_GenerateNewMaGD([global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaGD", DbType="Char(12)")] ref string newMaGD)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newMaGD);
+			newMaGD = ((string)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaNV")]
+		public int SP_GenerateNewMaNV([global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaNV", DbType="Char(7)")] ref string newMaNV)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newMaNV);
+			newMaNV = ((string)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaNxb")]
+		public int SP_GenerateNewMaNxb([global::System.Data.Linq.Mapping.ParameterAttribute(Name="MaQg", DbType="NVarChar(10)")] string maQg, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaNxb", DbType="NVarChar(50)")] ref string newMaNxb)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), maQg, newMaNxb);
+			newMaNxb = ((string)(result.GetParameterValue(1)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaTBD")]
+		public int SP_GenerateNewMaTBD([global::System.Data.Linq.Mapping.ParameterAttribute(Name="MaBD", DbType="Char(9)")] string maBD, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaTBD", DbType="Char(12)")] ref string newMaTBD, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ErrorStatus", DbType="Int")] ref System.Nullable<int> errorStatus)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), maBD, newMaTBD, errorStatus);
+			newMaTBD = ((string)(result.GetParameterValue(1)));
+			errorStatus = ((System.Nullable<int>)(result.GetParameterValue(2)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaTg")]
+		public int SP_GenerateNewMaTg([global::System.Data.Linq.Mapping.ParameterAttribute(Name="MaQg", DbType="NVarChar(10)")] string maQg, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaTg", DbType="NVarChar(50)")] ref string newMaTg)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), maQg, newMaTg);
+			newMaTg = ((string)(result.GetParameterValue(1)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaThL")]
+		public int SP_GenerateNewMaThL([global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaThL", DbType="Char(6)")] ref string newMaThL)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newMaThL);
+			newMaThL = ((string)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_GenerateNewMaTK")]
+		public int SP_GenerateNewMaTK([global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewMaTK", DbType="Char(7)")] ref string newMaTK)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newMaTK);
+			newMaTK = ((string)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tBanDoc")]
