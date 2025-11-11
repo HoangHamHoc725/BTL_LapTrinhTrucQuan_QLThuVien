@@ -48,6 +48,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=9.0.10.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNetCore.Cryptography.Internal.9.0.10\lib\net462\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation, Version=9.0.10.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNetCore.Cryptography.KeyDerivation.9.0.10\lib\net462\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
     </Reference>
@@ -64,15 +70,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\AuthBLL.cs" />
     <Compile Include="BLL\BanDocBLL.cs" />
+    <Compile Include="BLL\TheBanDocBLL.cs" />
+    <Compile Include="DAL\AuthDAL.cs" />
     <Compile Include="DAL\BanDocDAL.cs" />
     <Compile Include="DAL\QLThuVien.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>QLThuVien.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DAL\TheBanDocDAL.cs" />
+    <Compile Include="DTO\BanDocChuaCoTheDTO.cs" />
     <Compile Include="DTO\BanDocDTO.cs" />
+    <Compile Include="DTO\LoginSessionDTO.cs" />
     <Compile Include="DTO\SearchFilter.cs" />
+    <Compile Include="DTO\TheBanDocDTO.cs" />
     <Compile Include="GUI\Forms\frmBanSao.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +116,12 @@
     </Compile>
     <Compile Include="GUI\Temp.Designer.cs">
       <DependentUpon>Temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\DangNhap\ucFrmDangNhap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\DangNhap\ucFrmDangNhap.Designer.cs">
+      <DependentUpon>ucFrmDangNhap.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\UserControls\QLBanDoc\ucFrmQuanLyBanDoc.cs">
       <SubType>UserControl</SubType>
@@ -176,7 +195,9 @@
     <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinTaiLieu.Designer.cs">
       <DependentUpon>ucFrmThongTinTaiLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\SearchMetadata.cs" />
+    <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="Helpers\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Forms\frmBanSao.resx">
@@ -193,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Temp.resx">
       <DependentUpon>Temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\DangNhap\ucFrmDangNhap.resx">
+      <DependentUpon>ucFrmDangNhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmQuanLyBanDoc.resx">
       <DependentUpon>ucFrmQuanLyBanDoc.cs</DependentUpon>
@@ -246,6 +270,7 @@
     <None Include="DAL\QLThuVien.dbml.layout">
       <DependentUpon>QLThuVien.dbml</DependentUpon>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

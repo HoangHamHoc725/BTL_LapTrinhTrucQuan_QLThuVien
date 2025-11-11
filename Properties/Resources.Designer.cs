@@ -63,6 +63,16 @@ namespace LibraryManagerApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg_login {
+            get {
+                object obj = ResourceManager.GetObject("bg-login", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_bandoc {
             get {
                 object obj = ResourceManager.GetObject("icon_bandoc", resourceCulture);
@@ -176,6 +186,46 @@ namespace LibraryManagerApp.Properties {
         internal static System.Drawing.Bitmap icon_trangchu_active {
             get {
                 object obj = ResourceManager.GetObject("icon_trangchu_active", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap login_frm_bg {
+            get {
+                object obj = ResourceManager.GetObject("login_frm_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap login_line_1 {
+            get {
+                object obj = ResourceManager.GetObject("login-line-1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap login_line_2 {
+            get {
+                object obj = ResourceManager.GetObject("login-line-2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_utc {
+            get {
+                object obj = ResourceManager.GetObject("logo_utc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
