@@ -11,7 +11,6 @@ namespace LibraryManagerApp.Helpers
         CREATE,
         UPDATE,
         READ,
-        DELETE,
-        FIND
+        DELETE
     }
 }

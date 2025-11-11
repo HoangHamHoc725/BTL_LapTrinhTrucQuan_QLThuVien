@@ -72,6 +72,7 @@
       <DependentUpon>QLThuVien.dbml</DependentUpon>
     </Compile>
     <Compile Include="DTO\BanDocDTO.cs" />
+    <Compile Include="DTO\SearchFilter.cs" />
     <Compile Include="GUI\Forms\frmBanSao.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,6 +176,7 @@
     <Compile Include="GUI\UserControls\QLTaiLieu\ucFrmThongTinTaiLieu.Designer.cs">
       <DependentUpon>ucFrmThongTinTaiLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SearchMetadata.cs" />
     <Compile Include="Helpers\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Forms\frmBanSao.resx">
@@ -197,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmTheBanDoc.resx">
       <DependentUpon>ucFrmTheBanDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\QLBanDoc\ucFrmThongTinBanDoc.resx">
+      <DependentUpon>ucFrmThongTinBanDoc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\QLMuonTra\ucFrmQuanLyMuonTra.resx">
       <DependentUpon>ucFrmQuanLyMuonTra.cs</DependentUpon>
