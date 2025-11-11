@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLThuVien" Class="QLThuVienDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=HOANGNGUYEN\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="LibraryManagerApp.Properties.Settings" SettingsPropertyName="QLThuVienConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=HOANGNGUYEN\SQLEXPRESS;Initial Catalog=QLThuVien;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="LibraryManagerApp.Properties.Settings" SettingsPropertyName="QLThuVienConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tBanDoc" Member="tBanDocs">
     <Type Name="tBanDoc">
       <Column Name="MaBD" Type="System.String" DbType="Char(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -175,4 +175,53 @@
       <Association Name="tVaiTro_tTaiKhoan" Member="tTaiKhoans" ThisKey="MaVT" OtherKey="MaVT" Type="tTaiKhoan" />
     </Type>
   </Table>
+  <Function Name="dbo.SP_AutoLockExpiredTheBanDoc" Method="SP_AutoLockExpiredTheBanDoc">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaTl" Method="SP_GenerateNewMaTl">
+    <Parameter Name="MaNN" Parameter="maNN" Type="System.String" DbType="Char(2)" />
+    <Parameter Name="NewMaTl" Parameter="newMaTl" Type="System.String" DbType="Char(10)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaBS" Method="SP_GenerateNewMaBS">
+    <Parameter Name="MaTL" Parameter="maTL" Type="System.String" DbType="Char(10)" />
+    <Parameter Name="NewMaBS" Parameter="newMaBS" Type="System.String" DbType="Char(14)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaDD" Method="SP_GenerateNewMaDD">
+    <Parameter Name="NewMaDD" Parameter="newMaDD" Type="System.String" DbType="Char(5)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaGD" Method="SP_GenerateNewMaGD">
+    <Parameter Name="NewMaGD" Parameter="newMaGD" Type="System.String" DbType="Char(12)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaNV" Method="SP_GenerateNewMaNV">
+    <Parameter Name="NewMaNV" Parameter="newMaNV" Type="System.String" DbType="Char(7)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaNxb" Method="SP_GenerateNewMaNxb">
+    <Parameter Name="MaQg" Parameter="maQg" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="NewMaNxb" Parameter="newMaNxb" Type="System.String" DbType="NVarChar(50)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaTBD" Method="SP_GenerateNewMaTBD">
+    <Parameter Name="MaBD" Parameter="maBD" Type="System.String" DbType="Char(9)" />
+    <Parameter Name="NewMaTBD" Parameter="newMaTBD" Type="System.String" DbType="Char(12)" Direction="InOut" />
+    <Parameter Name="ErrorStatus" Parameter="errorStatus" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaTg" Method="SP_GenerateNewMaTg">
+    <Parameter Name="MaQg" Parameter="maQg" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="NewMaTg" Parameter="newMaTg" Type="System.String" DbType="NVarChar(50)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaThL" Method="SP_GenerateNewMaThL">
+    <Parameter Name="NewMaThL" Parameter="newMaThL" Type="System.String" DbType="Char(6)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SP_GenerateNewMaTK" Method="SP_GenerateNewMaTK">
+    <Parameter Name="NewMaTK" Parameter="newMaTK" Type="System.String" DbType="Char(7)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
