@@ -53,6 +53,22 @@ namespace LibraryManagerApp.DAL
             }
         }
 
+        public List<BanDocChuaCoTheDTO> GetBanDocChuaCoThe()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from bd in db.tBanDocs
+                            where !db.tTheBanDocs.Any(tbd => tbd.MaBD == bd.MaBD) // Lọc những bạn đọc chưa có thẻ
+                            select new BanDocChuaCoTheDTO
+                            {
+                                MaBD = bd.MaBD,
+                                HoTen = bd.HoDem + " " + bd.Ten
+                            };
+
+                return query.ToList();
+            }
+        }
+
         public bool InsertBanDoc(BanDocDTO model)
         {
             using (var db = new QLThuVienDataContext())
