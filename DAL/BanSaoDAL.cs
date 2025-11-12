@@ -108,5 +108,54 @@ namespace LibraryManagerApp.DAL
                 return false;
             }
         }
+
+        // Hàm Kiểm tra Bản sao (Cho chức năng Mượn)
+        public BanSaoDTO GetBanSaoForMuon(string maBS)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from bs in db.tBanSaos
+                            join tl in db.tTaiLieus on bs.MaTL equals tl.MaTL
+                            where bs.MaBS == maBS
+                            select new
+                            {
+                                BanSao = bs,
+                                TenTL = tl.TenTL
+                            };
+
+                var result = query.SingleOrDefault();
+                if (result != null)
+                {
+                    return new BanSaoDTO
+                    {
+                        MaBS = result.BanSao.MaBS,
+                        MaTL = result.BanSao.MaTL,
+                        TrangThai = result.BanSao.TrangThai,
+                        // Dùng GiaoDich_BanSaoDTO để chứa TenTL
+                        // Tạm thời gán vào MaTL để BLL sử dụng
+                        // MaTL = result.TenTL 
+                        // Tốt hơn là tạo 1 DTO mới, nhưng để đơn giản:
+                        // Chúng ta sẽ tạo DTO mới
+                    };
+                }
+                return null;
+            }
+        }
+
+        // Hàm Cập nhật Trạng thái (Sau khi Mượn/Trả)
+        public bool UpdateTrangThaiBanSao(string maBS, string trangThaiMoi)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                tBanSao bs = db.tBanSaos.SingleOrDefault(b => b.MaBS == maBS);
+                if (bs != null)
+                {
+                    bs.TrangThai = trangThaiMoi;
+                    try { db.SubmitChanges(); return true; }
+                    catch { return false; }
+                }
+                return false;
+            }
+        }
     }
 }
