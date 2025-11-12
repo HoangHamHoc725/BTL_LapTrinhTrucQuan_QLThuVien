@@ -5,6 +5,7 @@ using LibraryManagerApp.GUI.UserControls.QLBanDoc;
 using LibraryManagerApp.GUI.UserControls.QLMuonTra;
 using LibraryManagerApp.GUI.UserControls.QLPhanQuyen;
 using LibraryManagerApp.GUI.UserControls.QLTaiLieu;
+using LibraryManagerApp.GUI.UserControls.ThongKeBaoCao;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -282,8 +283,7 @@ namespace LibraryManagerApp
         private void btnThongKeBaoCao_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnThongKeBaoCao);
-            // TODO: Load UC Thống kê khi đã tạo
-            // LoadUserControl(new ucFrmThongKe());
+            LoadUserControl(new ucFrmThongKeBaoCao());
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

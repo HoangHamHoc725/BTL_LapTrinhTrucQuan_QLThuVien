@@ -344,7 +344,6 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
         #endregion
 
         #region CHỨC NĂNG DELETE (XÓA PHIẾU)
-        #region CHỨC NĂNG DELETE (XÓA PHIẾU)
         private void btnXoaPhieuGD_Click(object sender, EventArgs e)
         {
             if (_currentState != MuonTraState.READ || string.IsNullOrEmpty(_selectedMaGD))
@@ -386,7 +385,6 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
                 }
             }
         }
-        #endregion
         #endregion
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
