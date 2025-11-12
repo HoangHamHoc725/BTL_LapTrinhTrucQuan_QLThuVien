@@ -20,7 +20,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         private State _currentState;
         private string _selectedMaBD = string.Empty;
-        private frmTimKiem _searchForm;
+        private FrmTimKiem _searchForm;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinBanDoc()
@@ -243,7 +243,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
             if (_searchForm == null || _searchForm.IsDisposed)
             {
-                _searchForm = new LibraryManagerApp.GUI.Forms.frmTimKiem();
+                _searchForm = new LibraryManagerApp.GUI.Forms.FrmTimKiem();
 
                 // 1. Đăng ký Event (CHỈ 1 LẦN)
                 _searchForm.OnSearchApplied += HandleSearchApplied;

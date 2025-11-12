@@ -9,6 +9,39 @@ namespace LibraryManagerApp.DAL
 {
     internal class DinhDangDAL
     {
+        private DinhDangDTO MapToDTO(tDinhDang dd)
+        {
+            return new DinhDangDTO { MaDD = dd.MaDD, TenDD = dd.TenDD };
+        }
+
+        public List<DinhDangDTO> SearchDinhDang(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                IQueryable<tDinhDang> query = db.tDinhDangs.AsQueryable();
+
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+
+                    if (fieldName == "MaDD")
+                    {
+                        if (op == "=") query = query.Where(dd => dd.MaDD == value);
+                        else if (op == "LIKE") query = query.Where(dd => dd.MaDD.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(dd => dd.MaDD.StartsWith(value));
+                    }
+                    else if (fieldName == "TenDD")
+                    {
+                        if (op == "LIKE") query = query.Where(dd => dd.TenDD.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(dd => dd.TenDD.StartsWith(value));
+                    }
+                }
+
+                return query.ToList().Select(dd => MapToDTO(dd)).ToList();
+            }
+        }
         public List<DinhDangDTO> GetAllDinhDangDTO()
         {
             using (var db = new QLThuVienDataContext())

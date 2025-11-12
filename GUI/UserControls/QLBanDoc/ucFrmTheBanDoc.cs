@@ -3,6 +3,7 @@
 using LibraryManagerApp.BLL;
 using LibraryManagerApp.DAL; // Cần thiết cho BanDocChuaCoTheDTO
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.Forms;
 using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -287,7 +288,32 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #endregion
 
         #region CHỨC NĂNG TÌM KIẾM
-        // Sẽ triển khai sau
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            List<FieldMetadata> tbdMetadata = _bll.GetSearchFields();
+
+            FrmTimKiem searchForm = new FrmTimKiem(tbdMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                List<SearchFilter> filters = searchForm.Filters;
+                LoadDataWithFilters(filters);
+            }
+        }
+
+        private void LoadDataWithFilters(List<SearchFilter> filters)
+        {
+            if (filters == null || filters.Count == 0)
+            {
+                LoadData();
+            }
+            else
+            {
+                List<TheBanDocDTO> danhSach = _bll.TimKiemTheBanDoc(filters);
+                dgvDuLieu.DataSource = danhSach;
+            }
+            // ... (Thông báo kết quả)
+        }
         #endregion
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY

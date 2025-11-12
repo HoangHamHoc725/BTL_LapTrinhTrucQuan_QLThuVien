@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.BLL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.Forms;
 using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -280,6 +281,49 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
                 {
                     MessageBox.Show("Lỗi hệ thống khi xóa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        #endregion
+
+        #region CHỨC NĂNG TÌM KIẾM
+        private void btnMoTimKiem_Click(object sender, EventArgs e)
+        {
+            // Lấy metadata cho Tài Khoản
+            List<FieldMetadata> tkMetadata = _bll.GetSearchFields(); // Hoặc SearchMetadata.GetTaiKhoanFields();
+
+            FrmTimKiem searchForm = new FrmTimKiem(tkMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                List<SearchFilter> filters = searchForm.Filters;
+
+                // Gọi hàm tải dữ liệu mới
+                LoadTaiKhoanData(filters);
+            }
+        }
+
+        private void LoadTaiKhoanData(List<SearchFilter> filters)
+        {
+            try
+            {
+                dgvDuLieu.DataSource = null;
+                List<TaiKhoanDTO> danhSach;
+
+                if (filters == null || filters.Count == 0)
+                {
+                    danhSach = _bll.LayDanhSachTaiKhoan(); 
+                }
+                else
+                {
+                    danhSach = _bll.TimKiemTaiKhoan(filters);
+                }
+
+                dgvDuLieu.DataSource = danhSach;
+                // ... (Cấu hình hiển thị và thông báo)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Tài Khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion

@@ -145,5 +145,18 @@ namespace LibraryManagerApp.BLL
             }
         }
         #endregion
+
+        #region CHỨC NĂNG TÌM KIẾM
+        public List<TaiKhoanDTO> TimKiemTaiKhoan(List<SearchFilter> filters)
+        {
+            return _dal.SearchTaiKhoan(filters);
+        }
+
+        // Hàm cung cấp Metadata cho UI (FrmTimKiem)
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetTaiKhoanFields();
+        }
+        #endregion
     }
 }

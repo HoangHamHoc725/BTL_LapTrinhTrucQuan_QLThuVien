@@ -157,7 +157,6 @@ namespace LibraryManagerApp.DAL
         // 7. Tìm kiếm Nhân viên
         public List<NhanVienDTO> SearchNhanVien(List<SearchFilter> filters)
         {
-            // Tương tự logic SearchBanDoc, cần điều chỉnh để xử lý trường PhuTrach
             using (var db = new QLThuVienDataContext())
             {
                 IQueryable<tNhanVien> query = db.tNhanViens.AsQueryable();
@@ -224,7 +223,6 @@ namespace LibraryManagerApp.DAL
                                 query = query.Where(nv => nv.NgaySinh >= dtStart && nv.NgaySinh <= dtEnd);
                         }
                     }
-
                 }
 
                 return query.ToList().Select(nv => MapToDTO(nv)).ToList();

@@ -10,6 +10,23 @@ namespace LibraryManagerApp.DAL
 {
     internal class TaiKhoanDAL
     {
+        // === BỔ SUNG: Hàm MapToDTO cơ bản (Chỉ dùng cho các hàm không JOIN, ví dụ: Search) ===
+        // Dùng để chuyển đổi từ tTaiKhoan sang TaiKhoanDTO
+        // Lưu ý: Hàm này KHÔNG điền HoTenNV và TenVaiTro
+        private TaiKhoanDTO MapToDTO(tTaiKhoan tk)
+        {
+            return new TaiKhoanDTO
+            {
+                MaTK = tk.MaTK,
+                MaNV = tk.MaNV,
+                MaVT = tk.MaVT,
+                TenDangNhap = tk.TenDangNhap,
+                MatKhau = tk.MatKhau,
+                TrangThai = tk.TrangThai,
+                NgayTao = tk.NgayTao
+                // HoTenNV và TenVaiTro để trống (null) trong trường hợp này
+            };
+        }
         #region LẤY THÔNG TIN
 
         // Hàm READ chính: Lấy tất cả Tài Khoản kèm thông tin liên quan
@@ -228,6 +245,94 @@ namespace LibraryManagerApp.DAL
                 return false; // Không tìm thấy Mã TK
             }
         }
+        //  Tìm kiếm Tài Khoản
+        public List<TaiKhoanDTO> SearchTaiKhoan(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext()) 
+            {
+                IQueryable<tTaiKhoan> query = db.tTaiKhoans.AsQueryable();
+
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+                    string valueTo = filter.ValueTo;
+
+                    if (fieldName == "MaTK")
+                    {
+                        if (op == "=") query = query.Where(tk => tk.MaTK == value);
+                        else if (op == "LIKE") query = query.Where(tk => tk.MaTK.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(tk => tk.MaTK.StartsWith(value));
+                    }
+                    else if (fieldName == "MaNV")
+                    {
+                        if (op == "=") query = query.Where(tk => tk.MaNV == value);
+                        else if (op == "LIKE") query = query.Where(tk => tk.MaNV.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(tk => tk.MaNV.StartsWith(value));
+                    }
+                    else if (fieldName == "MaVT" && op == "=")
+                    {
+                        query = query.Where(tk => tk.MaVT == value);
+                    }
+                    else if (fieldName == "TenDangNhap")
+                    {
+                        if (op == "=") query = query.Where(tk => tk.TenDangNhap == value);
+                        else if (op == "LIKE") query = query.Where(tk => tk.TenDangNhap.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(tk => tk.TenDangNhap.StartsWith(value));
+                    }
+                    else if (fieldName == "TrangThai" && op == "=")
+                    {
+                        query = query.Where(tk => tk.TrangThai == value);
+                    }
+                    else if (fieldName == "NgayTao" && DateTime.TryParse(value, out DateTime dtValue))
+                    {
+                        DateTime dtEnd;
+                        if (op == "=")
+                            query = query.Where(tk => tk.NgayTao.Date == dtValue.Date);
+                        else if (op == ">")
+                            query = query.Where(tk => tk.NgayTao > dtValue);
+                        else if (op == "<")
+                            query = query.Where(tk => tk.NgayTao < dtValue);
+                        else if (op == ">=")
+                            query = query.Where(tk => tk.NgayTao >= dtValue);
+                        else if (op == "<=")
+                            query = query.Where(tk => tk.NgayTao <= dtValue);
+                        else if (DateTime.TryParse(valueTo, out dtEnd))
+                        {
+                            DateTime dtStart = dtValue;
+                            if (op == "Khoảng")
+                                query = query.Where(tk => tk.NgayTao > dtStart && tk.NgayTao < dtEnd);
+                            else if (op == "Đoạn")
+                                query = query.Where(tk => tk.NgayTao >= dtStart && tk.NgayTao <= dtEnd);
+                        }
+                    }
+                }
+
+                // 2. Sau khi lọc, thực hiện JOIN và MAP ra DTO đầy đủ
+                var finalQuery = from tk in query // Lấy kết quả đã lọc
+                                 join nv in db.tNhanViens on tk.MaNV equals nv.MaNV
+                                 join vt in db.tVaiTros on tk.MaVT equals vt.MaVT
+                                 select new TaiKhoanDTO
+                                 {
+                                     // Dữ liệu thô từ tTaiKhoan
+                                     MaTK = tk.MaTK,
+                                     MaNV = tk.MaNV,
+                                     MaVT = tk.MaVT,
+                                     TenDangNhap = tk.TenDangNhap,
+                                     MatKhau = tk.MatKhau,
+                                     TrangThai = tk.TrangThai,
+                                     NgayTao = tk.NgayTao,
+
+                                     // Dữ liệu JOIN
+                                     HoTenNV = nv.HoDem + " " + nv.Ten,
+                                     TenVaiTro = vt.TenVT
+                                 };
+
+                return finalQuery.ToList();
+            }
+        }
+
         #endregion
     }
 }

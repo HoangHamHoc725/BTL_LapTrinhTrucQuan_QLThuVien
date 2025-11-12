@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,6 +81,18 @@ namespace LibraryManagerApp.BLL
             // Hoặc có ràng buộc mượn sách không.
             // Để đơn giản, hiện tại ta chỉ gọi DAL.
             return _dal.DeleteTheBanDoc(maTBD);
+        }
+
+        // Hàm tìm kiếm
+        public List<TheBanDocDTO> TimKiemTheBanDoc(List<SearchFilter> filters)
+        {
+            return _dal.SearchTheBanDoc(filters);
+        }
+
+        // Hàm cung cấp Metadata cho UI (FrmTimKiem)
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetTheBanDocFields();
         }
     }
 }
