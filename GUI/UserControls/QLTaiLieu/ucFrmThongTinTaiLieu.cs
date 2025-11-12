@@ -1,4 +1,8 @@
-﻿using System;
+﻿using LibraryManagerApp.BLL;
+using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.Forms;
+using LibraryManagerApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +16,755 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 {
     public partial class ucFrmThongTinTaiLieu : UserControl
     {
+        private TaiLieuBLL _bll = new TaiLieuBLL();
+        private State _currentState;
+        private string _selectedMaTL = string.Empty;
+
+        // Vùng nhớ (in-memory list) cho Tác giả
+        private List<TL_TGDTO> _danhSachTacGiaTam = new List<TL_TGDTO>();
+
+        // Biến tạm lưu Tác giả đang chọn trong DGV (khi EDITING)
+        private TL_TGDTO _selectedTacGiaTam = null;
+
+        // Khai báo các giá trị cố định
+        private List<string> _listKhoCo = new List<string> { "A3", "A4", "A5", "B5", "Khác" };
+        private List<string> _listVaiTro = new List<string> { "Tác giả", "Đồng tác giả", "Chủ biên", "Biên soạn", "Hướng dẫn khoa học" };
+
+        #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinTaiLieu()
         {
             InitializeComponent();
+
+            ConfigureDGV();
         }
+
+        private void ucFrmThongTinTaiLieu_Load(object sender, EventArgs e)
+        {
+            LoadControlsData(); // Tải dữ liệu ComboBox
+            SetState(State.READ);
+            LoadData();
+        }
+
+        private void ConfigureDGV()
+        {
+            // DGV Tài liệu chính
+            dgvDuLieuTaiLieu.AutoGenerateColumns = false;
+            dgvDuLieuTaiLieu.ReadOnly = true;
+            dgvDuLieuTaiLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            // DGV Tác giả đính kèm
+            dgvDuLieuTacGia.AutoGenerateColumns = false;
+            dgvDuLieuTacGia.ReadOnly = true;
+            dgvDuLieuTacGia.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            ConfigureDGVForTaiLieu();
+            ConfigureDGVForTacGia();
+        }
+
+        private void ConfigureDGVForTaiLieu()
+        {
+            dgvDuLieuTaiLieu.Columns.Clear();
+            dgvDuLieuTaiLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TL", DataPropertyName = "MaTL", Name = "MaTL"});
+            dgvDuLieuTaiLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên Tài liệu", DataPropertyName = "TenTL", Name = "TenTL"});
+            dgvDuLieuTaiLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "NXB", DataPropertyName = "TenNXB", Name = "TenNXB"});
+            dgvDuLieuTaiLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Thể loại", DataPropertyName = "TenThL", Name = "TenThL"});
+            dgvDuLieuTaiLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngôn ngữ", DataPropertyName = "TenNN", Name = "TenNN"});
+        }
+
+        private void ConfigureDGVForTacGia()
+        {
+            dgvDuLieuTacGia.Columns.Clear();
+            dgvDuLieuTacGia.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TG", DataPropertyName = "MaTG", Name = "MaTG"});
+            dgvDuLieuTacGia.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Tên Tác giả", DataPropertyName = "HoTenTG", Name = "HoTenTG"});
+            dgvDuLieuTacGia.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Vai trò", DataPropertyName = "VaiTro", Name = "VaiTro"});
+        }
+
+        // Tải dữ liệu cho tất cả ComboBox
+        private void LoadControlsData()
+        {
+            // Khổ Cỡ và Vai trò (Dữ liệu cố định)
+            cboKhoCo.DataSource = _listKhoCo;
+            cboVaiTro.DataSource = _listVaiTro;
+
+            // Ngôn Ngữ, Thể loại, Định dạng (Danh mục đơn giản)
+            LoadDanhMucDonGian(cboNgonNgu, _bll.LayTatCaNgonNgu(), "MaNN", "TenNN");
+            LoadDanhMucDonGian(cboTheLoai, _bll.LayTatCaTheLoai(), "MaThL", "TenThL");
+            LoadDanhMucDonGian(cboDinhDang, _bll.LayTatCaDinhDang(), "MaDD", "TenDD");
+
+            // NXB và Tác giả (Danh mục phức tạp hơn)
+            LoadDanhMucPhucTap(cboNhaXuatBan, _bll.LayTatCaNxb().Cast<object>().ToList(), "MaNXB", "TenNXB");
+            LoadDanhMucPhucTap(cboTacGia, _bll.LayTatCaTacGia().Cast<object>().ToList(), "MaTG", "HoTen");
+
+            // Đặt SelectedIndex = -1 sau khi load
+            cboNgonNgu.SelectedIndex = -1;
+            cboTheLoai.SelectedIndex = -1;
+            cboDinhDang.SelectedIndex = -1;
+            cboNhaXuatBan.SelectedIndex = -1;
+            cboTacGia.SelectedIndex = -1;
+            cboVaiTro.SelectedIndex = -1;
+        }
+
+        // Hàm hỗ trợ Load ComboBox (Danh mục đơn giản)
+        private void LoadDanhMucDonGian<T>(ComboBox cbo, List<T> dataSource, string maField, string tenField)
+        {
+            var data = dataSource.Select(item => {
+                var ma = item.GetType().GetProperty(maField).GetValue(item).ToString();
+                var ten = item.GetType().GetProperty(tenField).GetValue(item).ToString();
+                return new DanhMucDonGianDTO { Ma = ma, Ten = ten };
+            }).ToList();
+
+            cbo.DataSource = data;
+            cbo.DisplayMember = "HienThi";
+            cbo.ValueMember = "Ma";
+        }
+
+        // Hàm hỗ trợ Load ComboBox (NXB/TG)
+        private void LoadDanhMucPhucTap<T>(ComboBox cbo, List<T> dataSource, string maField, string tenField)
+        {
+            var data = dataSource.Select(item => {
+                var ma = item.GetType().GetProperty(maField).GetValue(item).ToString();
+                var ten = item.GetType().GetProperty(tenField).GetValue(item).ToString();
+                return new { Ma = ma, HienThi = $"{ma} - {ten}" };
+            }).ToList();
+
+            cbo.DataSource = data;
+            cbo.DisplayMember = "HienThi";
+            cbo.ValueMember = "Ma";
+        }
+        #endregion
+
+        #region QUẢN LÝ TRẠNG THÁI (STATE)
+        private void SetState(State state)
+        {
+            _currentState = state;
+            bool isEditing = (state == State.CREATE || state == State.UPDATE);
+
+            // Inputs Tài liệu chính
+            txtMaTL.Enabled = false; // Mã TL sinh tự động
+            txtTenTL.Enabled = isEditing;
+            txtNamXuatBan.Enabled = isEditing;
+            nudLanXuatBan.Enabled = isEditing;
+            nudSoTrang.Enabled = isEditing;
+            cboKhoCo.Enabled = isEditing;
+
+            cboNhaXuatBan.Enabled = isEditing;
+            cboNgonNgu.Enabled = isEditing;
+            cboTheLoai.Enabled = isEditing;
+            cboDinhDang.Enabled = isEditing;
+
+            // Inputs Tác giả đính kèm (chỉ cần thiết khi có Tài liệu được chọn/đang tạo)
+            cboTacGia.Enabled = isEditing; // Chỉ có thể thêm tác giả khi CREATE/UPDATE Tài liệu
+            cboVaiTro.Enabled = isEditing;
+
+            // DGV
+            dgvDuLieuTaiLieu.Enabled = (state == State.READ);
+            dgvDuLieuTacGia.Enabled = true; // Luôn bật để chọn (kể cả READ và EDIT)
+
+            // --- ĐIỀU CHỈNH LOGIC NÚT BẤM ---
+            if (state == State.READ)
+            {
+                btnThem.Enabled = true;
+                btnThem.Text = "Thêm"; // Thêm Tài liệu
+
+                btnSua.Enabled = !string.IsNullOrEmpty(txtMaTL.Text);
+                btnSua.Text = "Sửa"; // Sửa Tài liệu
+
+                btnXoa.Enabled = !string.IsNullOrEmpty(txtMaTL.Text);
+                btnXoa.Text = "Xóa"; // Xóa Tài liệu
+            }
+            else // CREATE hoặc UPDATE
+            {
+                // Repurpose btnThem
+                btnThem.Enabled = true;
+                btnThem.Text = "Thêm Tác giả"; // Thêm Tác giả vào danh sách
+
+                // Repurpose btnSua (Yêu cầu 1)
+                btnSua.Enabled = false; // Bị tắt, chỉ bật khi chọn Tác giả trong DGV
+                btnSua.Text = "Sửa Tác giả";
+
+                // Repurpose btnXoa
+                btnXoa.Enabled = false; // Bị tắt, chỉ bật khi chọn Tác giả trong DGV
+                btnXoa.Text = "Xóa Tác giả";
+            }
+
+            btnLuu.Enabled = isEditing;
+            btnHuy.Enabled = isEditing;
+            btnTimKiem.Enabled = (state == State.READ);
+            btnXemHinhAnh.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTL.Text));
+            btnXemBanSao.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTL.Text));
+
+            if (state == State.READ)
+            {
+                ClearInputs();
+                _danhSachTacGiaTam.Clear(); // Xóa vùng nhớ
+            }
+            else if (isEditing)
+            {
+                // Yêu cầu 4: Clear combos khi bắt đầu Sửa/Thêm Tài liệu
+                ClearTacGiaCombos();
+            }
+        }
+        #endregion
+
+        #region CHỨC NĂNG READ
+        private void LoadData()
+        {
+            try
+            {
+                dgvDuLieuTaiLieu.DataSource = null;
+                List<TaiLieuDTO> danhSach = _bll.LayTatCaTaiLieu();
+                dgvDuLieuTaiLieu.DataSource = danhSach;
+
+                dgvDuLieuTaiLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu Tài liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvDuLieuTaiLieu_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDuLieuTaiLieu.RowCount) return;
+
+            string maTL = dgvDuLieuTaiLieu.Rows[e.RowIndex].Cells["MaTL"].Value.ToString();
+            _selectedMaTL = maTL;
+
+            TaiLieuDTO model = _bll.LayChiTietTaiLieu(maTL);
+
+            if (model != null)
+            {
+                LoadModelToInputs(model);
+                LoadTacGiaDinhKem(model.DanhSachTacGia);
+
+                if (model.DanhSachTacGia.Count > 0)
+                {
+                    // Lấy Tác giả đầu tiên
+                    TL_TGDTO firstAuthor = model.DanhSachTacGia[0];
+                    // Tải thông tin lên ComboBox
+                    LoadTacGiaDetailToCombos(firstAuthor);
+
+                    // Chọn hàng đầu tiên trong dgvDuLieuTacGia
+                    dgvDuLieuTacGia.Rows[0].Selected = true;
+                }
+                else
+                {
+                    // Nếu không có tác giả, xóa ComboBox
+                    ClearTacGiaCombos();
+                }
+            }
+
+            if (_currentState == State.READ)
+            {
+                bool isRowSelected = !string.IsNullOrEmpty(txtMaTL.Text);
+                btnSua.Enabled = isRowSelected;
+                btnXoa.Enabled = isRowSelected;
+                btnXemHinhAnh.Enabled = isRowSelected;
+                btnXemBanSao.Enabled = isRowSelected;
+            }
+        }
+
+        private void dgvDuLieuTacGia_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDuLieuTacGia.RowCount) return;
+
+            TL_TGDTO selectedAuthor = dgvDuLieuTacGia.Rows[e.RowIndex].DataBoundItem as TL_TGDTO;
+            if (selectedAuthor == null) return;
+
+            // Lưu Tác giả đang chọn vào biến tạm
+            _selectedTacGiaTam = selectedAuthor;
+
+            if (_currentState == State.READ)
+            {
+                // Khi READ: Chỉ load thông tin
+                LoadTacGiaDetailToCombos(selectedAuthor);
+            }
+            else // CREATE hoặc UPDATE
+            {
+                // Khi EDITING: Load thông tin VÀ kích hoạt nút
+                LoadTacGiaDetailToCombos(selectedAuthor);
+                btnSua.Enabled = true; // Bật nút "Sửa Tác giả"
+                btnXoa.Enabled = true; // Bật nút "Xóa Tác giả"
+            }
+        }
+
+        private void LoadTacGiaDinhKem(List<TL_TGDTO> danhSachTG)
+        {
+            _danhSachTacGiaTam = new List<TL_TGDTO>(danhSachTG);
+            RefreshDgvTacGia();
+        }
+
+        private void LoadTacGiaDetailToCombos(TL_TGDTO tacGia)
+        {
+            // cboTacGia (đã load toàn bộ tác giả)
+            cboTacGia.SelectedValue = tacGia.MaTG;
+
+            // cboVaiTro (đã load danh sách vai trò)
+            cboVaiTro.SelectedItem = tacGia.VaiTro;
+        }
+
+        private void LoadModelToInputs(TaiLieuDTO model)
+        {
+            txtMaTL.Text = model.MaTL;
+            txtTenTL.Text = model.TenTL;
+            txtNamXuatBan.Text = model.NamXuatBan?.ToString() ?? string.Empty;
+
+            nudLanXuatBan.Value = model.LanXuatBan ?? 1;
+            nudSoTrang.Value = model.SoTrang ?? 0;
+
+            // Load ComboBox (cần gán ValueMember)
+            cboNhaXuatBan.SelectedValue = model.MaNXB;
+            cboNgonNgu.SelectedValue = model.MaNN;
+            cboTheLoai.SelectedValue = model.MaThL;
+            cboDinhDang.SelectedValue = model.MaDD;
+            cboKhoCo.SelectedItem = model.KhoCo;
+        }
+        #endregion
+
+        #region CHỨC NĂNG CREATE / THÊM TÁC GIẢ
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            if (_currentState == State.READ)
+            {
+                // 1. CHỨC NĂNG: THÊM TÀI LIỆU
+                ClearInputs();
+                SetState(State.CREATE);
+                txtTenTL.Focus();
+                _danhSachTacGiaTam.Clear();
+                LoadTacGiaDinhKem(_danhSachTacGiaTam);
+            }
+            else // CREATE hoặc UPDATE
+            {
+                // 2. CHỨC NĂNG: THÊM TÁC GIẢ (vào vùng nhớ)
+                HandleThemTacGiaVaoList();
+            }
+        }
+        #endregion
+
+        #region CHỨC NĂNG UPDATE / SỬA TÁC GIẢ
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (_currentState == State.READ)
+            {
+                // 1. CHỨC NĂNG: SỬA TÀI LIỆU
+                if (!string.IsNullOrEmpty(txtMaTL.Text))
+                {
+                    SetState(State.UPDATE);
+                    txtTenTL.Focus();
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng chọn một Tài liệu để chỉnh sửa.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else // CREATE hoặc UPDATE
+            {
+                // 2. CHỨC NĂNG: SỬA VAI TRÒ TÁC GIẢ (trong vùng nhớ)
+                HandleSuaTacGiaTrongList();
+            }
+        }
+        #endregion
+
+        #region CHỨC NĂNG DELETE / XÓA TÁC GIẢ
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (_currentState == State.READ)
+            {
+                // 1. CHỨC NĂNG: XÓA TÀI LIỆU
+                HandleXoaTaiLieuChinh();
+            }
+            else // CREATE hoặc UPDATE
+            {
+                // 2. CHỨC NĂNG: XÓA TÁC GIẢ (khỏi vùng nhớ)
+                HandleXoaTacGiaKhoiList();
+            }
+        }
+
+        // Hàm mới: Xử lý logic Xóa Tài liệu chính
+        private void HandleXoaTaiLieuChinh()
+        {
+            string maTL = txtMaTL.Text.Trim();
+            string tenTL = txtTenTL.Text.Trim();
+
+            if (string.IsNullOrEmpty(maTL))
+            {
+                MessageBox.Show("Vui lòng chọn một Tài liệu để xóa.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa Tài liệu:\n[ {maTL} - {tenTL} ] không?\n(Mọi Tác giả đính kèm cũng sẽ bị xóa)",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning // Cảnh báo cao hơn Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    if (_bll.XoaTaiLieu(maTL))
+                    {
+                        MessageBox.Show("Xóa Tài liệu thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                        ClearInputs();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa Tài liệu thất bại. Có thể Tài liệu đang có Bản sao hoặc đang được mượn.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi hệ thống khi xóa Tài liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        #endregion
+
+        #region CHỨC NĂNG PHỤ (BẢN SAO, HÌNH ẢNH)
+
+        private void btnXemBanSao_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra xem đã chọn Tài liệu chưa
+            if (string.IsNullOrEmpty(_selectedMaTL))
+            {
+                MessageBox.Show("Vui lòng chọn một Tài liệu từ danh sách chính.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 2. Lấy thông tin Tài liệu cha
+            string maTL = _selectedMaTL;
+            string tenTL = txtTenTL.Text;
+
+            // 3. Khởi tạo và mở Form Bản sao (dưới dạng Dialog)
+            // Truyền MaTL và TenTL vào constructor
+            frmBanSao formBanSao = new frmBanSao(maTL, tenTL);
+
+            // Mở form dưới dạng Dialog để chặn tương tác với form cha
+            formBanSao.ShowDialog();
+
+            // 4. (Tùy chọn) Tải lại dữ liệu sau khi form đóng
+            // (Không bắt buộc, vì form bản sao không ảnh hưởng đến DGV chính)
+            // LoadData(); 
+        }
+
+        private void btnXemHinhAnh_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra xem đã chọn Tài liệu chưa
+            if (string.IsNullOrEmpty(_selectedMaTL))
+            {
+                MessageBox.Show("Vui lòng chọn một Tài liệu từ danh sách chính.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 2. Lấy thông tin chi tiết của Tài liệu để lấy đường dẫn ảnh hiện tại
+            TaiLieuDTO model = _bll.LayChiTietTaiLieu(_selectedMaTL);
+            if (model == null)
+            {
+                MessageBox.Show("Không thể tải chi tiết tài liệu.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 3. Khởi tạo và mở Form Hình ảnh
+            // Truyền MaTL và Đường dẫn ảnh hiện tại (model.Anh)
+            frmHinhAnh formHinhAnh = new frmHinhAnh(model.MaTL, model.Anh);
+
+            DialogResult result = formHinhAnh.ShowDialog();
+
+            // 4. (Tùy chọn) Cập nhật lại thông tin nếu ảnh đã thay đổi
+            if (result == DialogResult.OK)
+            {
+                // Tải lại chi tiết model (không bắt buộc, nhưng tốt để làm mới dữ liệu)
+                dgvDuLieuTaiLieu_CellClick(dgvDuLieuTaiLieu,
+                    new DataGridViewCellEventArgs(dgvDuLieuTaiLieu.CurrentCell.ColumnIndex, dgvDuLieuTaiLieu.CurrentRow.Index));
+            }
+        }
+
+        #endregion
+
+        #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            if (!ValidateInputs()) return;
+
+            // 1. Thu thập Model
+            TaiLieuDTO model = GetModelFromInputs();
+
+            // 2. Gán MaTK từ SessionManager (Quan trọng)
+            model.MaTK = Helpers.SessionManager.GetMaTaiKhoan();
+
+            try
+            {
+                if (_currentState == State.CREATE)
+                {
+                    // --- LOGIC CREATE ---
+                    string newMaTL = _bll.ThemTaiLieu(model);
+
+                    if (newMaTL != null && newMaTL != string.Empty)
+                    {
+                        MessageBox.Show($"Tạo Tài liệu thành công. Mã TL: {newMaTL}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // LƯU DANH SÁCH TÁC GIẢ (Vùng nhớ)
+                        _bll.LuuDanhSachTacGia(newMaTL, _danhSachTacGiaTam);
+
+                        MessageBox.Show($"Tạo Tài liệu và Tác giả thành công. Mã TL: {newMaTL}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                        SetState(State.READ);
+                        _selectedMaTL = newMaTL;
+                    }
+                    else if (newMaTL == null)
+                    {
+                        MessageBox.Show("Lỗi hệ thống/nghiệp vụ: Không thể sinh mã (có thể do lỗi SP hoặc NXB không hợp lệ).", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Thêm Tài liệu thất bại (Lỗi CSDL).", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (_currentState == State.UPDATE)
+                {
+                    // --- LOGIC UPDATE ---
+                    model.MaTL = _selectedMaTL; // Đảm bảo gán Mã TL đang sửa
+
+                    // Gọi BLL (bao gồm cả đồng bộ Tác giả)
+                    if (_bll.CapNhatTaiLieu(model, _danhSachTacGiaTam))
+                    {
+                        MessageBox.Show("Cập nhật Tài liệu thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                        SetState(State.READ);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cập nhật Tài liệu thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi hệ thống khi thực hiện Lưu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            if (_currentState == State.UPDATE)
+            {
+                // Khôi phục dữ liệu gốc
+                if (!string.IsNullOrEmpty(_selectedMaTL))
+                {
+                    try
+                    {
+                        TaiLieuDTO model = _bll.LayChiTietTaiLieu(_selectedMaTL);
+                        if (model != null)
+                        {
+                            LoadModelToInputs(model);
+                            // Khôi phục DGV Tác giả (và vùng nhớ _danhSachTacGiaTam)
+                            LoadTacGiaDinhKem(model.DanhSachTacGia);
+                        }
+                        else
+                        {
+                            ClearInputs();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi tải lại dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ClearInputs();
+                    }
+                }
+            }
+            // Nếu là CREATE, chỉ cần SetState(READ) (vì nó sẽ gọi ClearInputs)
+            SetState(State.READ);
+        }
+        #endregion
+
+        #region HÀM BỔ TRỢ
+        // Hàm xử lý logic Thêm Tác giả vào vùng nhớ
+        private void HandleThemTacGiaVaoList()
+        {
+            var tacGiaDaChon = (dynamic)cboTacGia.SelectedItem;
+            string vaiTro = cboVaiTro.SelectedItem?.ToString();
+
+            if (tacGiaDaChon == null || string.IsNullOrEmpty(vaiTro))
+            {
+                MessageBox.Show("Vui lòng chọn Tác giả và Vai trò.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string maTG = tacGiaDaChon.Ma;
+
+            // Kiểm tra trùng lặp
+            if (_danhSachTacGiaTam.Any(tg => tg.MaTG == maTG))
+            {
+                MessageBox.Show("Tác giả này đã có trong danh sách.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Thêm vào vùng nhớ
+            TL_TGDTO tacGiaMoi = new TL_TGDTO
+            {
+                MaTG = maTG,
+                VaiTro = vaiTro,
+                // Lấy HoTenTG từ BLL (vì cboTacGia.HienThi là Ma-Ten)
+                HoTenTG = _bll.LayChiTietTacGia(maTG).HoTen
+            };
+            _danhSachTacGiaTam.Add(tacGiaMoi);
+
+            // Cập nhật DGV (Chỉ Refresh, không xóa)
+            RefreshDgvTacGia();
+            ClearTacGiaCombos();
+        }
+
+        // Hàm xử lý Sửa Vai trò Tác giả trong vùng nhớ
+        private void HandleSuaTacGiaTrongList()
+        {
+            if (_selectedTacGiaTam == null)
+            {
+                MessageBox.Show("Vui lòng chọn một tác giả từ danh sách để sửa.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Lấy vai trò mới từ ComboBox
+            string vaiTroMoi = cboVaiTro.SelectedItem?.ToString();
+            if (string.IsNullOrEmpty(vaiTroMoi))
+            {
+                MessageBox.Show("Vui lòng chọn Vai trò mới.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Cập nhật Vai trò trong vùng nhớ
+            _selectedTacGiaTam.VaiTro = vaiTroMoi;
+
+            // Cập nhật DGV
+            RefreshDgvTacGia();
+            ClearTacGiaCombos();
+
+            // Tắt nút Sửa/Xóa (bắt buộc chọn lại)
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            _selectedTacGiaTam = null;
+        }
+
+        // Hàm xử lý logic Xóa Tác giả khỏi vùng nhớ
+        private void HandleXoaTacGiaKhoiList()
+        {
+            if (_selectedTacGiaTam == null)
+            {
+                MessageBox.Show("Vui lòng chọn Tác giả cần xóa khỏi danh sách.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _danhSachTacGiaTam.Remove(_selectedTacGiaTam);
+
+            RefreshDgvTacGia();
+            ClearTacGiaCombos();
+
+            // Tắt nút Sửa/Xóa (bắt buộc chọn lại)
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            _selectedTacGiaTam = null;
+        }
+
+        // Hàm mới để Refresh DGV (tránh load lại toàn bộ)
+        private void RefreshDgvTacGia()
+        {
+            // Tắt và bật lại DataSource để refresh DGV
+            dgvDuLieuTacGia.DataSource = null;
+            dgvDuLieuTacGia.DataSource = _danhSachTacGiaTam;
+            dgvDuLieuTacGia.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+        }
+
+        private void ClearTacGiaCombos()
+        {
+            cboTacGia.SelectedIndex = -1;
+            cboVaiTro.SelectedIndex = -1;
+        }
+
+        private void ClearInputs()
+        {
+            txtMaTL.Text = string.Empty;
+            txtTenTL.Text = string.Empty;
+            txtNamXuatBan.Text = string.Empty;
+
+            nudLanXuatBan.Value = 1;
+            nudSoTrang.Value = 0;
+
+            cboNhaXuatBan.SelectedIndex = -1;
+            cboNgonNgu.SelectedIndex = -1;
+            cboTheLoai.SelectedIndex = -1;
+            cboDinhDang.SelectedIndex = -1;
+            cboKhoCo.SelectedIndex = -1;
+
+            ClearTacGiaCombos();
+
+            dgvDuLieuTacGia.DataSource = null;
+
+            // Đặt trạng thái nút
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnXemHinhAnh.Enabled = false;
+            btnXemBanSao.Enabled = false;
+        }
+
+        private TaiLieuDTO GetModelFromInputs()
+        {
+            return new TaiLieuDTO
+            {
+                // MaTL sẽ được sinh trong BLL
+                TenTL = txtTenTL.Text.Trim(),
+                MaNXB = cboNhaXuatBan.SelectedValue?.ToString(),
+                MaNN = cboNgonNgu.SelectedValue?.ToString(),
+                MaThL = cboTheLoai.SelectedValue?.ToString(),
+                MaDD = cboDinhDang.SelectedValue?.ToString(),
+
+                // Convert giá trị số
+                LanXuatBan = (int)nudLanXuatBan.Value,
+                NamXuatBan = int.TryParse(txtNamXuatBan.Text, out int namXB) ? (int?)namXB : null,
+                SoTrang = (int)nudSoTrang.Value,
+
+                KhoCo = cboKhoCo.SelectedItem?.ToString(), // Lấy SelectedItem vì DataSource là List<string>
+                Anh = null // Chưa hỗ trợ ảnh
+            };
+        }
+
+        private bool ValidateInputs()
+        {
+            // 1. Kiểm tra trường bắt buộc (Tên và các ComboBox)
+            if (string.IsNullOrEmpty(txtTenTL.Text.Trim()) ||
+                cboNhaXuatBan.SelectedIndex == -1 ||
+                cboNgonNgu.SelectedIndex == -1 ||
+                cboTheLoai.SelectedIndex == -1 ||
+                cboDinhDang.SelectedIndex == -1 ||
+                cboKhoCo.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ Tên Tài liệu và chọn các danh mục bắt buộc (NXB, Ngôn ngữ, Thể loại, Định dạng, Khổ cỡ).", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // 2. Kiểm tra năm xuất bản (có thể rỗng, nhưng nếu nhập phải hợp lệ)
+            if (!string.IsNullOrEmpty(txtNamXuatBan.Text))
+            {
+                if (!int.TryParse(txtNamXuatBan.Text, out int namXB) || namXB < 1000 || namXB > DateTime.Now.Year)
+                {
+                    MessageBox.Show("Năm Xuất Bản không hợp lệ (phải là số, không lớn hơn năm hiện tại).", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNamXuatBan.Focus();
+                    return false;
+                }
+            }
+
+            // 3. Kiểm tra các NumericUpDown (cho phép bằng 0)
+            if (nudLanXuatBan.Value <= 0)
+            {
+                MessageBox.Show("Lần Xuất Bản phải lớn hơn 0.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                nudLanXuatBan.Focus();
+                return false;
+            }
+
+            // SoTrang có thể bằng 0 (ví dụ: tài liệu video)
+
+            return true;
+        }
+        #endregion
     }
 }
