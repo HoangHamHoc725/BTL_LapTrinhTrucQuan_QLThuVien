@@ -68,7 +68,7 @@
             this.btnThem = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnXemBanSao = new System.Windows.Forms.Button();
-            this.btnTuyChinhAnh = new System.Windows.Forms.Button();
+            this.btnXemHinhAnh = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.dgvDuLieuTaiLieu = new System.Windows.Forms.DataGridView();
             this.tlp1.SuspendLayout();
@@ -176,6 +176,11 @@
             this.nudLanXuatBan.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nudLanXuatBan.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudLanXuatBan.Location = new System.Drawing.Point(381, 120);
+            this.nudLanXuatBan.Maximum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            0});
             this.nudLanXuatBan.Name = "nudLanXuatBan";
             this.nudLanXuatBan.Size = new System.Drawing.Size(175, 23);
             this.nudLanXuatBan.TabIndex = 176;
@@ -415,6 +420,11 @@
             this.nudSoTrang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nudSoTrang.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudSoTrang.Location = new System.Drawing.Point(381, 159);
+            this.nudSoTrang.Maximum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            0});
             this.nudSoTrang.Name = "nudSoTrang";
             this.nudSoTrang.Size = new System.Drawing.Size(175, 23);
             this.nudSoTrang.TabIndex = 175;
@@ -438,6 +448,7 @@
             this.dgvDuLieuTacGia.Name = "dgvDuLieuTacGia";
             this.dgvDuLieuTacGia.Size = new System.Drawing.Size(233, 236);
             this.dgvDuLieuTacGia.TabIndex = 0;
+            this.dgvDuLieuTacGia.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuLieuTacGia_CellClick);
             // 
             // tableLayoutPanel3
             // 
@@ -477,7 +488,7 @@
             this.tableLayoutPanel4.Controls.Add(this.btnThem, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.btnTimKiem, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.btnXemBanSao, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.btnTuyChinhAnh, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btnXemHinhAnh, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -500,6 +511,7 @@
             this.btnHuy.TabIndex = 82;
             this.btnHuy.Text = "Hủy";
             this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
             // 
             // btnLuu
             // 
@@ -512,6 +524,7 @@
             this.btnLuu.TabIndex = 81;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = true;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
             // 
             // btnXoa
             // 
@@ -524,6 +537,7 @@
             this.btnXoa.TabIndex = 80;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // btnSua
             // 
@@ -536,6 +550,7 @@
             this.btnSua.TabIndex = 79;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // btnThem
             // 
@@ -548,6 +563,7 @@
             this.btnThem.TabIndex = 78;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = true;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
             // btnTimKiem
             // 
@@ -572,18 +588,20 @@
             this.btnXemBanSao.TabIndex = 76;
             this.btnXemBanSao.Text = "Xem bản sao";
             this.btnXemBanSao.UseVisualStyleBackColor = true;
+            this.btnXemBanSao.Click += new System.EventHandler(this.btnXemBanSao_Click);
             // 
-            // btnTuyChinhAnh
+            // btnXemHinhAnh
             // 
-            this.btnTuyChinhAnh.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnTuyChinhAnh.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTuyChinhAnh.Location = new System.Drawing.Point(4, 4);
-            this.btnTuyChinhAnh.Margin = new System.Windows.Forms.Padding(4);
-            this.btnTuyChinhAnh.Name = "btnTuyChinhAnh";
-            this.btnTuyChinhAnh.Size = new System.Drawing.Size(128, 58);
-            this.btnTuyChinhAnh.TabIndex = 75;
-            this.btnTuyChinhAnh.Text = "Xem hình ảnh";
-            this.btnTuyChinhAnh.UseVisualStyleBackColor = true;
+            this.btnXemHinhAnh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXemHinhAnh.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXemHinhAnh.Location = new System.Drawing.Point(4, 4);
+            this.btnXemHinhAnh.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXemHinhAnh.Name = "btnXemHinhAnh";
+            this.btnXemHinhAnh.Size = new System.Drawing.Size(128, 58);
+            this.btnXemHinhAnh.TabIndex = 75;
+            this.btnXemHinhAnh.Text = "Xem hình ảnh";
+            this.btnXemHinhAnh.UseVisualStyleBackColor = true;
+            this.btnXemHinhAnh.Click += new System.EventHandler(this.btnXemHinhAnh_Click);
             // 
             // groupBox4
             // 
@@ -604,6 +622,7 @@
             this.dgvDuLieuTaiLieu.Name = "dgvDuLieuTaiLieu";
             this.dgvDuLieuTaiLieu.Size = new System.Drawing.Size(519, 265);
             this.dgvDuLieuTaiLieu.TabIndex = 0;
+            this.dgvDuLieuTaiLieu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuLieuTaiLieu_CellClick);
             // 
             // ucFrmThongTinTaiLieu
             // 
@@ -612,6 +631,7 @@
             this.Controls.Add(this.tlp1);
             this.Name = "ucFrmThongTinTaiLieu";
             this.Size = new System.Drawing.Size(822, 563);
+            this.Load += new System.EventHandler(this.ucFrmThongTinTaiLieu_Load);
             this.tlp1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -656,7 +676,7 @@
         private System.Windows.Forms.DataGridView dgvDuLieuTaiLieu;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Button btnXemBanSao;
-        private System.Windows.Forms.Button btnTuyChinhAnh;
+        private System.Windows.Forms.Button btnXemHinhAnh;
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.Button btnSua;
