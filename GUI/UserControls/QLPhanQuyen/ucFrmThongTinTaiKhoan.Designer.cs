@@ -131,9 +131,9 @@
             this.tableLayoutPanel3.Controls.Add(this.btnSua, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 21);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(8);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(16, 16, 16, 16);
+            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(16);
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -146,7 +146,7 @@
             this.btnHuy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnHuy.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuy.Location = new System.Drawing.Point(170, 140);
-            this.btnHuy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHuy.Margin = new System.Windows.Forms.Padding(4);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(142, 53);
             this.btnHuy.TabIndex = 78;
@@ -158,7 +158,7 @@
             this.btnTimKiem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnTimKiem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTimKiem.Location = new System.Drawing.Point(20, 20);
-            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(4);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(142, 52);
             this.btnTimKiem.TabIndex = 74;
@@ -170,7 +170,7 @@
             this.btnThem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThem.Location = new System.Drawing.Point(170, 20);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnThem.Margin = new System.Windows.Forms.Padding(4);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(142, 52);
             this.btnThem.TabIndex = 75;
@@ -182,7 +182,7 @@
             this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLuu.Location = new System.Drawing.Point(20, 140);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(142, 53);
             this.btnLuu.TabIndex = 79;
@@ -194,7 +194,7 @@
             this.btnXoa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoa.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoa.Location = new System.Drawing.Point(170, 80);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnXoa.Margin = new System.Windows.Forms.Padding(4);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(142, 52);
             this.btnXoa.TabIndex = 77;
@@ -206,7 +206,7 @@
             this.btnSua.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSua.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSua.Location = new System.Drawing.Point(20, 80);
-            this.btnSua.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSua.Margin = new System.Windows.Forms.Padding(4);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(142, 52);
             this.btnSua.TabIndex = 76;
@@ -254,7 +254,7 @@
             this.tableLayoutPanel2.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 21);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(16, 16, 16, 16);
+            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(16);
             this.tableLayoutPanel2.RowCount = 9;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
@@ -274,7 +274,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNhacLaiMK.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNhacLaiMK.Location = new System.Drawing.Point(138, 192);
-            this.txtNhacLaiMK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNhacLaiMK.Margin = new System.Windows.Forms.Padding(2);
             this.txtNhacLaiMK.Name = "txtNhacLaiMK";
             this.txtNhacLaiMK.Size = new System.Drawing.Size(176, 23);
             this.txtNhacLaiMK.TabIndex = 177;
@@ -296,7 +296,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHoTenNV.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHoTenNV.Location = new System.Drawing.Point(138, 76);
-            this.txtHoTenNV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtHoTenNV.Margin = new System.Windows.Forms.Padding(2);
             this.txtHoTenNV.Name = "txtHoTenNV";
             this.txtHoTenNV.Size = new System.Drawing.Size(176, 23);
             this.txtHoTenNV.TabIndex = 160;
@@ -307,7 +307,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMaNV.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMaNV.Location = new System.Drawing.Point(138, 47);
-            this.txtMaNV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaNV.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaNV.Name = "txtMaNV";
             this.txtMaNV.Size = new System.Drawing.Size(176, 23);
             this.txtMaNV.TabIndex = 159;
@@ -318,7 +318,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMaTK.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMaTK.Location = new System.Drawing.Point(138, 18);
-            this.txtMaTK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaTK.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaTK.Name = "txtMaTK";
             this.txtMaTK.Size = new System.Drawing.Size(176, 23);
             this.txtMaTK.TabIndex = 158;
@@ -402,7 +402,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTenDangNhap.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenDangNhap.Location = new System.Drawing.Point(138, 134);
-            this.txtTenDangNhap.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTenDangNhap.Margin = new System.Windows.Forms.Padding(2);
             this.txtTenDangNhap.Name = "txtTenDangNhap";
             this.txtTenDangNhap.Size = new System.Drawing.Size(176, 23);
             this.txtTenDangNhap.TabIndex = 170;
@@ -413,7 +413,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMatKhau.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMatKhau.Location = new System.Drawing.Point(138, 163);
-            this.txtMatKhau.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMatKhau.Margin = new System.Windows.Forms.Padding(2);
             this.txtMatKhau.Name = "txtMatKhau";
             this.txtMatKhau.Size = new System.Drawing.Size(176, 23);
             this.txtMatKhau.TabIndex = 171;
@@ -437,7 +437,7 @@
             this.dtpNgayTao.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpNgayTao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgayTao.Location = new System.Drawing.Point(138, 250);
-            this.dtpNgayTao.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpNgayTao.Margin = new System.Windows.Forms.Padding(2);
             this.dtpNgayTao.Name = "dtpNgayTao";
             this.dtpNgayTao.Size = new System.Drawing.Size(176, 23);
             this.dtpNgayTao.TabIndex = 169;
@@ -471,9 +471,9 @@
             this.gbBangDuLieu.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
                 | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbBangDuLieu.Location = new System.Drawing.Point(0, 0);
-            this.gbBangDuLieu.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.gbBangDuLieu.Margin = new System.Windows.Forms.Padding(8);
             this.gbBangDuLieu.Name = "gbBangDuLieu";
-            this.gbBangDuLieu.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.gbBangDuLieu.Padding = new System.Windows.Forms.Padding(8);
             this.gbBangDuLieu.Size = new System.Drawing.Size(516, 563);
             this.gbBangDuLieu.TabIndex = 7;
             this.gbBangDuLieu.TabStop = false;
