@@ -40,26 +40,26 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.gbThongTin = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.txtMatKhau = new System.Windows.Forms.TextBox();
-            this.txtTenDangNhap = new System.Windows.Forms.TextBox();
-            this.dtpNgayTao = new System.Windows.Forms.DateTimePicker();
-            this.cboVaiTro = new System.Windows.Forms.ComboBox();
+            this.txtNhacLaiMK = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtHoTenNV = new System.Windows.Forms.TextBox();
             this.txtMaNV = new System.Windows.Forms.TextBox();
             this.txtMaTK = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.cboVaiTro = new System.Windows.Forms.ComboBox();
+            this.txtTenDangNhap = new System.Windows.Forms.TextBox();
+            this.txtMatKhau = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dtpNgayTao = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.cboTrangThai = new System.Windows.Forms.ComboBox();
             this.gbBangDuLieu = new System.Windows.Forms.GroupBox();
             this.dgvDuLieu = new System.Windows.Forms.DataGridView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cboTrangThai = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtNhacLaiMK = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -268,51 +268,27 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(333, 290);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
-            // txtMatKhau
+            // txtNhacLaiMK
             // 
-            this.txtMatKhau.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtNhacLaiMK.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMatKhau.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMatKhau.Location = new System.Drawing.Point(138, 163);
-            this.txtMatKhau.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMatKhau.Name = "txtMatKhau";
-            this.txtMatKhau.Size = new System.Drawing.Size(177, 23);
-            this.txtMatKhau.TabIndex = 171;
+            this.txtNhacLaiMK.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNhacLaiMK.Location = new System.Drawing.Point(138, 192);
+            this.txtNhacLaiMK.Margin = new System.Windows.Forms.Padding(2);
+            this.txtNhacLaiMK.Name = "txtNhacLaiMK";
+            this.txtNhacLaiMK.Size = new System.Drawing.Size(177, 23);
+            this.txtNhacLaiMK.TabIndex = 177;
             // 
-            // txtTenDangNhap
+            // label3
             // 
-            this.txtTenDangNhap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTenDangNhap.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTenDangNhap.Location = new System.Drawing.Point(138, 134);
-            this.txtTenDangNhap.Margin = new System.Windows.Forms.Padding(2);
-            this.txtTenDangNhap.Name = "txtTenDangNhap";
-            this.txtTenDangNhap.Size = new System.Drawing.Size(177, 23);
-            this.txtTenDangNhap.TabIndex = 170;
-            // 
-            // dtpNgayTao
-            // 
-            this.dtpNgayTao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpNgayTao.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpNgayTao.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpNgayTao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNgayTao.Location = new System.Drawing.Point(138, 250);
-            this.dtpNgayTao.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpNgayTao.Name = "dtpNgayTao";
-            this.dtpNgayTao.Size = new System.Drawing.Size(177, 23);
-            this.dtpNgayTao.TabIndex = 169;
-            // 
-            // cboVaiTro
-            // 
-            this.cboVaiTro.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboVaiTro.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboVaiTro.FormattingEnabled = true;
-            this.cboVaiTro.Location = new System.Drawing.Point(139, 106);
-            this.cboVaiTro.Name = "cboVaiTro";
-            this.cboVaiTro.Size = new System.Drawing.Size(175, 23);
-            this.cboVaiTro.TabIndex = 163;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(18, 190);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(91, 15);
+            this.label3.TabIndex = 176;
+            this.label3.Text = "Nhắc lại MK:";
             // 
             // txtHoTenNV
             // 
@@ -377,6 +353,16 @@
             this.label2.TabIndex = 153;
             this.label2.Text = "Họ tên NV:";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(19, 103);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(91, 15);
+            this.label4.TabIndex = 165;
+            this.label4.Text = "Tên vai trò:";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -399,6 +385,63 @@
             this.label5.TabIndex = 168;
             this.label5.Text = "Mật khẩu:";
             // 
+            // cboVaiTro
+            // 
+            this.cboVaiTro.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboVaiTro.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboVaiTro.FormattingEnabled = true;
+            this.cboVaiTro.Location = new System.Drawing.Point(139, 106);
+            this.cboVaiTro.Name = "cboVaiTro";
+            this.cboVaiTro.Size = new System.Drawing.Size(175, 23);
+            this.cboVaiTro.TabIndex = 163;
+            // 
+            // txtTenDangNhap
+            // 
+            this.txtTenDangNhap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTenDangNhap.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTenDangNhap.Location = new System.Drawing.Point(138, 134);
+            this.txtTenDangNhap.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTenDangNhap.Name = "txtTenDangNhap";
+            this.txtTenDangNhap.Size = new System.Drawing.Size(177, 23);
+            this.txtTenDangNhap.TabIndex = 170;
+            // 
+            // txtMatKhau
+            // 
+            this.txtMatKhau.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMatKhau.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMatKhau.Location = new System.Drawing.Point(138, 163);
+            this.txtMatKhau.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMatKhau.Name = "txtMatKhau";
+            this.txtMatKhau.Size = new System.Drawing.Size(177, 23);
+            this.txtMatKhau.TabIndex = 171;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(18, 248);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(70, 15);
+            this.label7.TabIndex = 173;
+            this.label7.Text = "Ngày tạo:";
+            // 
+            // dtpNgayTao
+            // 
+            this.dtpNgayTao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtpNgayTao.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpNgayTao.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpNgayTao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpNgayTao.Location = new System.Drawing.Point(138, 250);
+            this.dtpNgayTao.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpNgayTao.Name = "dtpNgayTao";
+            this.dtpNgayTao.Size = new System.Drawing.Size(177, 23);
+            this.dtpNgayTao.TabIndex = 169;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -410,15 +453,16 @@
             this.label8.TabIndex = 167;
             this.label8.Text = "Trạng thái:";
             // 
-            // label4
+            // cboTrangThai
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(19, 103);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 15);
-            this.label4.TabIndex = 165;
-            this.label4.Text = "Tên vai trò:";
+            this.cboTrangThai.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboTrangThai.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboTrangThai.FormattingEnabled = true;
+            this.cboTrangThai.Location = new System.Drawing.Point(139, 222);
+            this.cboTrangThai.Name = "cboTrangThai";
+            this.cboTrangThai.Size = new System.Drawing.Size(175, 23);
+            this.cboTrangThai.TabIndex = 175;
             // 
             // gbBangDuLieu
             // 
@@ -445,50 +489,6 @@
             this.dgvDuLieu.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvDuLieu.Size = new System.Drawing.Size(499, 529);
             this.dgvDuLieu.TabIndex = 0;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(18, 248);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 15);
-            this.label7.TabIndex = 173;
-            this.label7.Text = "Ngày tạo:";
-            // 
-            // cboTrangThai
-            // 
-            this.cboTrangThai.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboTrangThai.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboTrangThai.FormattingEnabled = true;
-            this.cboTrangThai.Location = new System.Drawing.Point(139, 222);
-            this.cboTrangThai.Name = "cboTrangThai";
-            this.cboTrangThai.Size = new System.Drawing.Size(175, 23);
-            this.cboTrangThai.TabIndex = 175;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(18, 190);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 15);
-            this.label3.TabIndex = 176;
-            this.label3.Text = "Nhắc lại MK:";
-            // 
-            // txtNhacLaiMK
-            // 
-            this.txtNhacLaiMK.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNhacLaiMK.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNhacLaiMK.Location = new System.Drawing.Point(138, 192);
-            this.txtNhacLaiMK.Margin = new System.Windows.Forms.Padding(2);
-            this.txtNhacLaiMK.Name = "txtNhacLaiMK";
-            this.txtNhacLaiMK.Size = new System.Drawing.Size(177, 23);
-            this.txtNhacLaiMK.TabIndex = 177;
             // 
             // ucFrmThongTinNhanVien
             // 

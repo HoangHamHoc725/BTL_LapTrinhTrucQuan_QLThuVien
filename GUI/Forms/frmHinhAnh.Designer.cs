@@ -30,20 +30,20 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pboHinhAnh = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.txtDuongDan = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.txtMaTL = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnThem = new System.Windows.Forms.Button();
-            this.btnThayDoi = new System.Windows.Forms.Button();
-            this.btnXoa = new System.Windows.Forms.Button();
             this.btnLuu = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnThayDoi = new System.Windows.Forms.Button();
+            this.btnThem = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboHinhAnh)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -67,7 +67,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.Controls.Add(this.pboHinhAnh);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
@@ -76,14 +76,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
-            // pictureBox1
+            // pboHinhAnh
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 16);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(280, 336);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.pboHinhAnh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pboHinhAnh.Location = new System.Drawing.Point(3, 16);
+            this.pboHinhAnh.Name = "pboHinhAnh";
+            this.pboHinhAnh.Size = new System.Drawing.Size(280, 336);
+            this.pboHinhAnh.TabIndex = 0;
+            this.pboHinhAnh.TabStop = false;
             // 
             // tableLayoutPanel2
             // 
@@ -115,7 +115,7 @@
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.txtMaTL, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.txtDuongDan, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
@@ -125,6 +125,17 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(274, 81);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // txtDuongDan
+            // 
+            this.txtDuongDan.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDuongDan.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDuongDan.Location = new System.Drawing.Point(2, 26);
+            this.txtDuongDan.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDuongDan.Multiline = true;
+            this.txtDuongDan.Name = "txtDuongDan";
+            this.txtDuongDan.Size = new System.Drawing.Size(270, 53);
+            this.txtDuongDan.TabIndex = 165;
             // 
             // label12
             // 
@@ -136,17 +147,6 @@
             this.label12.Size = new System.Drawing.Size(268, 24);
             this.label12.TabIndex = 153;
             this.label12.Text = "Đường dẫn:";
-            // 
-            // txtMaTL
-            // 
-            this.txtMaTL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtMaTL.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMaTL.Location = new System.Drawing.Point(2, 26);
-            this.txtMaTL.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMaTL.Multiline = true;
-            this.txtMaTL.Name = "txtMaTL";
-            this.txtMaTL.Size = new System.Drawing.Size(270, 53);
-            this.txtMaTL.TabIndex = 165;
             // 
             // tableLayoutPanel4
             // 
@@ -166,29 +166,17 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(280, 243);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
-            // btnThem
+            // btnLuu
             // 
-            this.btnThem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnThem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThem.Location = new System.Drawing.Point(4, 4);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(4);
-            this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(132, 113);
-            this.btnThem.TabIndex = 76;
-            this.btnThem.Text = "Thêm";
-            this.btnThem.UseVisualStyleBackColor = true;
-            // 
-            // btnThayDoi
-            // 
-            this.btnThayDoi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnThayDoi.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThayDoi.Location = new System.Drawing.Point(144, 4);
-            this.btnThayDoi.Margin = new System.Windows.Forms.Padding(4);
-            this.btnThayDoi.Name = "btnThayDoi";
-            this.btnThayDoi.Size = new System.Drawing.Size(132, 113);
-            this.btnThayDoi.TabIndex = 77;
-            this.btnThayDoi.Text = "Thay đổi";
-            this.btnThayDoi.UseVisualStyleBackColor = true;
+            this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLuu.Location = new System.Drawing.Point(144, 125);
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLuu.Name = "btnLuu";
+            this.btnLuu.Size = new System.Drawing.Size(132, 114);
+            this.btnLuu.TabIndex = 82;
+            this.btnLuu.Text = "Lưu";
+            this.btnLuu.UseVisualStyleBackColor = true;
             // 
             // btnXoa
             // 
@@ -202,17 +190,29 @@
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = true;
             // 
-            // btnLuu
+            // btnThayDoi
             // 
-            this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLuu.Location = new System.Drawing.Point(144, 125);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(132, 114);
-            this.btnLuu.TabIndex = 82;
-            this.btnLuu.Text = "Lưu";
-            this.btnLuu.UseVisualStyleBackColor = true;
+            this.btnThayDoi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnThayDoi.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThayDoi.Location = new System.Drawing.Point(144, 4);
+            this.btnThayDoi.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThayDoi.Name = "btnThayDoi";
+            this.btnThayDoi.Size = new System.Drawing.Size(132, 113);
+            this.btnThayDoi.TabIndex = 77;
+            this.btnThayDoi.Text = "Thay đổi";
+            this.btnThayDoi.UseVisualStyleBackColor = true;
+            // 
+            // btnThem
+            // 
+            this.btnThem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnThem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThem.Location = new System.Drawing.Point(4, 4);
+            this.btnThem.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThem.Name = "btnThem";
+            this.btnThem.Size = new System.Drawing.Size(132, 113);
+            this.btnThem.TabIndex = 76;
+            this.btnThem.Text = "Thêm";
+            this.btnThem.UseVisualStyleBackColor = true;
             // 
             // frmHinhAnh
             // 
@@ -224,7 +224,7 @@
             this.Text = "frmHinhAnh";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboHinhAnh)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -238,12 +238,12 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pboHinhAnh;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtMaTL;
+        private System.Windows.Forms.TextBox txtDuongDan;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Button btnThayDoi;
         private System.Windows.Forms.Button btnThem;

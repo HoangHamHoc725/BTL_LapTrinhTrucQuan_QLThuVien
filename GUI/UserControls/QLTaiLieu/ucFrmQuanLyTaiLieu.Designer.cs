@@ -49,7 +49,7 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(864, 118);
+            this.pnlHeader.Size = new System.Drawing.Size(822, 118);
             this.pnlHeader.TabIndex = 0;
             // 
             // tlpChuyenChucNang
@@ -65,17 +65,17 @@
             this.tlpChuyenChucNang.RowCount = 1;
             this.tlpChuyenChucNang.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpChuyenChucNang.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpChuyenChucNang.Size = new System.Drawing.Size(864, 59);
+            this.tlpChuyenChucNang.Size = new System.Drawing.Size(822, 59);
             this.tlpChuyenChucNang.TabIndex = 1;
             // 
             // btnThongTinDanhMuc
             // 
             this.btnThongTinDanhMuc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThongTinDanhMuc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThongTinDanhMuc.Location = new System.Drawing.Point(432, 0);
+            this.btnThongTinDanhMuc.Location = new System.Drawing.Point(411, 0);
             this.btnThongTinDanhMuc.Margin = new System.Windows.Forms.Padding(0);
             this.btnThongTinDanhMuc.Name = "btnThongTinDanhMuc";
-            this.btnThongTinDanhMuc.Size = new System.Drawing.Size(432, 59);
+            this.btnThongTinDanhMuc.Size = new System.Drawing.Size(411, 59);
             this.btnThongTinDanhMuc.TabIndex = 2;
             this.btnThongTinDanhMuc.Text = "Thông tin danh mục";
             this.btnThongTinDanhMuc.UseVisualStyleBackColor = true;
@@ -88,7 +88,7 @@
             this.btnThongTinTaiLieu.Location = new System.Drawing.Point(0, 0);
             this.btnThongTinTaiLieu.Margin = new System.Windows.Forms.Padding(0);
             this.btnThongTinTaiLieu.Name = "btnThongTinTaiLieu";
-            this.btnThongTinTaiLieu.Size = new System.Drawing.Size(432, 59);
+            this.btnThongTinTaiLieu.Size = new System.Drawing.Size(411, 59);
             this.btnThongTinTaiLieu.TabIndex = 1;
             this.btnThongTinTaiLieu.Text = "Thông tin tài liệu";
             this.btnThongTinTaiLieu.UseVisualStyleBackColor = true;
@@ -100,7 +100,7 @@
             this.pnlTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTitle.Location = new System.Drawing.Point(0, 0);
             this.pnlTitle.Name = "pnlTitle";
-            this.pnlTitle.Size = new System.Drawing.Size(864, 59);
+            this.pnlTitle.Size = new System.Drawing.Size(822, 59);
             this.pnlTitle.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -113,7 +113,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(864, 59);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(822, 59);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label1
@@ -121,7 +121,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(134, 1);
+            this.label1.Location = new System.Drawing.Point(113, 1);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(596, 56);
             this.label1.TabIndex = 0;
@@ -134,7 +134,7 @@
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(0, 118);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(864, 563);
+            this.pnlContent.Size = new System.Drawing.Size(822, 563);
             this.pnlContent.TabIndex = 1;
             // 
             // ucFrmQuanLyTaiLieu
@@ -144,7 +144,7 @@
             this.Controls.Add(this.pnlContent);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ucFrmQuanLyTaiLieu";
-            this.Size = new System.Drawing.Size(864, 681);
+            this.Size = new System.Drawing.Size(822, 681);
             this.Load += new System.EventHandler(this.ucFrmQuanLyTaiLieu_Load);
             this.pnlHeader.ResumeLayout(false);
             this.tlpChuyenChucNang.ResumeLayout(false);
