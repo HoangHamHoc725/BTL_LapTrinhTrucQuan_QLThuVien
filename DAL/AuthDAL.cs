@@ -38,7 +38,44 @@ namespace LibraryManagerApp.DAL
                     Debug.WriteLine($"  - Trạng thái: {taiKhoan.TrangThai}");
 
                     // Bước 2: Kiểm tra mật khẩu
-                    if (taiKhoan.MatKhau != password)
+                    //if (taiKhoan.MatKhau != password)
+                    //{
+                    //    Debug.WriteLine("❌ Mật khẩu không đúng");
+                    //    return null;
+                    //}
+
+                    bool isPasswordValid = false;
+                    bool isHashed = LibraryManagerApp.Helpers.PasswordHasher.IsHashedPassword(taiKhoan.MatKhau);
+
+                    if (isHashed)
+                    {
+                        // Nếu là mật khẩu đã hash theo Identity
+                        isPasswordValid = LibraryManagerApp.Helpers.IdentityPasswordHelper.VerifyIdentityPassword(taiKhoan.MatKhau, password);
+                    }
+                    else
+                    {
+                        // Nếu là mật khẩu thường (chưa hash)
+                        if (taiKhoan.MatKhau == password)
+                        {
+                            isPasswordValid = true;
+
+                            try
+                            {
+                                // Hash lại bằng Identity và lưu vào DB để chuyển đổi dần
+                                string newHashedPassword = LibraryManagerApp.Helpers.IdentityPasswordHelper.HashIdentityPassword(password);
+                                taiKhoan.MatKhau = newHashedPassword;
+                                db.SubmitChanges();
+
+                                Debug.WriteLine($"🔄 Đã hash lại mật khẩu cho tài khoản: {taiKhoan.TenDangNhap}");
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine($"⚠️ Không thể hash lại mật khẩu: {ex.Message}");
+                            }
+                        }
+                    }
+
+                    if (!isPasswordValid)
                     {
                         Debug.WriteLine("❌ Mật khẩu không đúng");
                         return null;
