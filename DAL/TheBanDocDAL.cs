@@ -73,6 +73,25 @@ namespace LibraryManagerApp.DAL
                 }
             }
         }
+
+        // Hàm Kiểm tra Thẻ (Cho chức năng Mượn)
+        public TheBanDocDTO GetTheBanDocForMuon(string maTBD)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from tbd in db.tTheBanDocs
+                            join bd in db.tBanDocs on tbd.MaBD equals bd.MaBD
+                            where tbd.MaTBD == maTBD
+                            select new TheBanDocDTO
+                            {
+                                MaTBD = tbd.MaTBD,
+                                HoTenBD = bd.HoDem + " " + bd.Ten,
+                                TrangThai = tbd.TrangThai
+                            };
+
+                return query.SingleOrDefault(); // Trả về DTO hoặc null
+            }
+        }
         #endregion
 
         #region NHẬP SỬA XÓA
