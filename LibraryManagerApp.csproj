@@ -359,7 +359,6 @@
     <Compile Include="Helpers\SearchMetadata.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="Helpers\State.cs" />
-    <Compile Include="LoginDebugger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Forms\frmBanSao.resx">
       <DependentUpon>frmBanSao.cs</DependentUpon>
