@@ -562,6 +562,70 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
         #endregion
 
+        #region CHỨC NĂNG XUẤT EXCEL
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Lấy dữ liệu (Đã bao gồm các trường chi tiết và chuỗi tác giả gộp)
+                List<TaiLieuDTO> dataList = _bll.LayDuLieuXuatExcel();
+
+                if (dataList == null || dataList.Count == 0)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất.", "Thông báo");
+                    return;
+                }
+
+                // 2. Cấu hình các cột xuất Excel
+                // Key = Tên Property trong DTO
+                // Value = Tên Header trên Excel
+                Dictionary<string, string> allColumns = new Dictionary<string, string>
+                {
+                    { "MaTL", "Mã Tài Liệu" },
+                    { "TenTL", "Tên Tài Liệu" },
+                    { "TacGiaExcel", "Tác Giả & Vai Trò" }, // Cột gộp tác giả
+                    { "TenNXB", "Nhà Xuất Bản" },
+                    { "TenThL", "Thể Loại" }, // Chú ý: Property là TenThL (không phải TenTheLoai)
+                    { "TenDD", "Định Dạng" },
+                    { "TenNN", "Ngôn Ngữ" },
+                    
+                    // >>> CÁC CỘT MỚI BỔ SUNG <<<
+                    { "NamXuatBan", "Năm XB" },
+                    { "LanXuatBan", "Lần XB" },
+                    { "SoTrang", "Số Trang" },
+                    { "KhoCo", "Khổ Cỡ" }
+                };
+
+                // 3. Mở Form chọn cột
+                frmChonCotXuatExcel frm = new frmChonCotXuatExcel(allColumns);
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    Dictionary<string, string> selectedColumns = frm.SelectedColumns;
+
+                    using (SaveFileDialog sfd = new SaveFileDialog())
+                    {
+                        sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
+                        sfd.FileName = $"DanhSachTaiLieu_{DateTime.Now:ddMMyyyy}.xlsx";
+
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            // Gọi Helper xuất file
+                            bool success = ExcelHelper.ExportToExcel(dataList, selectedColumns, sfd.FileName);
+                            if (success) MessageBox.Show("Xuất file Excel thành công!", "Thông báo");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xuất Excel: " + ex.Message, "Lỗi");
+            }
+        }
+
+        #endregion
+
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
         private void btnLuu_Click(object sender, EventArgs e)
         {
