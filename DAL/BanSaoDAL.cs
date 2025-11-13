@@ -157,5 +157,43 @@ namespace LibraryManagerApp.DAL
                 return false;
             }
         }
+        public List<BanSaoDTO> SearchBanSao(string maTL, List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                // 1. Lọc BanSao theo MaTL cố định trước
+                var query = from bs in db.tBanSaos
+                            where bs.MaTL == maTL // BƯỚC QUAN TRỌNG: Lọc theo MaTL
+                            join tl in db.tTaiLieus on bs.MaTL equals tl.MaTL
+                            select new { BanSao = bs, TaiLieu = tl };
+
+                // 2. Áp dụng filters MaBS và TrangThai từ người dùng
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+
+                    if (fieldName == "MaBS")
+                    {
+                        if (op == "=") query = query.Where(x => x.BanSao.MaBS == value);
+                        else if (op == "LIKE") query = query.Where(x => x.BanSao.MaBS.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(x => x.BanSao.MaBS.StartsWith(value));
+                    }
+                    else if (fieldName == "TrangThai" && op == "=")
+                    {
+                        query = query.Where(x => x.BanSao.TrangThai == value);
+                    }
+                }
+
+                // 3. Map kết quả cuối cùng sang DTO
+                return query.ToList().Select(x => new BanSaoDTO
+                {
+                    MaBS = x.BanSao.MaBS,
+                    MaTL = x.BanSao.MaTL,
+                    TrangThai = x.BanSao.TrangThai           
+                }).ToList();
+            }
+        }
     }
 }

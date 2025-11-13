@@ -536,7 +536,7 @@
             this.btnHuy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnHuy.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuy.Location = new System.Drawing.Point(212, 309);
-            this.btnHuy.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnHuy.Margin = new System.Windows.Forms.Padding(6);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(194, 92);
             this.btnHuy.TabIndex = 82;
@@ -549,7 +549,7 @@
             this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLuu.Location = new System.Drawing.Point(6, 309);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(6);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(194, 92);
             this.btnLuu.TabIndex = 81;
@@ -562,7 +562,7 @@
             this.btnXoa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoa.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoa.Location = new System.Drawing.Point(212, 208);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnXoa.Margin = new System.Windows.Forms.Padding(6);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(194, 89);
             this.btnXoa.TabIndex = 80;
@@ -575,7 +575,7 @@
             this.btnSua.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSua.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSua.Location = new System.Drawing.Point(6, 208);
-            this.btnSua.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnSua.Margin = new System.Windows.Forms.Padding(6);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(194, 89);
             this.btnSua.TabIndex = 79;
@@ -588,7 +588,7 @@
             this.btnThem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThem.Location = new System.Drawing.Point(212, 107);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnThem.Margin = new System.Windows.Forms.Padding(6);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(194, 89);
             this.btnThem.TabIndex = 78;
@@ -601,7 +601,7 @@
             this.btnTimKiem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnTimKiem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTimKiem.Location = new System.Drawing.Point(6, 107);
-            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(6);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(194, 89);
             this.btnTimKiem.TabIndex = 77;
@@ -614,7 +614,7 @@
             this.btnXemBanSao.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXemBanSao.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXemBanSao.Location = new System.Drawing.Point(212, 6);
-            this.btnXemBanSao.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnXemBanSao.Margin = new System.Windows.Forms.Padding(6);
             this.btnXemBanSao.Name = "btnXemBanSao";
             this.btnXemBanSao.Size = new System.Drawing.Size(194, 89);
             this.btnXemBanSao.TabIndex = 76;
@@ -627,7 +627,7 @@
             this.btnXemHinhAnh.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXemHinhAnh.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXemHinhAnh.Location = new System.Drawing.Point(6, 6);
-            this.btnXemHinhAnh.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnXemHinhAnh.Margin = new System.Windows.Forms.Padding(6);
             this.btnXemHinhAnh.Name = "btnXemHinhAnh";
             this.btnXemHinhAnh.Size = new System.Drawing.Size(194, 89);
             this.btnXemHinhAnh.TabIndex = 75;

@@ -446,14 +446,22 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
             if (filters == null || filters.Count == 0)
             {
-                danhSach = bll.LayTatCaTaiLieu(); // Giả sử có hàm này
+                danhSach = _bll.LayTatCaTaiLieu();
             }
             else
             {
-                danhSach = bll.TimKiemTaiLieu(filters);
+                danhSach = _bll.TimKiemTaiLieu(filters);
             }
+          
+            dgvDuLieuTaiLieu.DataSource = null; // Xóa dữ liệu cũ
+            dgvDuLieuTaiLieu.DataSource = danhSach; // Gán kết quả tìm kiếm
 
-            // ... (Cập nhật DataGridView với danhSach)
+            // (Tùy chọn) Cấu hình lại cột nếu cần
+            dgvDuLieuTaiLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            // Xóa các ô input chi tiết sau khi tìm kiếm
+            ClearInputs();
+            btnHuy.Enabled = true;
         }
         #endregion
 
@@ -611,6 +619,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             }
             // Nếu là CREATE, chỉ cần SetState(READ) (vì nó sẽ gọi ClearInputs)
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 

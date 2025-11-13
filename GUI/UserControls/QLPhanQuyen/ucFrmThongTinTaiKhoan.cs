@@ -320,11 +320,13 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
                 dgvDuLieu.DataSource = danhSach;
                 // ... (Cấu hình hiển thị và thông báo)
+                btnHuy.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi thực hiện tìm kiếm Tài Khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
         }
         #endregion
 
@@ -414,6 +416,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
                 }
             }
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 
