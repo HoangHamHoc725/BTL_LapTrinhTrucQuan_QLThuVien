@@ -427,6 +427,7 @@
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\IdentityPasswordHelper.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
+    <Compile Include="Helpers\PermissionHelper.cs" />
     <Compile Include="Helpers\SearchMetadata.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="Helpers\State.cs" />

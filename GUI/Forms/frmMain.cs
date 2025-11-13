@@ -102,7 +102,6 @@ namespace LibraryManagerApp
 
                 // 4. Hiện Menu và áp dụng Phân quyền
                 SetMenuVisibility(true);
-                ApplyPermissions(userSession.MaVT);
 
                 // Resume layout
                 tlpMain.ResumeLayout(true);
