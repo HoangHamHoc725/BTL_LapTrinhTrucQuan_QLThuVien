@@ -316,6 +316,117 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         }
         #endregion
 
+        #region CHỨC NĂNG IN ẤN / BÁO CÁO
+
+        private void btnXuatThe_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra xem đã chọn thẻ nào chưa (dựa vào biến _selectedMaTBD được gán khi Click DGV)
+            if (string.IsNullOrEmpty(_selectedMaTBD))
+            {
+                MessageBox.Show("Vui lòng chọn một Thẻ Bạn Đọc từ danh sách để in.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // 2. Lấy thông tin chi tiết của thẻ (bao gồm cả thông tin cá nhân bạn đọc mới thêm vào DTO)
+                TheBanDocDTO theBanDoc = _bll.LayChiTietTheBanDoc(_selectedMaTBD);
+
+                if (theBanDoc != null)
+                {
+                    // 3. Form báo cáo nhận vào một List, nên ta tạo List chứa 1 phần tử
+                    List<TheBanDocDTO> listData = new List<TheBanDocDTO>();
+                    listData.Add(theBanDoc);
+
+                    // 4. Khởi tạo và hiển thị Form Báo cáo
+                    frmBaoCaoTheBanDoc frm = new frmBaoCaoTheBanDoc(listData);
+                    frm.ShowDialog(); // Hiện dưới dạng popup
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy thông tin chi tiết của thẻ này.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi chuẩn bị dữ liệu in: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        #region CHỨC NĂNG XUẤT EXCEL
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Chuẩn bị dữ liệu nguồn (Lấy tất cả hoặc lấy theo tìm kiếm hiện tại)
+                // Ở đây ta lấy tất cả danh sách hiện có
+                List<TheBanDocDTO> dataList = _bll.LayThongTinTheBanDoc();
+
+                if (dataList == null || dataList.Count == 0)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // 2. Định nghĩa danh sách TẤT CẢ các cột có thể xuất
+                // Key: Tên thuộc tính trong DTO
+                // Value: Tên hiển thị trên Header Excel
+                Dictionary<string, string> allColumns = new Dictionary<string, string>
+                {
+                    { "MaTBD", "Mã Thẻ" },
+                    { "MaBD", "Mã Bạn Đọc" },
+                    { "HoTenBD", "Họ và Tên" },
+                    { "NgaySinh", "Ngày Sinh" },
+                    { "GioiTinh", "Giới Tính" },
+                    { "SDT", "Số Điện Thoại" },
+                    { "DiaChi", "Địa Chỉ" },
+                    { "NgayCap", "Ngày Cấp Thẻ" },
+                    { "NgayHetHanHienThi", "Ngày Hết Hạn" }, // Dùng thuộc tính hiển thị đã format sẵn
+                    { "TrangThai", "Trạng Thái" },
+                    { "HoTenNV", "Nhân Viên Cấp" }
+                };
+
+                // 3. Mở Form chọn cột
+                frmChonCotXuatExcel frm = new frmChonCotXuatExcel(allColumns);
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // 4. Lấy các cột người dùng đã chọn
+                    Dictionary<string, string> selectedColumns = frm.SelectedColumns;
+
+                    // 5. Mở hộp thoại chọn nơi lưu file
+                    using (SaveFileDialog sfd = new SaveFileDialog())
+                    {
+                        sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
+                        sfd.FileName = $"DanhSachTheBanDoc_{DateTime.Now:ddMMyyyy}.xlsx"; // Tên mặc định
+
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            // 6. Gọi Helper để xuất file
+                            bool success = ExcelHelper.ExportToExcel(dataList, selectedColumns, sfd.FileName);
+
+                            if (success)
+                            {
+                                MessageBox.Show("Xuất file Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                // Tùy chọn: Mở file vừa xuất
+                                // System.Diagnostics.Process.Start(sfd.FileName);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xuất Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
         private void btnLuu_Click(object sender, EventArgs e)
         {

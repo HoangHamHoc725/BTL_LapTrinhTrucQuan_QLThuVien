@@ -20,6 +20,11 @@ namespace LibraryManagerApp.DTO
         public string HoTenBD { get; set; }
         public string HoTenNV { get; set; }
 
+        public DateTime NgaySinh { get; set; }
+        public string GioiTinh { get; set; } // Hiển thị Nam/Nữ
+        public string DiaChi { get; set; }
+        public string SDT { get; set; }
+
         // 3. Dữ liệu tính toán (Hiển thị trên DGV)
         public string NgayHetHanHienThi
         {
