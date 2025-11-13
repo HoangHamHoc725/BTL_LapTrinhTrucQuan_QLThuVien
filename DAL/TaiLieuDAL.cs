@@ -14,13 +14,11 @@ namespace LibraryManagerApp.DAL
         {
             using (var db = new QLThuVienDataContext())
             {
-                // JOIN tTaiLieu với 4 bảng danh mục chính
                 var query = from tl in db.tTaiLieus
                             join nxb in db.tNhaXuatBans on tl.MaNXB equals nxb.MaNXB
                             join nn in db.tNgonNgus on tl.MaNN equals nn.MaNN
                             join thl in db.tTheLoais on tl.MaThL equals thl.MaThL
                             join dd in db.tDinhDangs on tl.MaDD equals dd.MaDD
-                            // MaTK có thể NULL
                             select new TaiLieuDTO
                             {
                                 MaTL = tl.MaTL,
@@ -31,14 +29,17 @@ namespace LibraryManagerApp.DAL
                                 MaDD = tl.MaDD,
                                 MaTK = tl.MaTK,
 
-                                // Dữ liệu JOIN
+                                // Thông tin JOIN
                                 TenNXB = nxb.TenNXB,
                                 TenNN = nn.TenNN,
                                 TenThL = thl.TenThL,
-                                TenDD = dd.TenDD
+                                TenDD = dd.TenDD,
 
-                                // Bỏ qua các trường LanXB, NamXB, SoTrang, KhoCo trong danh sách (list)
-                                // sẽ lấy trong chi tiết
+                                LanXuatBan = tl.LanXuatBan,
+                                NamXuatBan = tl.NamXuatBan,
+                                SoTrang = tl.SoTrang,
+                                KhoCo = tl.KhoCo.Trim(), // Nhớ Trim() cho khổ cỡ
+                                Anh = tl.Anh
                             };
 
                 return query.ToList();
@@ -413,6 +414,25 @@ namespace LibraryManagerApp.DAL
                                  };
 
                 return finalQuery.ToList();
+            }
+        }
+
+        // [MỚI] Hàm lấy tất cả liên kết Tài liệu - Tác giả để phục vụ xuất Excel
+        // Trả về danh sách phẳng: MaTL, HoTenTG, VaiTro
+        public List<TL_TGDTO> GetAllAuthorLinks()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from tltg in db.tTaiLieu_TacGias
+                            join tg in db.tTacGias on tltg.MaTG equals tg.MaTG
+                            select new TL_TGDTO
+                            {
+                                MaTL = tltg.MaTL,
+                                MaTG = tltg.MaTG,
+                                VaiTro = tltg.VaiTro,
+                                HoTenTG = tg.HoDem + " " + tg.Ten
+                            };
+                return query.ToList();
             }
         }
     }

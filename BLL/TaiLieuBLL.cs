@@ -158,5 +158,29 @@ namespace LibraryManagerApp.BLL
         {
             return SearchMetadata.GetTaiLieuFields();
         }
+
+        // [MỚI] Hàm lấy dữ liệu chuyên dụng cho xuất Excel
+        public List<TaiLieuDTO> LayDuLieuXuatExcel()
+        {
+            // 1. Lấy danh sách tài liệu cơ bản
+            List<TaiLieuDTO> listTaiLieu = _dal.GetAllTaiLieuDTO();
+
+            // 2. Lấy toàn bộ danh sách tác giả đính kèm
+            List<TL_TGDTO> listAllAuthors = _dal.GetAllAuthorLinks();
+
+            // 3. Ghép chuỗi tác giả vào từng tài liệu (Xử lý trên RAM)
+            foreach (var tl in listTaiLieu)
+            {
+                // Tìm các tác giả thuộc tài liệu này
+                var authorsOfBook = listAllAuthors
+                                    .Where(x => x.MaTL == tl.MaTL)
+                                    .Select(x => $"{x.HoTenTG} ({x.VaiTro})"); // Format: Tên (Vai trò)
+
+                // Nối lại thành 1 chuỗi, cách nhau dấu phẩy
+                tl.TacGiaExcel = string.Join(", ", authorsOfBook);
+            }
+
+            return listTaiLieu;
+        }
     }
 }

@@ -30,5 +30,7 @@ namespace LibraryManagerApp.DTO
 
         // 3. Danh sách Tác giả đính kèm (Quan hệ 1-nhiều)
         public List<TL_TGDTO> DanhSachTacGia { get; set; } = new List<TL_TGDTO>();
+
+        public string TacGiaExcel { get; set; }
     }
 }
