@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,15 @@ namespace LibraryManagerApp.BLL
         public bool XoaDinhDang(string maDD)
         {
             return _dal.DeleteDinhDang(maDD);
+        }
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetDinhDangFields();
+        }
+
+        public List<DinhDangDTO> TimKiemDinhDang(List<SearchFilter> filters)
+        {
+            return _dal.SearchDinhDang(filters);
         }
     }
 }

@@ -168,5 +168,58 @@ namespace LibraryManagerApp.DAL
                 return false;
             }
         }
+        // Hàm Tìm kiếm Tác Giả (Logic tìm kiếm Dynamic)
+        public List<TacGiaDTO> SearchTacGia(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                // Bắt đầu với JOIN tTacGia và tQuocGia để có dữ liệu HoTen và TenQG
+                var query = from tg in db.tTacGias
+                            join qg in db.tQuocGias on tg.MaQG equals qg.MaQG
+                            select new { TacGia = tg, QuocGia = qg, HoTen = tg.HoDem + " " + tg.Ten };
+
+                // Áp dụng filters
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+
+                    if (fieldName == "MaTG")
+                    {
+                        if (op == "=") query = query.Where(x => x.TacGia.MaTG == value);
+                        else if (op == "LIKE") query = query.Where(x => x.TacGia.MaTG.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(x => x.TacGia.MaTG.StartsWith(value));
+                    }
+                    else if (fieldName == "HoTen")
+                    {
+                        string hoTenKeyword = value.Trim();
+                        if (op == "LIKE")
+                            query = query.Where(x => x.HoTen.Contains(hoTenKeyword));
+                        else if (op == "Bắt đầu bằng")
+                            query = query.Where(x => x.HoTen.StartsWith(hoTenKeyword));
+                    }
+                    else if (fieldName == "MaQG" && op == "=")
+                    {
+                        query = query.Where(x => x.TacGia.MaQG == value);
+                    }
+                    else if (fieldName == "TenQG" && op == "LIKE")
+                    {
+                        query = query.Where(x => x.QuocGia.TenQG.Contains(value));
+                    }
+                }
+
+                // Map kết quả cuối cùng sang DTO
+                return query.ToList().Select(x => new TacGiaDTO
+                {
+                    MaTG = x.TacGia.MaTG,
+                    MaQG = x.TacGia.MaQG,
+                    HoDem = x.TacGia.HoDem,
+                    Ten = x.TacGia.Ten,
+             
+                    TenQG = x.QuocGia.TenQG
+                }).ToList();
+            }
+        }
     }
 }

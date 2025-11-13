@@ -16,7 +16,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         private NhanVienBLL _bll = new NhanVienBLL();
         private State _currentState;
         private string _selectedMaNV = string.Empty;
-        private frmTimKiem _searchForm;
+        private FrmTimKiem _searchForm;
 
 
 
@@ -134,6 +134,42 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // === HÀM BỔ SUNG: Xử lý việc tải dữ liệu sau khi tìm kiếm ===
+        private void LoadNhanVienData(List<SearchFilter> filters)
+        {
+            try
+            {
+                dgvDuLieu.DataSource = null;
+                List<NhanVienDTO> danhSach;
+
+                if (filters == null || filters.Count == 0)
+                {
+                    // Nếu không có bộ lọc, tải lại tất cả dữ liệu gốc
+                    danhSach = _bll.LayThongTinNhanVien();
+                }
+                else
+                {
+                    // Sử dụng bộ lọc để tìm kiếm
+                    danhSach = _bll.TimKiemNhanVien(filters); // Giả sử BLL có hàm SearchNhanVien
+                }
+
+                dgvDuLieu.DataSource = danhSach;
+                dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+                // Hiển thị thông báo (tùy chọn)
+                if (filters != null && filters.Count > 0)
+                {
+                    MessageBox.Show($"Tìm thấy {danhSach.Count} kết quả khớp với bộ lọc.", "Thông báo Tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                ClearInputs(); // Dọn dẹp inputs sau khi tải dữ liệu
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -257,18 +293,21 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #endregion
 
         #region CHỨC NĂNG TÌM KIẾM
-        private void btnTimKiem_Click(object sender, EventArgs e)
+        private void btnMoTimKiem_Click(object sender, EventArgs e)
         {
-            // Tái sử dụng logic của Bạn Đọc
-            if (_searchForm == null || _searchForm.IsDisposed)
-            {
-                _searchForm = new LibraryManagerApp.GUI.Forms.frmTimKiem();
-                _searchForm.OnSearchApplied += HandleSearchApplied;
-                _searchForm.FormClosed += SearchForm_FormClosed;
-            }
+            // Lấy metadata cho Nhân Viên
+            List<FieldMetadata> nvMetadata = SearchMetadata.GetNhanVienFields();
 
-            _searchForm.Show();
-            _searchForm.BringToFront();
+            FrmTimKiem searchForm = new FrmTimKiem(nvMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                // Lấy Filters từ Form tìm kiếm
+                List<SearchFilter> filters = searchForm.Filters;
+
+                // Gọi hàm tìm kiếm ở BLL/DAL
+                LoadNhanVienData(filters); // Hàm này sẽ gọi NhanVienBLL.SearchNhanVien(filters)
+            }
         }
 
         private void HandleSearchApplied(List<SearchFilter> filters)

@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,6 +146,17 @@ namespace LibraryManagerApp.BLL
         {
             // imagePath có thể là null (nếu người dùng Xóa ảnh)
             return _dal.UpdateImagePath(maTL, imagePath);
+        }
+        // Hàm tìm kiếm
+        public List<TaiLieuDTO> TimKiemTaiLieu(List<SearchFilter> filters)
+        {
+            return _dal.SearchTaiLieu(filters);
+        }
+
+        // Hàm cung cấp Metadata cho UI (FrmTimKiem)
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetTaiLieuFields();
         }
     }
 }

@@ -9,6 +9,39 @@ namespace LibraryManagerApp.DAL
 {
     internal class TheLoaiDAL
     {
+        private TheLoaiDTO MapToDTO(tTheLoai thl)
+        {
+            return new TheLoaiDTO { MaThL = thl.MaThL, TenThL = thl.TenThL };
+        }
+
+        public List<TheLoaiDTO> SearchTheLoai(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                IQueryable<tTheLoai> query = db.tTheLoais.AsQueryable();
+
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+
+                    if (fieldName == "MaThL")
+                    {
+                        if (op == "=") query = query.Where(thl => thl.MaThL == value);
+                        else if (op == "LIKE") query = query.Where(thl => thl.MaThL.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(thl => thl.MaThL.StartsWith(value));
+                    }
+                    else if (fieldName == "TenThL")
+                    {
+                        if (op == "LIKE") query = query.Where(thl => thl.TenThL.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(thl => thl.TenThL.StartsWith(value));
+                    }
+                }
+
+                return query.ToList().Select(thl => MapToDTO(thl)).ToList();
+            }
+        }
         public List<TheLoaiDTO> GetAllTheLoaiDTO()
         {
             using (var db = new QLThuVienDataContext())

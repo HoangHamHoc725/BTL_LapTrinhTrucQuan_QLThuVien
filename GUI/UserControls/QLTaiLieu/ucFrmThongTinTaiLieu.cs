@@ -422,6 +422,41 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         }
         #endregion
 
+        #region CHỨC NĂNG TÌM KIẾM
+        private void btnMoTimKiem_Click(object sender, EventArgs e)
+        {
+            TaiLieuBLL bll = new TaiLieuBLL();
+            List<FieldMetadata> tlMetadata = bll.GetSearchFields();
+
+            FrmTimKiem searchForm = new FrmTimKiem(tlMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                List<SearchFilter> filters = searchForm.Filters;
+
+                // Gọi hàm tải dữ liệu mới
+                LoadTaiLieuData(filters);
+            }
+        }
+
+        private void LoadTaiLieuData(List<SearchFilter> filters)
+        {
+            TaiLieuBLL bll = new TaiLieuBLL();
+            List<TaiLieuDTO> danhSach;
+
+            if (filters == null || filters.Count == 0)
+            {
+                danhSach = bll.LayTatCaTaiLieu(); // Giả sử có hàm này
+            }
+            else
+            {
+                danhSach = bll.TimKiemTaiLieu(filters);
+            }
+
+            // ... (Cập nhật DataGridView với danhSach)
+        }
+        #endregion
+
         #region CHỨC NĂNG PHỤ (BẢN SAO, HÌNH ẢNH)
 
         private void btnXemBanSao_Click(object sender, EventArgs e)

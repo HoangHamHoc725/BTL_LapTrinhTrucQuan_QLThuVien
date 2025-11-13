@@ -1,35 +1,57 @@
-﻿// File: LibraryManagerApp.GUI.Forms/frmTimKiem.cs
+﻿// File: LibraryManagerApp.GUI.Forms/FrmTimKiem.cs
 
 using LibraryManagerApp.DTO;
 using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Windows.Forms;
 
 namespace LibraryManagerApp.GUI.Forms
 {
-    // Đảm bảo SearchFilter là public để Delegate hoạt động
+    // === Đổi tên State thành FilterState để tránh xung đột ===
+    public enum FilterState
+    {
+        READ,   // Chỉ xem, không chỉnh sửa
+        CREATE, // Đang tạo mới bộ lọc
+        UPDATE  // Đang sửa bộ lọc
+    }
+
     public delegate void SearchAppliedHandler(List<SearchFilter> filters);
 
-    public partial class frmTimKiem : Form
+    // === Đổi tên lớp thành FrmTimKiem (PascalCase) ===
+    public partial class FrmTimKiem : Form
     {
         private List<FieldMetadata> _metadata;
         private List<SearchFilter> _currentFilters = new List<SearchFilter>();
         public event SearchAppliedHandler OnSearchApplied;
 
-        // Quản lý State
-        private State _currentState;
-        private SearchFilter _selectedFilter = null; // Dùng cho trạng thái UPDATE
+        // Public Property để Form cha có thể lấy danh sách Filters sau khi đóng Form
+        public List<SearchFilter> Filters
+        {
+            get { return _currentFilters; }
+        }
 
-        public frmTimKiem()
+        // Quản lý State
+        private FilterState _currentState; // <-- Đã cập nhật kiểu dữ liệu
+        private SearchFilter _selectedFilter = null;
+
+        // === CONSTRUCTOR ĐÃ CHỈNH SỬA: Nhận metadata linh hoạt ===
+        public FrmTimKiem(List<FieldMetadata> metadataList)
         {
             InitializeComponent();
 
-            // Khởi tạo
-            _metadata = SearchMetadata.GetBanDocFields();
+            // Gán metadata được truyền vào (Nhân viên, Bạn Đọc, v.v.)
+            _metadata = metadataList;
+
             ConfigureListView();
+        }
+
+        // Constructor mặc định (dùng cho Design Time hoặc fallback)
+        public FrmTimKiem() : this(SearchMetadata.GetBanDocFields())
+        {
         }
 
         #region KHỞI TẠO VÀ CẤU HÌNH GIAO DIỆN
@@ -41,10 +63,10 @@ namespace LibraryManagerApp.GUI.Forms
             lsvBoLoc.Columns.Add("Điều kiện Tìm kiếm", 270);
         }
 
-        private void frmTimKiem_Load(object sender, EventArgs e)
+        private void FrmTimKiem_Load(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
             LoadTimTheoComboBox();
-            SetState(State.READ); // Bắt đầu ở trạng thái READ
+            SetState(FilterState.READ); // <-- Đã cập nhật
         }
 
         #endregion
@@ -53,10 +75,10 @@ namespace LibraryManagerApp.GUI.Forms
 
         #region QUẢN LÝ STATE (CHO BỘ LỌC)
 
-        private void SetState(State state)
+        private void SetState(FilterState state) // <-- Đã cập nhật kiểu dữ liệu
         {
             _currentState = state;
-            bool isEditing = (state == State.CREATE || state == State.UPDATE);
+            bool isEditing = (state == FilterState.CREATE || state == FilterState.UPDATE); // <-- Đã cập nhật
 
             // INPUTS
             cboTimTheo.Enabled = isEditing;
@@ -66,33 +88,32 @@ namespace LibraryManagerApp.GUI.Forms
             txtDen.Enabled = isEditing && txtDen.Visible;
 
             // THAO TÁC TRỰC TIẾP
-            btnThemBoLoc.Enabled = (state == State.READ);
-            btnSuaBoLoc.Enabled = (state == State.READ && lsvBoLoc.SelectedItems.Count > 0);
-            btnXoaBoLoc.Enabled = (state == State.READ && lsvBoLoc.SelectedItems.Count > 0);
-            btnTim.Enabled = (state == State.READ); // Chỉ tìm khi không đang sửa bộ lọc
+            btnThemBoLoc.Enabled = (state == FilterState.READ); // <-- Đã cập nhật
+            btnSuaBoLoc.Enabled = (state == FilterState.READ && lsvBoLoc.SelectedItems.Count > 0); // <-- Đã cập nhật
+            btnXoaBoLoc.Enabled = (state == FilterState.READ && lsvBoLoc.SelectedItems.Count > 0); // <-- Đã cập nhật
+            btnTim.Enabled = (state == FilterState.READ); // <-- Đã cập nhật
 
             // THAO TÁC CRUD STATE
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
 
-            lsvBoLoc.Enabled = (state == State.READ);
+            lsvBoLoc.Enabled = (state == FilterState.READ); // <-- Đã cập nhật
 
             // Đảm bảo khi chuyển trạng thái, các trường INPUT được reset/cập nhật
-            if (state == State.READ)
+            if (state == FilterState.READ) // <-- Đã cập nhật
             {
                 ClearFilterInputs();
             }
-            else if (state == State.CREATE)
+            else if (state == FilterState.CREATE) // <-- Đã cập nhật
             {
                 // Đặt focus vào ComboBox tìm kiếm
                 cboTimTheo.Focus();
             }
         }
 
-        // Sự kiện ListView click để bật nút Sửa/Xóa khi ở trạng thái READ
-        private void lsvBoLoc_SelectedIndexChanged(object sender, EventArgs e)
+        private void LsvBoLoc_SelectedIndexChanged(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
-            if (_currentState == State.READ)
+            if (_currentState == FilterState.READ) // <-- Đã cập nhật
             {
                 bool isSelected = lsvBoLoc.SelectedItems.Count > 0;
                 btnSuaBoLoc.Enabled = isSelected;
@@ -118,7 +139,7 @@ namespace LibraryManagerApp.GUI.Forms
             }
         }
 
-        private void cboTimTheo_SelectedIndexChanged(object sender, EventArgs e)
+        private void CboTimTheo_SelectedIndexChanged(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
             FieldMetadata selectedField = cboTimTheo.SelectedItem as FieldMetadata;
 
@@ -130,18 +151,23 @@ namespace LibraryManagerApp.GUI.Forms
                 // Quản lý hiển thị Inputs
                 bool isDateTime = selectedField.DataType == TypeCode.DateTime;
 
+                // Nếu là DateTime, hiển thị txtTu, ẩn txtGiaTri
                 txtGiaTri.Visible = !isDateTime;
                 label2.Text = !isDateTime ? "Giá trị:" : "";
 
                 label3.Visible = isDateTime;
                 txtTu.Visible = isDateTime;
 
+                // Cập nhật trạng thái Enabled cho các trường INPUT
+                txtGiaTri.Enabled = _currentState != FilterState.READ && txtGiaTri.Visible; // <-- Đã cập nhật
+                txtTu.Enabled = _currentState != FilterState.READ && txtTu.Visible; // <-- Đã cập nhật
+
                 // Gọi hàm quản lý toán tử để xử lý trường 'Đến'
-                cboToanTu_SelectedIndexChanged(null, null);
+                CboToanTu_SelectedIndexChanged(null, null); // <-- Gọi hàm đã sửa tên
             }
         }
 
-        private void cboToanTu_SelectedIndexChanged(object sender, EventArgs e)
+        private void CboToanTu_SelectedIndexChanged(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
             FieldMetadata selectedField = cboTimTheo.SelectedItem as FieldMetadata;
             string selectedOperator = cboToanTu.SelectedItem?.ToString();
@@ -152,6 +178,7 @@ namespace LibraryManagerApp.GUI.Forms
 
                 label4.Visible = isRange;
                 txtDen.Visible = isRange;
+                txtDen.Enabled = _currentState != FilterState.READ && txtDen.Visible; // <-- Đã cập nhật
 
                 // Cập nhật nhãn "Từ"
                 label3.Text = isRange ? "Từ:" : "Ngày:";
@@ -160,6 +187,7 @@ namespace LibraryManagerApp.GUI.Forms
             {
                 label4.Visible = false;
                 txtDen.Visible = false;
+                txtDen.Enabled = false;
             }
         }
 
@@ -169,13 +197,18 @@ namespace LibraryManagerApp.GUI.Forms
 
         #region XỬ LÝ NÚT CRUD STATE (LƯU - HỦY)
 
-        // Nút Lưu (Thực hiện CREATE hoặc UPDATE Bộ lọc)
-        private void btnLuu_Click(object sender, EventArgs e)
+        private void BtnLuu_Click(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
             FieldMetadata selectedField = cboTimTheo.SelectedItem as FieldMetadata;
             string selectedOperator = cboToanTu.SelectedItem?.ToString();
 
             // 1. Validation và Thu thập giá trị
+            if (selectedField == null || string.IsNullOrEmpty(selectedOperator))
+            {
+                MessageBox.Show("Vui lòng chọn trường và toán tử.", "Lỗi Cấu Hình", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (!TryCollectAndValidateValue(selectedField, selectedOperator, out string value, out string valueTo))
             {
                 return;
@@ -184,7 +217,7 @@ namespace LibraryManagerApp.GUI.Forms
             // 2. Tạo hoặc Cập nhật Filter Object
             SearchFilter filterToSave;
 
-            if (_currentState == State.CREATE)
+            if (_currentState == FilterState.CREATE) // <-- Đã cập nhật
             {
                 filterToSave = new SearchFilter();
                 _currentFilters.Add(filterToSave);
@@ -204,13 +237,22 @@ namespace LibraryManagerApp.GUI.Forms
 
             // 4. Hoàn tất
             UpdateBoLocListView();
-            SetState(State.READ);
+
+            // Tự động chọn filter vừa lưu/sửa
+            var item = lsvBoLoc.Items.Cast<ListViewItem>().FirstOrDefault(i => i.Tag == filterToSave);
+            if (item != null)
+            {
+                item.Selected = true;
+            }
+
+            SetState(FilterState.READ); // <-- Đã cập nhật
         }
 
-        // Nút Hủy (Thoát khỏi CREATE/UPDATE)
-        private void btnHuy_Click(object sender, EventArgs e)
+        private void BtnHuy_Click(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
-            SetState(State.READ);
+            SetState(FilterState.READ); // <-- Đã cập nhật
+            // Nếu đang sửa, cần đảm bảo không có filter nào được chọn
+            lsvBoLoc.SelectedItems.Clear();
         }
 
         #endregion
@@ -219,16 +261,14 @@ namespace LibraryManagerApp.GUI.Forms
 
         #region XỬ LÝ NÚT HÀNH ĐỘNG (THÊM, SỬA, XÓA, TÌM)
 
-        // Nút này chuyển sang trạng thái CREATE
-        private void btnThemBoLoc_Click(object sender, EventArgs e)
+        private void BtnThemBoLoc_Click(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
             ClearFilterInputs();
             _selectedFilter = null;
-            SetState(State.CREATE);
+            SetState(FilterState.CREATE); // <-- Đã cập nhật
         }
 
-        // Nút này chuyển sang trạng thái UPDATE
-        private void btnSuaBoLoc_Click(object sender, EventArgs e)
+        private void BtnSuaBoLoc_Click(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
             if (lsvBoLoc.SelectedItems.Count == 0)
             {
@@ -239,16 +279,13 @@ namespace LibraryManagerApp.GUI.Forms
             _selectedFilter = lsvBoLoc.SelectedItems[0].Tag as SearchFilter;
             LoadFilterToInputs(_selectedFilter);
 
-            SetState(State.UPDATE);
+            SetState(FilterState.UPDATE); // <-- Đã cập nhật
         }
 
-        // Nút này thực hiện XÓA và chuyển về READ
-        private void btnXoaBoLoc_Click(object sender, EventArgs e)
+        private void BtnXoaBoLoc_Click(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
-            // Cần kiểm tra lại trước khi hiển thị MessageBox xác nhận
             if (lsvBoLoc.SelectedItems.Count == 0)
             {
-                // Giữ lại cảnh báo này vì nó kiểm tra trước khi xác nhận.
                 MessageBox.Show("Vui lòng chọn một Bộ lọc để xóa.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -261,24 +298,27 @@ namespace LibraryManagerApp.GUI.Forms
                 _currentFilters.Remove(filterToDelete);
                 UpdateBoLocListView();
 
-                // Sau khi xóa, nếu không còn bộ lọc nào được chọn (đã xóa item),
-                // lsvBoLoc_SelectedIndexChanged sẽ được gọi và tắt nút Sửa/Xóa.
-                // Chỉ cần gọi SetState(State.READ) để dọn dẹp inputs và đặt lại trạng thái.
-                SetState(State.READ);
+                SetState(FilterState.READ); // <-- Đã cập nhật
 
                 // ***QUAN TRỌNG: Gọi Event Find ngay lập tức sau khi xóa***
-                // Nếu List rỗng, Form cha sẽ tự động LoadData() gốc.
-                btnTim_Click(sender, e);
+                BtnTim_Click(sender, e); // <-- Gọi hàm đã sửa tên
             }
         }
 
-        private void btnTim_Click(object sender, EventArgs e)
+        private void BtnTim_Click(object sender, EventArgs e) // <-- Đã sửa tên phương thức
         {
-            if (OnSearchApplied != null)
+            if (_currentState != FilterState.READ) // <-- Đã cập nhật
             {
-                // Truyền _currentFilters (danh sách các bộ lọc) về Form cha
-                OnSearchApplied.Invoke(_currentFilters ?? new List<SearchFilter>());
+                MessageBox.Show("Vui lòng Lưu hoặc Hủy chỉnh sửa Bộ lọc trước khi Tìm kiếm.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            // 1. Gọi Delegate (Tùy chọn, để Form cha xử lý ngay lập tức)
+            OnSearchApplied?.Invoke(_currentFilters ?? new List<SearchFilter>());
+
+            // 2. Đặt DialogResult và đóng Form
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         #endregion
@@ -292,26 +332,29 @@ namespace LibraryManagerApp.GUI.Forms
             value = "";
             valueTo = "";
 
+            // 1. Xử lý trường Ngày tháng
             if (selectedField.DataType == TypeCode.DateTime)
             {
-                value = txtTu.Text.Trim();
+                value = txtTu.Text.Trim(); // Lấy giá trị 'Từ'
+                bool isRange = selectedOperator == "Khoảng" || selectedOperator == "Đoạn";
 
-                if (string.IsNullOrEmpty(value) && selectedOperator != "Khoảng" && selectedOperator != "Đoạn")
+                // Bắt buộc nhập Ngày nếu không phải tìm Khoảng/Đoạn và không có giá trị
+                if (string.IsNullOrEmpty(value) && !isRange)
                 {
                     MessageBox.Show("Vui lòng nhập Ngày tháng cho tìm kiếm.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
-                // Kiểm tra định dạng ngày tháng
+                // Kiểm tra định dạng ngày tháng (Nếu có giá trị)
                 if (!string.IsNullOrEmpty(value) && !DateTime.TryParse(value, out DateTime dtStart))
                 {
-                    MessageBox.Show("Ngày nhập vào không hợp lệ (DD/MM/YYYY).", "Lỗi Định Dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ngày bắt đầu không hợp lệ (DD/MM/YYYY).", "Lỗi Định Dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
-                if (selectedOperator == "Khoảng" || selectedOperator == "Đoạn")
+                if (isRange)
                 {
-                    valueTo = txtDen.Text.Trim();
+                    valueTo = txtDen.Text.Trim(); // Lấy giá trị 'Đến'
 
                     if (string.IsNullOrEmpty(valueTo))
                     {
@@ -325,6 +368,7 @@ namespace LibraryManagerApp.GUI.Forms
                         return false;
                     }
 
+                    // Kiểm tra logic ngày bắt đầu < ngày kết thúc
                     if (DateTime.TryParse(value, out dtStart) && dtStart > dtEnd)
                     {
                         MessageBox.Show("Ngày bắt đầu không được lớn hơn Ngày kết thúc.", "Lỗi Logic", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -332,6 +376,7 @@ namespace LibraryManagerApp.GUI.Forms
                     }
                 }
             }
+            // 2. Xử lý trường chuỗi/số
             else
             {
                 value = txtGiaTri.Text.Trim();
@@ -350,7 +395,12 @@ namespace LibraryManagerApp.GUI.Forms
             txtGiaTri.Text = string.Empty;
             txtTu.Text = string.Empty;
             txtDen.Text = string.Empty;
-            cboTimTheo.SelectedIndex = 0;
+
+            // Đặt lại ComboBox về item đầu tiên nếu có
+            if (cboTimTheo.Items.Count > 0)
+            {
+                cboTimTheo.SelectedIndex = 0;
+            }
 
             // Xóa lựa chọn trong ListView
             lsvBoLoc.SelectedItems.Clear();
@@ -360,14 +410,16 @@ namespace LibraryManagerApp.GUI.Forms
             btnXoaBoLoc.Enabled = false;
         }
 
-        // Hàm mới để tải filter object lên Inputs khi sửa
         private void LoadFilterToInputs(SearchFilter filter)
         {
+            // Set SelectedValue sẽ kích hoạt sự kiện SelectedIndexChanged
             cboTimTheo.SelectedValue = filter.FieldName;
+            // Cần đặt lại SelectedItem sau khi cboTimTheo đã load lại cboToanTu
             cboToanTu.SelectedItem = filter.Operator;
 
             if (filter.DataType == TypeCode.DateTime)
             {
+                // Vì SelectedIndexChanged đã chạy, txtTu/txtDen đã Visible/Hidden đúng
                 txtTu.Text = filter.Value;
                 txtDen.Text = filter.ValueTo;
                 txtGiaTri.Text = string.Empty;
@@ -385,6 +437,7 @@ namespace LibraryManagerApp.GUI.Forms
             lsvBoLoc.Items.Clear();
             foreach (var filter in _currentFilters)
             {
+                // Sử dụng hàm ToString() đã override trong SearchFilter để hiển thị
                 ListViewItem item = new ListViewItem(filter.ToString());
                 item.Tag = filter;
                 lsvBoLoc.Items.Add(item);
