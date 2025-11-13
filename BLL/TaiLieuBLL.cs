@@ -158,5 +158,12 @@ namespace LibraryManagerApp.BLL
         {
             return SearchMetadata.GetTaiLieuFields();
         }
+
+        // Hàm đếm tổng số đầu tài liệu
+        public int DemTongDauSach()
+        {
+            var list = _dal.GetAllTaiLieuDTO();
+            return list != null ? list.Count : 0;
+        }
     }
 }

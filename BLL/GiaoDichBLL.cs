@@ -172,5 +172,27 @@ namespace LibraryManagerApp.BLL
                 return false;
             }
         }
+
+        // Hàm thống kê số liệu mượn trả
+        public void LayThongKeMuonTra(out int soLuongMuon, out int soLuongTra)
+        {
+            soLuongMuon = 0;
+            soLuongTra = 0;
+
+            // 1. Lấy tất cả giao dịch
+            var listGD = _dal.GetAllGiaoDich();
+            if (listGD == null) return;
+
+            // 2. Lọc các phiếu đang mượn (Trạng thái khác "Đã trả")
+            // Lưu ý: Kiểm tra đúng text trong Database của bạn là "Đang mượn" hay "Dang muon"
+            var listDangMuon = listGD.Where(x => x.TrangThai.Equals("Đang mượn", StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // 3. Gán số lượng đang mượn
+            soLuongMuon = listDangMuon.Count;
+
+            // 4. Tính số phiếu quá hạn
+            // Logic: Đang mượn VÀ Ngày hẹn trả < Hôm nay
+            soLuongTra = listDangMuon.Count(x => x.NgayHenTra.Date < DateTime.Now.Date);
+        }
     }
 }

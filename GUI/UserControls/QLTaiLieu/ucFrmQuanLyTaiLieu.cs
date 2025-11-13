@@ -14,14 +14,26 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
     {
         private Button currentActiveButton;
 
-        public ucFrmQuanLyTaiLieu()
+        public ucFrmQuanLyTaiLieu(string tabName = "TaiLieu")
         {
             InitializeComponent();
+
+            // Kiểm tra tham số để mở đúng tab
+            if (tabName == "DanhMuc")
+            {
+                // Mở tab Danh mục
+                btnThongTinDanhMuc_Click(btnThongTinDanhMuc, EventArgs.Empty);
+            }
+            else
+            {
+                // Mặc định mở tab Tài liệu
+                btnThongTinTaiLieu_Click(btnThongTinTaiLieu, EventArgs.Empty);
+            }
         }
 
         private void ucFrmQuanLyTaiLieu_Load(object sender, EventArgs e)
         {
-            btnThongTinTaiLieu_Click(btnThongTinTaiLieu, EventArgs.Empty);
+            //btnThongTinTaiLieu_Click(btnThongTinTaiLieu, EventArgs.Empty);
         }
 
         private void LoadSubUserControl(UserControl uc)
