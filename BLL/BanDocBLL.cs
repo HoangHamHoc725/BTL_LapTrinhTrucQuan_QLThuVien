@@ -53,5 +53,20 @@ namespace LibraryManagerApp.BLL
             // Có thể thêm logic nghiệp vụ như kiểm tra quyền truy cập ở đây
             return _dal.SearchBanDoc(filters);
         }
+
+        // Hàm đếm tổng số bạn đọc
+        public int DemSoBanDoc()
+        {
+            var list = _dal.GetAllBanDocDTO();
+            return list != null ? list.Count : 0;
+        }
+
+        // Hàm đếm số bạn đọc trong tháng mới
+        public int DemBanDocMoiTrongThang()
+        {
+            var list = _dal.GetAllBanDocDTO();
+            if (list == null) return 0;
+            return list.Count;
+        }  
     }
 }

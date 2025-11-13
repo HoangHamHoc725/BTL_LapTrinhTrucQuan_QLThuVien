@@ -372,6 +372,12 @@
     <Compile Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.Designer.cs">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UserControls\TrangChu\ucFrmTrangChu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\TrangChu\ucFrmTrangChu.Designer.cs">
+      <DependentUpon>ucFrmTrangChu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\IdentityPasswordHelper.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\SearchMetadata.cs" />
@@ -429,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.resx">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\TrangChu\ucFrmTrangChu.resx">
+      <DependentUpon>ucFrmTrangChu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

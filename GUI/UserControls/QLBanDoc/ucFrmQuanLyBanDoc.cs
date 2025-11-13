@@ -14,9 +14,21 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
     {
         private Button currentActiveButton;
 
-        public ucFrmQuanLyBanDoc()
+        public ucFrmQuanLyBanDoc(string tabName = "ThongTin")
         {
             InitializeComponent();
+
+            // Kiểm tra tham số ngay khi tạo Form
+            if (tabName == "TheBanDoc")
+            {
+                // Kích hoạt nút Thẻ -> Nó sẽ tự gọi hàm LoadSubUserControl(new ucFrmTheBanDoc())
+                btnTheBanDoc_Click(btnTheBanDoc, EventArgs.Empty);
+            }
+            else
+            {
+                // Mặc định vào Thông tin
+                btnThongTinBanDoc_Click(btnThongTinBanDoc, EventArgs.Empty);
+            }
         }
 
         private void LoadSubUserControl(UserControl uc)
@@ -41,7 +53,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         private void ucFrmQuanLyBanDoc_Load(object sender, EventArgs e)
         {
-            btnThongTinBanDoc_Click(btnThongTinBanDoc, EventArgs.Empty);
+            //btnThongTinBanDoc_Click(btnThongTinBanDoc, EventArgs.Empty);
         }
 
         private void SetActiveButton(Button activeButton)
