@@ -31,6 +31,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         // Khai báo các giá trị cố định
         private List<string> _listKhoCo = new List<string> { "A3", "A4", "A5", "B5", "Khác" };
         private List<string> _listVaiTro = new List<string> { "Tác giả", "Đồng tác giả", "Chủ biên", "Biên soạn", "Hướng dẫn khoa học" };
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinTaiLieu()
@@ -205,6 +206,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
                 // Yêu cầu 4: Clear combos khi bắt đầu Sửa/Thêm Tài liệu
                 ClearTacGiaCombos();
             }
+
+            TriggerStatusEvent(state);
         }
         #endregion
 
@@ -724,6 +727,33 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #endregion
 
         #region HÀM BỔ TRỢ
+        // Hàm hỗ trợ chọn màu và text dựa trên trạng thái
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "QUẢN LÝ TÀI LIỆU";
+            Color backColor = Color.FromArgb(32, 36, 104); // Màu xanh mặc định
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "THÊM TÀI LIỆU MỚI";
+                    backColor = Color.SeaGreen;
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT TÀI LIỆU";
+                    backColor = Color.DarkOrange;
+                    break;
+                case State.READ:
+                default:
+                    title = "DANH SÁCH TÀI LIỆU";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            // Bắn sự kiện ra ngoài cho Form cha bắt
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
         // Hàm xử lý logic Thêm Tác giả vào vùng nhớ
         private void HandleThemTacGiaVaoList()
         {
