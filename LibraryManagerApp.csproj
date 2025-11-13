@@ -416,12 +416,6 @@
     <Compile Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.Designer.cs">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\UserControls\TrangChu\ucFrmTrangChu.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\UserControls\TrangChu\ucFrmTrangChu.Designer.cs">
-      <DependentUpon>ucFrmTrangChu.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\IdentityPasswordHelper.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
@@ -488,8 +482,6 @@
     <EmbeddedResource Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.resx">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\UserControls\TrangChu\ucFrmTrangChu.resx">
-      <DependentUpon>ucFrmTrangChu.cs</DependentUpon>
     <EmbeddedResource Include="GUI\Reports\rptTheBanDoc.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
