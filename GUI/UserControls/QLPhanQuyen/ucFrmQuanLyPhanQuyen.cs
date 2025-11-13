@@ -1,5 +1,6 @@
 ﻿// File: LibraryManagerApp.GUI.UserControls.QLPhanQuyen/ucFrmQuanLyPhanQuyen.cs
 
+using LibraryManagerApp.DAL;
 using LibraryManagerApp.Helpers; // Để dùng StatusRequestEventArgs (nếu cần)
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,18 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         public ucFrmQuanLyPhanQuyen()
         {
             InitializeComponent();
+
+            SetDefaultButtonStyle(btnThongTinNhanVien);
+            SetDefaultButtonStyle(btnThongTinTaiKhoan);
+
+        }
+
+        // Hàm hỗ trợ thiết lập style mặc định (Inactive)
+        private void SetDefaultButtonStyle(Button btn)
+        {
+            btn.BackColor = Color.WhiteSmoke; // Màu nền nhạt
+            btn.ForeColor = Color.FromArgb(48, 52, 129); // Màu chữ xanh đậm
+            btn.Font = new Font("Consolas", 12F, FontStyle.Regular); // Font thường
         }
 
         private void ucFrmQuanLyPhanQuyen_Load(object sender, EventArgs e)

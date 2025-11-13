@@ -32,6 +32,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         // Khai báo Enum để quản lý các loại danh mục
         private enum LoaiDanhMuc { TacGia, TheLoai, DinhDang, NhaXuatBan }
         private LoaiDanhMuc _currentDanhMuc = LoaiDanhMuc.TacGia; // Mặc định là Tác giả
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinDanhMuc()
@@ -94,6 +95,9 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             btnTimKiem.Enabled = (state == State.READ);
 
             if (state == State.READ) ClearInputs();
+
+            // 2. Gọi hàm cập nhật tiêu đề
+            TriggerStatusEvent(state);
         }
         #endregion
 
@@ -592,6 +596,34 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #endregion
 
         #region HÀM BỔ TRỢ
+        // Hàm hỗ trợ chọn màu và text dựa trên trạng thái
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "QUẢN LÝ DANH MỤC";
+            Color backColor = Color.FromArgb(32, 36, 104); // Màu xanh mặc định
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "THÊM DANH MỤC MỚI";
+                    backColor = Color.SeaGreen;
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT DANH MỤC";
+                    backColor = Color.DarkOrange;
+                    break;
+                case State.READ:
+                default:
+                    title = "DANH SÁCH DANH MỤC";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            // Bắn sự kiện ra ngoài cho Form cha bắt
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
+
         // --- XỬ LÝ CREATE (ĐỘNG) ---
         private string HandleCreate()
         {

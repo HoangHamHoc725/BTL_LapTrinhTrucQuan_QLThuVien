@@ -2,6 +2,7 @@
 
 using LibraryManagerApp.BLL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.UserControls.QLBanDoc;
 using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
         private string _selectedMaGD; // Giao dịch đang chọn (cho chế độ Trả)
         private TheBanDocDTO _theBanDocHopLe = null; // Thẻ bạn đọc đã được xác thực
         private List<GiaoDich_BanSaoDTO> _danhSachBanSaoTam = new List<GiaoDich_BanSaoDTO>(); // "Giỏ hàng"
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmQuanLyMuonTra()
@@ -50,6 +52,19 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
             btnKiemTraThe.Click += btnKiemTraThe_Click;
             btnThemBanSao.Click += btnThemBanSao_Click;
             btnXoaBanSao.Click += btnXoaBanSao_Click;
+
+            // Gọi trực tiếp delegate nếu muốn cập nhật label khi khởi tạo
+            this.OnStatusRequest += UcMuonTra_OnStatusRequest;
+        }
+
+        
+
+        // Hàm xử lý event
+        private void UcMuonTra_OnStatusRequest(object sender, StatusRequestEventArgs e)
+        {
+            label1.Text = e.TitleText;
+            label1.BackColor = e.BackColor;
+            label1.ForeColor = e.ForeColor;
         }
 
         private void ucFrmQuanLyMuonTra_Load(object sender, EventArgs e)
@@ -156,6 +171,24 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
                 _danhSachBanSaoTam.Clear();
                 RefreshDgvBanSaoTam();
             }
+
+            State mappedState = State.READ; // mặc định
+
+            switch (state)
+            {
+                case MuonTraState.CREATE_GIAODICH:
+                    mappedState = State.CREATE;
+                    break;
+                case MuonTraState.UPDATE_GIAODICH:
+                    mappedState = State.UPDATE;
+                    break;
+                case MuonTraState.READ:
+                default:
+                    mappedState = State.READ;
+                    break;
+            }
+
+            TriggerStatusEvent(mappedState);
         }
         #endregion
 
@@ -430,6 +463,33 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
         #endregion
 
         #region HÀM BỔ TRỢ
+        // Hàm hỗ trợ chọn màu và text dựa trên trạng thái
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "QUẢN LÝ GIAO DỊCH MƯỢN TRẢ";
+            Color backColor = Color.FromArgb(32, 36, 104); // Màu xanh mặc định
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "THÊM GIAO DỊCH MỚI";
+                    backColor = Color.SeaGreen;
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT GIAO DỊCH";
+                    backColor = Color.DarkOrange;
+                    break;
+                case State.READ:
+                default:
+                    title = "DANH SÁCH LỊCH SỬ GIAO DỊCH";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            // Bắn sự kiện ra ngoài cho Form cha bắt
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
         private void ClearInputs()
         {
             // Khu vực 5 (Giao dịch)
