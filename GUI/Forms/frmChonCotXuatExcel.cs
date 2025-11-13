@@ -23,10 +23,7 @@ namespace LibraryManagerApp.GUI.Forms
             InitializeComponent();
             _allColumns = allColumns;
 
-            // Cấu hình ListView
-            lsvBoLocCot.View = View.Details;
-            lsvBoLocCot.FullRowSelect = true;
-            lsvBoLocCot.Columns.Add("Tên cột", 250); // 1 cột duy nhất
+            ConfigureListView();
 
             // Liên kết sự kiện
             this.Load += frmChonCotXuatExcel_Load;
@@ -37,6 +34,21 @@ namespace LibraryManagerApp.GUI.Forms
             // Sự kiện để bật/tắt nút
             lsvBoLocCot.SelectedIndexChanged += (s, e) => UpdateButtonState();
             cboChonCot.SelectedIndexChanged += (s, e) => UpdateButtonState();
+        }
+
+        // Hàm cấu hình riêng
+        private void ConfigureListView()
+        {
+            lsvBoLocCot.View = View.Details;
+            lsvBoLocCot.FullRowSelect = true;
+            lsvBoLocCot.GridLines = true;     // Có dòng kẻ
+            lsvBoLocCot.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+
+            lsvBoLocCot.Font = new Font("Consolas", 10f, FontStyle.Regular);
+
+            lsvBoLocCot.Columns.Clear();
+            // Tự động giãn cột theo chiều rộng form (-5 để trừ viền)
+            lsvBoLocCot.Columns.Add("Tên cột", lsvBoLocCot.Width - 5);
         }
 
         private void frmChonCotXuatExcel_Load(object sender, EventArgs e)

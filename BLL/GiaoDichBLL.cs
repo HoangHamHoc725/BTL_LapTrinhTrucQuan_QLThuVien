@@ -172,5 +172,16 @@ namespace LibraryManagerApp.BLL
                 return false;
             }
         }
+
+        // Hỗ trợ Autocomplete cho GUI
+        public List<string> LayDanhSachMaTBD()
+        {
+            return _theBanDocDAL.GetAllMaTBD();
+        }
+
+        public List<string> LayDanhSachMaBSCoSan()
+        {
+            return _banSaoDAL.GetAvailableMaBS();
+        }
     }
 }

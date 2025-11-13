@@ -47,7 +47,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.reportViewer1);
             this.Name = "frmBaoCaoTheBanDoc";
-            this.Text = "frmBaoCaoTheBanDoc";
+            this.Text = "Xuất Thẻ Bạn đọc";
             this.Load += new System.EventHandler(this.frmBaoCaoTheBanDoc_Load);
             this.ResumeLayout(false);
 

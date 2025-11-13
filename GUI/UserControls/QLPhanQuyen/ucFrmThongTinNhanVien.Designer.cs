@@ -29,14 +29,17 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.gbThaoTac = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnXuatThe = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
             this.btnLuu = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
+            this.btnXuatExcel = new System.Windows.Forms.Button();
             this.gbThongTin = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cboPhuTrach = new System.Windows.Forms.ComboBox();
@@ -59,20 +62,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.gbBangDuLieu = new System.Windows.Forms.GroupBox();
             this.dgvDuLieu = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnXuatExcel = new System.Windows.Forms.Button();
-            this.btnXuatThe = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.gbThaoTac.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.gbThongTin.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.gbBangDuLieu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDuLieu)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -92,6 +92,22 @@
             this.splitContainer1.Size = new System.Drawing.Size(864, 563);
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.Controls.Add(this.gbThaoTac, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gbThongTin, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(864, 300);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // gbThaoTac
             // 
@@ -132,12 +148,23 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(334, 270);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
+            // btnXuatThe
+            // 
+            this.btnXuatThe.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatThe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatThe.Location = new System.Drawing.Point(13, 199);
+            this.btnXuatThe.Name = "btnXuatThe";
+            this.btnXuatThe.Size = new System.Drawing.Size(151, 58);
+            this.btnXuatThe.TabIndex = 83;
+            this.btnXuatThe.Text = "Xuất thẻ";
+            this.btnXuatThe.UseVisualStyleBackColor = true;
+            // 
             // btnHuy
             // 
             this.btnHuy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnHuy.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuy.Location = new System.Drawing.Point(171, 138);
-            this.btnHuy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHuy.Margin = new System.Windows.Forms.Padding(4);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(149, 54);
             this.btnHuy.TabIndex = 78;
@@ -150,7 +177,7 @@
             this.btnTimKiem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnTimKiem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTimKiem.Location = new System.Drawing.Point(14, 14);
-            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(4);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(149, 54);
             this.btnTimKiem.TabIndex = 74;
@@ -163,7 +190,7 @@
             this.btnThem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThem.Location = new System.Drawing.Point(171, 14);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnThem.Margin = new System.Windows.Forms.Padding(4);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(149, 54);
             this.btnThem.TabIndex = 75;
@@ -176,7 +203,7 @@
             this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLuu.Location = new System.Drawing.Point(14, 138);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(149, 54);
             this.btnLuu.TabIndex = 79;
@@ -189,7 +216,7 @@
             this.btnXoa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoa.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoa.Location = new System.Drawing.Point(171, 76);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnXoa.Margin = new System.Windows.Forms.Padding(4);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(149, 54);
             this.btnXoa.TabIndex = 77;
@@ -202,13 +229,24 @@
             this.btnSua.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSua.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSua.Location = new System.Drawing.Point(14, 76);
-            this.btnSua.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSua.Margin = new System.Windows.Forms.Padding(4);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(149, 54);
             this.btnSua.TabIndex = 76;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = true;
             this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
+            // btnXuatExcel
+            // 
+            this.btnXuatExcel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatExcel.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatExcel.Location = new System.Drawing.Point(170, 199);
+            this.btnXuatExcel.Name = "btnXuatExcel";
+            this.btnXuatExcel.Size = new System.Drawing.Size(151, 58);
+            this.btnXuatExcel.TabIndex = 82;
+            this.btnXuatExcel.Text = "Xuất excel";
+            this.btnXuatExcel.UseVisualStyleBackColor = true;
             // 
             // gbThongTin
             // 
@@ -294,7 +332,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtEmail.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.Location = new System.Drawing.Point(160, 209);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(2);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(328, 23);
             this.txtEmail.TabIndex = 172;
@@ -305,7 +343,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSDT.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSDT.Location = new System.Drawing.Point(160, 180);
-            this.txtSDT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSDT.Margin = new System.Windows.Forms.Padding(2);
             this.txtSDT.Name = "txtSDT";
             this.txtSDT.Size = new System.Drawing.Size(328, 23);
             this.txtSDT.TabIndex = 171;
@@ -316,7 +354,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDiaChi.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDiaChi.Location = new System.Drawing.Point(160, 151);
-            this.txtDiaChi.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDiaChi.Margin = new System.Windows.Forms.Padding(2);
             this.txtDiaChi.Name = "txtDiaChi";
             this.txtDiaChi.Size = new System.Drawing.Size(328, 23);
             this.txtDiaChi.TabIndex = 170;
@@ -329,7 +367,7 @@
             this.dtpNgaySinh.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpNgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgaySinh.Location = new System.Drawing.Point(160, 122);
-            this.dtpNgaySinh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpNgaySinh.Margin = new System.Windows.Forms.Padding(2);
             this.dtpNgaySinh.Name = "dtpNgaySinh";
             this.dtpNgaySinh.Size = new System.Drawing.Size(328, 23);
             this.dtpNgaySinh.TabIndex = 169;
@@ -361,7 +399,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTen.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTen.Location = new System.Drawing.Point(160, 64);
-            this.txtTen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTen.Margin = new System.Windows.Forms.Padding(2);
             this.txtTen.Name = "txtTen";
             this.txtTen.Size = new System.Drawing.Size(328, 23);
             this.txtTen.TabIndex = 160;
@@ -372,7 +410,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHoDem.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHoDem.Location = new System.Drawing.Point(160, 35);
-            this.txtHoDem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtHoDem.Margin = new System.Windows.Forms.Padding(2);
             this.txtHoDem.Name = "txtHoDem";
             this.txtHoDem.Size = new System.Drawing.Size(328, 23);
             this.txtHoDem.TabIndex = 159;
@@ -383,7 +421,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMaNV.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMaNV.Location = new System.Drawing.Point(160, 6);
-            this.txtMaNV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaNV.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaNV.Name = "txtMaNV";
             this.txtMaNV.Size = new System.Drawing.Size(328, 23);
             this.txtMaNV.TabIndex = 158;
@@ -468,9 +506,9 @@
             this.gbBangDuLieu.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
                 | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbBangDuLieu.Location = new System.Drawing.Point(0, 0);
-            this.gbBangDuLieu.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.gbBangDuLieu.Margin = new System.Windows.Forms.Padding(8);
             this.gbBangDuLieu.Name = "gbBangDuLieu";
-            this.gbBangDuLieu.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.gbBangDuLieu.Padding = new System.Windows.Forms.Padding(8);
             this.gbBangDuLieu.Size = new System.Drawing.Size(864, 259);
             this.gbBangDuLieu.TabIndex = 7;
             this.gbBangDuLieu.TabStop = false;
@@ -483,49 +521,12 @@
             this.dgvDuLieu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDuLieu.Location = new System.Drawing.Point(8, 26);
             this.dgvDuLieu.Name = "dgvDuLieu";
+            this.dgvDuLieu.RowHeadersVisible = false;
             this.dgvDuLieu.RowHeadersWidth = 62;
             this.dgvDuLieu.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvDuLieu.Size = new System.Drawing.Size(848, 225);
             this.dgvDuLieu.TabIndex = 0;
             this.dgvDuLieu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuLieu_CellClick);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.Controls.Add(this.gbThaoTac, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.gbThongTin, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(864, 300);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // btnXuatExcel
-            // 
-            this.btnXuatExcel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnXuatExcel.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXuatExcel.Location = new System.Drawing.Point(170, 199);
-            this.btnXuatExcel.Name = "btnXuatExcel";
-            this.btnXuatExcel.Size = new System.Drawing.Size(151, 58);
-            this.btnXuatExcel.TabIndex = 82;
-            this.btnXuatExcel.Text = "Xuất excel";
-            this.btnXuatExcel.UseVisualStyleBackColor = true;
-            // 
-            // btnXuatThe
-            // 
-            this.btnXuatThe.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnXuatThe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXuatThe.Location = new System.Drawing.Point(13, 199);
-            this.btnXuatThe.Name = "btnXuatThe";
-            this.btnXuatThe.Size = new System.Drawing.Size(151, 58);
-            this.btnXuatThe.TabIndex = 83;
-            this.btnXuatThe.Text = "Xuất thẻ";
-            this.btnXuatThe.UseVisualStyleBackColor = true;
             // 
             // ucFrmThongTinNhanVien
             // 
@@ -540,6 +541,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.gbThaoTac.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.gbThongTin.ResumeLayout(false);
@@ -548,7 +550,6 @@
             this.tableLayoutPanel2.PerformLayout();
             this.gbBangDuLieu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDuLieu)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

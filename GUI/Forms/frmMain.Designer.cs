@@ -236,7 +236,7 @@
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.tlpMain);
             this.Name = "frmMain";
-            this.Text = "Trang chủ - Quản lý Thư viện";
+            this.Text = "Quản lý Thư viện";
             this.panelMenu.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();

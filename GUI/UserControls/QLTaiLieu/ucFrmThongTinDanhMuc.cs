@@ -56,17 +56,73 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
         private void ConfigureDGV()
         {
+            // Cấu hình Style chung
             dgvDuLieu.AutoGenerateColumns = false;
             dgvDuLieu.ReadOnly = true;
-            dgvDuLieu.AllowUserToAddRows = false; 
+            dgvDuLieu.AllowUserToAddRows = false;
             dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDuLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDuLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font, FontStyle.Bold);
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Bold);
             dgvDuLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDuLieu.ColumnHeadersHeight = 30;
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Cấu hình ban đầu cho TÁC GIẢ
+            dgvDuLieu.DefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Regular);
+            dgvDuLieu.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            // Cấu hình ban đầu
             ConfigureDGVForTacGia();
+        }
+
+        private void ConfigureDGVForTacGia()
+        {
+            dgvDuLieu.Columns.Clear();
+            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TG", DataPropertyName = "MaTG", Name = "MaTG" });
+
+            // Tên Tác giả: Fill
+            var colTen = new DataGridViewTextBoxColumn { HeaderText = "Họ Tên", DataPropertyName = "HoTen", Name = "HoTen" };
+            colTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colTen.MinimumWidth = 150;
+            dgvDuLieu.Columns.Add(colTen);
+
+            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã QG", DataPropertyName = "MaQG", Name = "MaQG" });
+
+            // Quốc Gia: Fill nhẹ
+            var colQG = new DataGridViewTextBoxColumn { HeaderText = "Quốc Gia", DataPropertyName = "TenQG", Name = "TenQG" };
+            colQG.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colQG.MinimumWidth = 100;
+            dgvDuLieu.Columns.Add(colQG);
+        }
+
+        private void ConfigureDGVForNxb()
+        {
+            dgvDuLieu.Columns.Clear();
+            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã NXB", DataPropertyName = "MaNXB", Name = "MaNXB" });
+
+            // Tên NXB: Fill
+            var colTen = new DataGridViewTextBoxColumn { HeaderText = "Tên NXB", DataPropertyName = "TenNXB", Name = "TenNXB" };
+            colTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colTen.MinimumWidth = 200;
+            dgvDuLieu.Columns.Add(colTen);
+
+            var colQG = new DataGridViewTextBoxColumn { HeaderText = "Quốc Gia", DataPropertyName = "TenQG", Name = "TenQG" };
+            colQG.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colQG.MinimumWidth = 100;
+            dgvDuLieu.Columns.Add(colQG);
+        }
+
+        private void ConfigureDGVForDonGian(string maField, string tenField, string maHeader, string tenHeader)
+        {
+            dgvDuLieu.Columns.Clear();
+            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = maHeader, DataPropertyName = maField, Name = maField });
+
+            // Tên danh mục: Fill
+            var colTen = new DataGridViewTextBoxColumn { HeaderText = tenHeader, DataPropertyName = tenField, Name = tenField };
+            colTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colTen.MinimumWidth = 200;
+            dgvDuLieu.Columns.Add(colTen);
         }
         #endregion
 
@@ -251,15 +307,6 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             LoadData();
         }
 
-        private void ConfigureDGVForTacGia()
-        {
-            dgvDuLieu.Columns.Clear();
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TG", DataPropertyName = "MaTG", Name = "MaTG"});
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Tên", DataPropertyName = "HoTen", Name = "HoTen"});
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã QG", DataPropertyName = "MaQG", Name = "MaQG"});
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quốc Gia", DataPropertyName = "TenQG", Name = "TenQG"});
-        }
-
         private void ConfigureViewForTacGia()
         {
             ConfigureDGVForTacGia();
@@ -271,14 +318,6 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             cboQuocGia.Visible = true;
         }
 
-        private void ConfigureDGVForNxb()
-        {
-            dgvDuLieu.Columns.Clear();
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã NXB", DataPropertyName = "MaNXB", Name = "MaNXB"});
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên NXB", DataPropertyName = "TenNXB", Name = "TenNXB"});
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quốc Gia", DataPropertyName = "TenQG", Name = "TenQG"});
-        }
-
         private void ConfigureViewForNhaXuatBan()
         {
             ConfigureDGVForNxb();
@@ -288,13 +327,6 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             txtNhapLieu1.Visible = true;
             txtNhapLieu2.Visible = false; // NXB chỉ dùng 1 TextBox
             cboQuocGia.Visible = true;
-        }
-
-        private void ConfigureDGVForDonGian(string maField, string tenField, string maHeader, string tenHeader)
-        {
-            dgvDuLieu.Columns.Clear();
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = maHeader, DataPropertyName = maField, Name = maField});
-            dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = tenHeader, DataPropertyName = tenField, Name = tenField});
         }
 
         private void ConfigureViewForTheLoai()

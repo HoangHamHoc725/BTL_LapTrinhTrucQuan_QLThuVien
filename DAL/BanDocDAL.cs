@@ -266,5 +266,14 @@ namespace LibraryManagerApp.DAL
                 return result.ToList();
             }
         }
+
+        // Lấy tổng số bạn đọc
+        public int GetTotalBanDoc()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                return db.tBanDocs.Count();
+            }
+        }
     }
 }

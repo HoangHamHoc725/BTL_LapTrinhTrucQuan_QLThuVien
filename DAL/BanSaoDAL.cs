@@ -195,5 +195,17 @@ namespace LibraryManagerApp.DAL
                 }).ToList();
             }
         }
+
+        // Hàm hỗ trợ Autocomplete: Lấy danh sách Mã Bản Sao đang "Có sẵn"
+        public List<string> GetAvailableMaBS()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                return db.tBanSaos
+                         .Where(b => b.TrangThai == "Có sẵn")
+                         .Select(b => b.MaBS)
+                         .ToList();
+            }
+        }
     }
 }

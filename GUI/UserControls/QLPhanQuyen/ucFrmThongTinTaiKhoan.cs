@@ -40,20 +40,45 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
         private void ConfigureDGV()
         {
+            // Cấu hình chung
             dgvDuLieu.AutoGenerateColumns = false;
             dgvDuLieu.ReadOnly = true;
             dgvDuLieu.AllowUserToAddRows = false;
             dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDuLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDuLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font, FontStyle.Bold);
+
+            // Font Header
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Bold);
+            dgvDuLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDuLieu.ColumnHeadersHeight = 30;
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Font Cell
+            dgvDuLieu.DefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Regular);
+            dgvDuLieu.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             if (dgvDuLieu.Columns.Count == 0)
             {
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TK", DataPropertyName = "MaTK", Name = "MaTK" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã NV", DataPropertyName = "MaNV", Name = "MaNV" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Tên NV", DataPropertyName = "HoTenNV", Name = "HoTenNV" });
+
+                // Cột Dài: Họ Tên NV (Fill)
+                var colHoTen = new DataGridViewTextBoxColumn { HeaderText = "Họ Tên NV", DataPropertyName = "HoTenNV", Name = "HoTenNV" };
+                colHoTen.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colHoTen.MinimumWidth = 150;
+                colHoTen.FillWeight = 150;
+                dgvDuLieu.Columns.Add(colHoTen);
+
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Vai Trò", DataPropertyName = "TenVaiTro", Name = "TenVaiTro" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên ĐN", DataPropertyName = "TenDangNhap", Name = "TenDangNhap" });
+
+                // Cột Dài: Tên ĐN (Fill)
+                var colTenDN = new DataGridViewTextBoxColumn { HeaderText = "Tên ĐN", DataPropertyName = "TenDangNhap", Name = "TenDangNhap" };
+                colTenDN.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colTenDN.MinimumWidth = 120;
+                colTenDN.FillWeight = 100;
+                dgvDuLieu.Columns.Add(colTenDN);
+
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Trạng Thái", DataPropertyName = "TrangThai", Name = "TrangThai" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Tạo", DataPropertyName = "NgayTaoHienThi", Name = "NgayTaoHienThi", DefaultCellStyle = { Format = "dd/MM/yyyy" } });
             }

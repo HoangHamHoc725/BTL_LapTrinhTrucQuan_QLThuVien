@@ -32,32 +32,9 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
             InitializeComponent();
             ConfigureDGV();
 
-            // Liên kết sự kiện
-            this.Load += ucFrmQuanLyMuonTra_Load;
-
-            // DGV
-            dgvDuLieuPhieuGD.CellClick += dgvDuLieuPhieuGD_CellClick;
-            dgvDuLieuBanSao.CellClick += dgvDuLieuBanSao_CellClick;
-
-            // Nút chuyển chế độ
-            btnLapPhieuMuon.Click += btnLapPhieuMuon_Click;
-            btnXacNhanPhieuTra.Click += btnXacNhanPhieuTra_Click;
-
-            // Nút thao tác (CRUD Giao dịch)
-            btnLuuThaoTac.Click += btnLuuThaoTac_Click;
-            btnHuyThaoTac.Click += btnHuyThaoTac_Click;
-            btnXoaPhieuGD.Click += btnXoaPhieuGD_Click;
-
-            // Nút thao tác (CRUD Bản sao trong Vùng nhớ)
-            btnKiemTraThe.Click += btnKiemTraThe_Click;
-            btnThemBanSao.Click += btnThemBanSao_Click;
-            btnXoaBanSao.Click += btnXoaBanSao_Click;
-
             // Gọi trực tiếp delegate nếu muốn cập nhật label khi khởi tạo
             this.OnStatusRequest += UcMuonTra_OnStatusRequest;
         }
-
-        
 
         // Hàm xử lý event
         private void UcMuonTra_OnStatusRequest(object sender, StatusRequestEventArgs e)
@@ -75,28 +52,96 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
 
             // Cấu hình ComboBox
             cboTrangThaiGD.Items.AddRange(new string[] { "Đang mượn", "Đã trả", "Trễ hạn" });
+
+            LoadAutoCompleteSources();
+        }
+
+        private void LoadAutoCompleteSources()
+        {
+            try
+            {
+                // 1. Gợi ý Mã Thẻ Bạn Đọc
+                // (Giả sử bạn đã thêm hàm LayDanhSachMaTBD() vào BLL)
+                List<string> listMaTBD = _bll.LayDanhSachMaTBD();
+                SetupAutoComplete(txtMaTBD, listMaTBD);
+
+                // 2. Gợi ý Mã Bản Sao (Chỉ lấy những cuốn "Có sẵn")
+                List<string> listMaBS = _bll.LayDanhSachMaBSCoSan();
+                SetupAutoComplete(txtMaBS, listMaBS);
+            }
+            catch (Exception ex)
+            {
+                // Không hiện lỗi để tránh phiền người dùng, chỉ log
+                Console.WriteLine("Lỗi load Autocomplete: " + ex.Message);
+            }
+        }
+
+        private void SetupAutoComplete(TextBox txt, List<string> source)
+        {
+            if (source != null && source.Count > 0)
+            {
+                txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                AutoCompleteStringCollection col = new AutoCompleteStringCollection();
+                col.AddRange(source.ToArray());
+                txt.AutoCompleteCustomSource = col;
+            }
         }
 
         private void ConfigureDGV()
         {
-            // Cấu hình DGV Phiếu Giao Dịch (Master)
-            dgvDuLieuPhieuGD.AutoGenerateColumns = false;
-            dgvDuLieuPhieuGD.ReadOnly = true;
-            dgvDuLieuPhieuGD.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDuLieuPhieuGD.Columns.Clear();
-            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã GD", DataPropertyName = "MaGD", Name = "MaGD" });
-            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên Bạn Đọc", DataPropertyName = "HoTenBD", Name = "HoTenBD" });
-            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Mượn", DataPropertyName = "NgayMuon", Name = "NgayMuon", DefaultCellStyle = { Format = "dd/MM/yyyy" } });
-            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Hẹn Trả", DataPropertyName = "NgayHenTra", Name = "NgayHenTra", DefaultCellStyle = { Format = "dd/MM/yyyy" } });
-            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Trạng Thái", DataPropertyName = "TrangThai", Name = "TrangThai" });
+            // Cấu hình chung cho cả 2 DGV
+            ConfigureDGVStyle(dgvDuLieuPhieuGD);
+            ConfigureDGVStyle(dgvDuLieuBanSao);
 
-            // Cấu hình DGV Bản Sao (Detail/Vùng nhớ)
-            dgvDuLieuBanSao.AutoGenerateColumns = false;
-            dgvDuLieuBanSao.ReadOnly = true;
-            dgvDuLieuBanSao.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            ConfigureDGVForGiaoDich();
+            ConfigureDGVForBanSao();
+        }
+
+        private void ConfigureDGVStyle(DataGridView dgv)
+        {
+            dgv.AutoGenerateColumns = false;
+            dgv.ReadOnly = true;
+            dgv.AllowUserToAddRows = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font(dgv.Font.FontFamily, 10f, FontStyle.Bold);
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.ColumnHeadersHeight = 30;
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            dgv.DefaultCellStyle.Font = new Font(dgv.Font.FontFamily, 10f, FontStyle.Regular);
+            dgv.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        }
+
+        private void ConfigureDGVForGiaoDich()
+        {
+            dgvDuLieuPhieuGD.Columns.Clear();
+            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã GD", DataPropertyName = "MaGD", Name = "MaGD", Width = 100 });
+
+            // Tên Bạn Đọc: Fill
+            var colTenBD = new DataGridViewTextBoxColumn { HeaderText = "Tên Bạn Đọc", DataPropertyName = "HoTenBD", Name = "HoTenBD" };
+            colTenBD.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colTenBD.MinimumWidth = 150;
+            dgvDuLieuPhieuGD.Columns.Add(colTenBD);
+
+            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Mượn", DataPropertyName = "NgayMuon", Name = "NgayMuon", DefaultCellStyle = { Format = "dd/MM/yyyy", Alignment = DataGridViewContentAlignment.MiddleCenter }, Width = 100 });
+            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Hẹn Trả", DataPropertyName = "NgayHenTra", Name = "NgayHenTra", DefaultCellStyle = { Format = "dd/MM/yyyy", Alignment = DataGridViewContentAlignment.MiddleCenter }, Width = 100 });
+            dgvDuLieuPhieuGD.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Trạng Thái", DataPropertyName = "TrangThai", Name = "TrangThai", Width = 100 });
+        }
+
+        private void ConfigureDGVForBanSao()
+        {
             dgvDuLieuBanSao.Columns.Clear();
-            dgvDuLieuBanSao.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã Bản Sao", DataPropertyName = "MaBS", Name = "MaBS" });
-            dgvDuLieuBanSao.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên Tài Liệu", DataPropertyName = "TenTL", Name = "TenTL" });
+            dgvDuLieuBanSao.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã Bản Sao", DataPropertyName = "MaBS", Name = "MaBS", Width = 120 });
+
+            // Tên Tài Liệu: Fill
+            var colTenTL = new DataGridViewTextBoxColumn { HeaderText = "Tên Tài Liệu", DataPropertyName = "TenTL", Name = "TenTL" };
+            colTenTL.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colTenTL.MinimumWidth = 200;
+            dgvDuLieuBanSao.Columns.Add(colTenTL);
         }
         #endregion
 
@@ -132,20 +177,45 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
             dgvDuLieuPhieuGD.Enabled = isReading;
             dgvDuLieuBanSao.Enabled = true;
 
-            // Cấu hình cột CheckBox "Chọn Trả"
-            if (dgvDuLieuBanSao.Columns.Contains("ChonTra"))
+            // --- SỬA LỖI CHECKBOX: Cấu hình cột ---
+            if (isUpdating)
             {
-                dgvDuLieuBanSao.Columns["ChonTra"].Visible = isUpdating;
-            }
-            else if (isUpdating)
-            {
-                DataGridViewCheckBoxColumn chkCol = new DataGridViewCheckBoxColumn
+                // Phải cho phép sửa lưới để click được Checkbox
+                dgvDuLieuBanSao.ReadOnly = false;
+
+                // Thêm cột CheckBox nếu chưa có
+                if (!dgvDuLieuBanSao.Columns.Contains("ChonTra"))
                 {
-                    Name = "ChonTra",
-                    HeaderText = "Chọn Trả",
-                    Width = 60
-                };
-                dgvDuLieuBanSao.Columns.Add(chkCol);
+                    DataGridViewCheckBoxColumn chkCol = new DataGridViewCheckBoxColumn
+                    {
+                        Name = "ChonTra",
+                        HeaderText = "Chọn Trả",
+                        Width = 60,
+                        ReadOnly = false // Cột này cho phép sửa
+                    };
+                    dgvDuLieuBanSao.Columns.Add(chkCol);
+                }
+                else
+                {
+                    dgvDuLieuBanSao.Columns["ChonTra"].Visible = true;
+                    dgvDuLieuBanSao.Columns["ChonTra"].ReadOnly = false;
+                }
+
+                // KHÓA các cột thông tin khác (không cho sửa text)
+                foreach (DataGridViewColumn col in dgvDuLieuBanSao.Columns)
+                {
+                    if (col.Name != "ChonTra") col.ReadOnly = true;
+                }
+            }
+            else // READ hoặc CREATE
+            {
+                // Ẩn cột CheckBox
+                if (dgvDuLieuBanSao.Columns.Contains("ChonTra"))
+                {
+                    dgvDuLieuBanSao.Columns["ChonTra"].Visible = false;
+                }
+                // Khóa toàn bộ bảng
+                dgvDuLieuBanSao.ReadOnly = true;
             }
 
             // 5. Nút Thao tác (groupBox3)
@@ -258,7 +328,21 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
 
         private void dgvDuLieuBanSao_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // (Sẽ dùng khi Xóa khỏi Vùng nhớ)
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDuLieuBanSao.RowCount) return;
+
+            // Lấy đối tượng từ hàng được chọn
+            GiaoDich_BanSaoDTO item = dgvDuLieuBanSao.Rows[e.RowIndex].DataBoundItem as GiaoDich_BanSaoDTO;
+
+            if (item != null)
+            {
+                // Hiển thị lên các Input (Khu vực 3 - Thêm Bản Sao)
+                // Dù đang ở chế độ Trả, việc hiển thị này giúp người dùng biết mình đang chọn sách gì
+                txtMaBS.Text = item.MaBS;
+                txtTenTL.Text = item.TenTL;
+
+                // Hiển thị trạng thái (Dựa trên TinhTrang boolean)
+                textBox1.Text = item.TinhTrang ? "Đã trả" : "Đang mượn";
+            }
         }
         #endregion
 
@@ -300,22 +384,39 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
             {
                 string maBS = txtMaBS.Text.Trim();
 
+                // 1. Kiểm tra Input rỗng
+                if (string.IsNullOrEmpty(maBS))
+                {
+                    MessageBox.Show("Vui lòng nhập Mã Bản Sao.", "Thông báo");
+                    return;
+                }
+
+                // 2. Kiểm tra Bạn đọc
                 if (_theBanDocHopLe == null)
                 {
                     MessageBox.Show("Vui lòng xác thực Bạn Đọc trước.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // 3. Kiểm tra trùng trong "Giỏ hàng"
                 if (_danhSachBanSaoTam.Any(bs => bs.MaBS == maBS))
                 {
-                    throw new Exception("Bản sao này đã có trong phiếu mượn.");
+                    MessageBox.Show($"Bản sao {maBS} đã có trong danh sách mượn.", "Thông báo");
+                    txtMaBS.Clear();
+                    return;
                 }
 
+                // 4. Gọi BLL Kiểm tra (Có thể hàm này đang ném exception khi không tìm thấy?)
+                // Hãy đảm bảo KiemTraBanSao ném Exception cụ thể nếu lỗi
                 BanSaoKiemTraDTO banSao = _bll.KiemTraBanSao(maBS);
 
+                // Nếu chạy đến đây nghĩa là KHÔNG CÓ LỖI từ BLL
+
+                // Hiển thị chi tiết
                 txtTenTL.Text = banSao.TenTL;
                 textBox1.Text = banSao.TrangThai;
 
+                // 5. Thêm vào Vùng nhớ
                 _danhSachBanSaoTam.Add(new GiaoDich_BanSaoDTO
                 {
                     MaBS = banSao.MaBS,
@@ -329,9 +430,14 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Lỗi Kiểm tra", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenTL.Text = "Không hợp lệ";
+                // Đây là nơi hứng lỗi từ BLL (VD: "Mã bản sao không tồn tại" hoặc "Đã được mượn")
+                MessageBox.Show(ex.Message, "Không thể thêm bản sao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                // Reset text hiển thị lỗi
+                txtTenTL.Text = "Không tìm thấy";
                 textBox1.Text = "";
+                txtMaBS.SelectAll();
+                txtMaBS.Focus();
             }
         }
 
@@ -374,6 +480,17 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
             cboTrangThaiGD.SelectedItem = "Đã trả";
         }
 
+        private void dgvDuLieuBanSao_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Chỉ xử lý khi đang ở chế độ Trả và click vào đúng cột CheckBox
+            if (_currentState == MuonTraState.UPDATE_GIAODICH &&
+                dgvDuLieuBanSao.Columns[e.ColumnIndex].Name == "ChonTra" &&
+                e.RowIndex >= 0)
+            {
+                // Cam kết thay đổi ngay lập tức (để code phía sau đọc được value mới nhất)
+                dgvDuLieuBanSao.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
         #endregion
 
         #region CHỨC NĂNG DELETE (XÓA PHIẾU)

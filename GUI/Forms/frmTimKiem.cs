@@ -58,9 +58,20 @@ namespace LibraryManagerApp.GUI.Forms
 
         private void ConfigureListView()
         {
+            // Cấu hình giao diện chung
             lsvBoLoc.View = View.Details;
-            lsvBoLoc.FullRowSelect = true;
-            lsvBoLoc.Columns.Add("Điều kiện Tìm kiếm", 270);
+            lsvBoLoc.FullRowSelect = true; // Chọn toàn bộ hàng
+            lsvBoLoc.GridLines = true;     // Hiển thị đường kẻ lưới (cho giống DGV)
+            lsvBoLoc.HeaderStyle = ColumnHeaderStyle.Nonclickable; // Header phẳng, không click sort
+            lsvBoLoc.MultiSelect = false;  // Chỉ chọn 1 dòng
+
+            lsvBoLoc.Font = new Font("Consolas", 10f, FontStyle.Regular);
+
+            // Cấu hình Cột
+            lsvBoLoc.Columns.Clear();
+            // Đặt chiều rộng cột bằng chiều rộng ListView trừ đi một chút để không hiện thanh cuộn ngang
+            // -25 là khoảng trừ hao cho thanh cuộn dọc và viền
+            lsvBoLoc.Columns.Add("Điều kiện Tìm kiếm", lsvBoLoc.Width - 5);
         }
 
         private void FrmTimKiem_Load(object sender, EventArgs e) // <-- Đã sửa tên phương thức

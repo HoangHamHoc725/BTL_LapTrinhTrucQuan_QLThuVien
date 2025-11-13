@@ -47,6 +47,17 @@ namespace LibraryManagerApp.DAL
             }
         }
 
+        // Hàm hỗ trợ Autocomplete: Lấy danh sách tất cả Mã Thẻ
+        public List<string> GetAllMaTBD()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                return db.tTheBanDocs
+                         .Select(t => t.MaTBD)
+                         .ToList();
+            }
+        }
+
         // Hàm READ Chi tiết (dùng cho CellClick và In Báo Cáo)
         public TheBanDocDTO GetTheBanDocByMaTBD(string maTBD)
         {

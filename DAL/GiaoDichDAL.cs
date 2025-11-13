@@ -170,5 +170,70 @@ namespace LibraryManagerApp.DAL
                 return false; // Không tìm thấy
             }
         }
+
+        // Lấy số phiếu đang mượn (chưa trả)
+        public int GetCountDangMuon()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                return db.tGiaoDichMuonTras
+                         .Count(gd => gd.TrangThai == "Đang mượn" || gd.NgayTra == null);
+            }
+        }
+
+        // Lấy số phiếu quá hạn (chưa trả và đã quá ngày hẹn trả)
+        public int GetCountQuaHan()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                DateTime today = DateTime.Now.Date;
+                return db.tGiaoDichMuonTras
+                         .Count(gd => (gd.TrangThai == "Đang mượn" || gd.NgayTra == null)
+                                   && gd.NgayHenTra < today);
+            }
+        }
+
+        // Lấy danh sách hoạt động gần đây (10 giao dịch mới nhất)
+        public List<GiaoDichDTO> GetRecentActivities(int topCount = 10)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from gd in db.tGiaoDichMuonTras
+                            join tbd in db.tTheBanDocs on gd.MaTBD equals tbd.MaTBD
+                            join bd in db.tBanDocs on tbd.MaBD equals bd.MaBD
+                            orderby gd.NgayMuon descending
+                            select new GiaoDichDTO
+                            {
+                                MaGD = gd.MaGD,
+                                NgayMuon = gd.NgayMuon,
+                                NgayTra = gd.NgayTra,
+                                TrangThai = gd.TrangThai,
+                                HoTenBD = bd.HoDem + " " + bd.Ten
+                            };
+
+                return query.Take(topCount).ToList();
+            }
+        }
+
+        // Lấy chi tiết bản sao của một giao dịch (dùng để hiển thị tên sách)
+        public List<GiaoDich_BanSaoDTO> GetBanSaoByMaGD(string maGD)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from gdbs in db.tGiaoDich_BanSaos
+                            join bs in db.tBanSaos on gdbs.MaBS equals bs.MaBS
+                            join tl in db.tTaiLieus on bs.MaTL equals tl.MaTL
+                            where gdbs.MaGD == maGD
+                            select new GiaoDich_BanSaoDTO
+                            {
+                                MaGD = gdbs.MaGD,
+                                MaBS = gdbs.MaBS,
+                                TenTL = tl.TenTL,
+                                TinhTrang = gdbs.TinhTrang
+                            };
+
+                return query.ToList();
+            }
+        }
     }
 }

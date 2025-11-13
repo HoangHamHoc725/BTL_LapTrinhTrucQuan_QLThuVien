@@ -69,19 +69,21 @@
             // 
             this.groupBox1.Controls.Add(this.pboHinhAnh);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(286, 355);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Hình ảnh";
             // 
             // pboHinhAnh
             // 
             this.pboHinhAnh.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pboHinhAnh.Location = new System.Drawing.Point(3, 16);
+            this.pboHinhAnh.Location = new System.Drawing.Point(3, 21);
             this.pboHinhAnh.Name = "pboHinhAnh";
-            this.pboHinhAnh.Size = new System.Drawing.Size(280, 336);
+            this.pboHinhAnh.Size = new System.Drawing.Size(280, 331);
             this.pboHinhAnh.TabIndex = 0;
             this.pboHinhAnh.TabStop = false;
             // 
@@ -104,12 +106,14 @@
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel3);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(280, 100);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.groupBox2.Text = "Đường dẫn";
             // 
             // tableLayoutPanel3
             // 
@@ -118,23 +122,23 @@
             this.tableLayoutPanel3.Controls.Add(this.txtDuongDan, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 21);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(274, 81);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(274, 76);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // txtDuongDan
             // 
             this.txtDuongDan.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDuongDan.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDuongDan.Location = new System.Drawing.Point(2, 26);
+            this.txtDuongDan.Location = new System.Drawing.Point(2, 24);
             this.txtDuongDan.Margin = new System.Windows.Forms.Padding(2);
             this.txtDuongDan.Multiline = true;
             this.txtDuongDan.Name = "txtDuongDan";
-            this.txtDuongDan.Size = new System.Drawing.Size(270, 53);
+            this.txtDuongDan.Size = new System.Drawing.Size(270, 50);
             this.txtDuongDan.TabIndex = 165;
             // 
             // label12
@@ -144,7 +148,7 @@
             this.label12.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(3, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(268, 24);
+            this.label12.Size = new System.Drawing.Size(268, 22);
             this.label12.TabIndex = 153;
             this.label12.Text = "Đường dẫn:";
             // 
@@ -221,7 +225,7 @@
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "frmHinhAnh";
-            this.Text = "frmHinhAnh";
+            this.Text = "Tùy chỉnh Hình ảnh";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboHinhAnh)).EndInit();

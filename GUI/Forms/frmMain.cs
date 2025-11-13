@@ -6,6 +6,7 @@ using LibraryManagerApp.GUI.UserControls.QLMuonTra;
 using LibraryManagerApp.GUI.UserControls.QLPhanQuyen;
 using LibraryManagerApp.GUI.UserControls.QLTaiLieu;
 using LibraryManagerApp.GUI.UserControls.ThongKeBaoCao;
+using LibraryManagerApp.GUI.UserControls.TrangChu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace LibraryManagerApp
     {
         private Button currentActiveButton;
         private ucFrmDangNhap _loginUC;
+        private LoginSessionDTO _currentUserSession;
 
         public frmMain()
         {
@@ -79,6 +81,9 @@ namespace LibraryManagerApp
         {
             try
             {
+                // Lưu session
+                _currentUserSession = userSession;
+
                 // Suspend layout để tránh flicker
                 tlpMain.SuspendLayout();
 
@@ -111,6 +116,7 @@ namespace LibraryManagerApp
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         // Hàm ẩn/hiện toàn bộ panel Menu
         private void SetMenuVisibility(bool visible)
@@ -252,8 +258,18 @@ namespace LibraryManagerApp
         private void btnTrangChu_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnTrangChu);
-            // TODO: Load UC Trang Chủ khi đã tạo
-            // LoadUserControl(new ucFrmTrangChu());
+
+            // Tạo instance của ucFrmTrangChu
+            var ucTrangChu = new ucFrmTrangChu();
+
+            // Truyền thông tin user session vào
+            if (_currentUserSession != null)
+            {
+                ucTrangChu.SetUserInfo(_currentUserSession);
+            }
+
+            // Load UserControl
+            LoadUserControl(ucTrangChu);
         }
 
         private void btnQLBanDoc_Click(object sender, EventArgs e)

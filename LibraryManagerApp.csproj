@@ -252,6 +252,7 @@
     <Compile Include="BLL\TheBanDocBLL.cs" />
     <Compile Include="BLL\TheLoaiBLL.cs" />
     <Compile Include="BLL\ThongKeBLL.cs" />
+    <Compile Include="BLL\TrangChuBLL.cs" />
     <Compile Include="DAL\AuthDAL.cs" />
     <Compile Include="DAL\BanDocDAL.cs" />
     <Compile Include="DAL\GiaoDichDAL.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="DAL\TheBanDocDAL.cs" />
     <Compile Include="DAL\TheLoaiDAL.cs" />
     <Compile Include="DAL\ThongKeDAL.cs" />
+    <Compile Include="DAL\TrangChuDAL.cs" />
     <Compile Include="DTO\BanDocChuaCoTheDTO.cs" />
     <Compile Include="DTO\BanDocDTO.cs" />
     <Compile Include="DTO\BanSaoDTO.cs" />
@@ -416,6 +418,12 @@
     <Compile Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.Designer.cs">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UserControls\TrangChu\ucFrmTrangChu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UserControls\TrangChu\ucFrmTrangChu.Designer.cs">
+      <DependentUpon>ucFrmTrangChu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\IdentityPasswordHelper.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
@@ -485,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Reports\rptTheBanDoc.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserControls\TrangChu\ucFrmTrangChu.resx">
+      <DependentUpon>ucFrmTrangChu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

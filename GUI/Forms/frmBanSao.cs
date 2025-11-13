@@ -58,16 +58,35 @@ namespace LibraryManagerApp.GUI.Forms
 
         private void ConfigureDGV()
         {
+            // Cấu hình chung
             dgvDuLieu.AutoGenerateColumns = false;
             dgvDuLieu.ReadOnly = true;
             dgvDuLieu.AllowUserToAddRows = false;
             dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font, FontStyle.Bold);
+
+            // Tự động co giãn
+            dgvDuLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvDuLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // Font Header (Đậm)
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Bold);
+            dgvDuLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDuLieu.ColumnHeadersHeight = 30;
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Font Cell (Thường)
+            dgvDuLieu.DefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Regular);
+            dgvDuLieu.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             if (dgvDuLieu.Columns.Count == 0)
             {
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã Bản sao", DataPropertyName = "MaBS", Name = "MaBS", Width = 200 });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Trạng thái", DataPropertyName = "TrangThai", Name = "TrangThai", Width = 150 });
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã Bản Sao", DataPropertyName = "MaBS", Name = "MaBS", Width = 150 });
+
+                // Cột Trạng Thái: Fill
+                var colTrangThai = new DataGridViewTextBoxColumn { HeaderText = "Trạng Thái", DataPropertyName = "TrangThai", Name = "TrangThai" };
+                colTrangThai.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colTrangThai.MinimumWidth = 150;
+                dgvDuLieu.Columns.Add(colTrangThai);
             }
         }
         #endregion

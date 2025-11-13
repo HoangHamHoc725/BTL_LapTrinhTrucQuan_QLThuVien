@@ -435,5 +435,14 @@ namespace LibraryManagerApp.DAL
                 return query.ToList();
             }
         }
+
+        // Lấy tổng số tài liệu
+        public int GetTotalTaiLieu()
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                return db.tTaiLieus.Count();
+            }
+        }
     }
 }

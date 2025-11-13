@@ -64,27 +64,52 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         }
         private void ConfigureDGV()
         {
+            // Cấu hình chung
             dgvDuLieu.AutoGenerateColumns = false;
             dgvDuLieu.ReadOnly = true;
             dgvDuLieu.AllowUserToAddRows = false;
             dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDuLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDuLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font, FontStyle.Bold);
+            // Font Header
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Bold);
             dgvDuLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDuLieu.ColumnHeadersHeight = 30;
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Font Cell
+            dgvDuLieu.DefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Regular);
+            dgvDuLieu.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             if (dgvDuLieu.Columns.Count == 0)
             {
-                // Thêm cột cho Nhân viên (tương tự BanDoc, thêm PhuTrach)
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã NV", DataPropertyName = "MaNV", Name = "MaNV" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Đệm", DataPropertyName = "HoDem", Name = "HoDem" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "Ten", Name = "Ten" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Sinh", DataPropertyName = "NgaySinh", Name = "NgaySinh", DefaultCellStyle = { Format = "dd/MM/yyyy" } });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Giới Tính", DataPropertyName = "GioiTinhHienThi", Name = "GioiTinhHienThi" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Địa Chỉ", DataPropertyName = "DiaChi", Name = "DiaChi" });
+
+                // Cột Dài: Địa chỉ, Email, Phụ Trách (Fill)
+                var colDiaChi = new DataGridViewTextBoxColumn { HeaderText = "Địa Chỉ", DataPropertyName = "DiaChi", Name = "DiaChi" };
+                colDiaChi.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colDiaChi.MinimumWidth = 150;
+                colDiaChi.FillWeight = 150;
+                dgvDuLieu.Columns.Add(colDiaChi);
+
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "SĐT", DataPropertyName = "SDT", Name = "SDT" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Email", DataPropertyName = "Email", Name = "Email" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Phụ Trách", DataPropertyName = "PhuTrach", Name = "PhuTrach" });
+
+                var colEmail = new DataGridViewTextBoxColumn { HeaderText = "Email", DataPropertyName = "Email", Name = "Email" };
+                colEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colEmail.MinimumWidth = 120;
+                colEmail.FillWeight = 100;
+                dgvDuLieu.Columns.Add(colEmail);
+
+                var colPhuTrach = new DataGridViewTextBoxColumn { HeaderText = "Phụ Trách", DataPropertyName = "PhuTrach", Name = "PhuTrach" };
+                colPhuTrach.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colPhuTrach.MinimumWidth = 120;
+                colPhuTrach.FillWeight = 100;
+                dgvDuLieu.Columns.Add(colPhuTrach);
             }
         }
         #endregion

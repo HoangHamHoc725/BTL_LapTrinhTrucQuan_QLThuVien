@@ -32,16 +32,16 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnXacNhan = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnXoaCot = new System.Windows.Forms.Button();
+            this.btnThemCot = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.cboChonCot = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lsvBoLocCot = new System.Windows.Forms.ListView();
-            this.btnThemCot = new System.Windows.Forms.Button();
-            this.btnXoaCot = new System.Windows.Forms.Button();
-            this.btnXacNhan = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,6 +87,8 @@
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel3);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 180);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(280, 172);
@@ -101,13 +103,25 @@
             this.tableLayoutPanel3.Controls.Add(this.btnXacNhan, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 21);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(274, 153);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(274, 148);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // btnXacNhan
+            // 
+            this.btnXacNhan.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXacNhan.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXacNhan.Location = new System.Drawing.Point(4, 78);
+            this.btnXacNhan.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXacNhan.Name = "btnXacNhan";
+            this.btnXacNhan.Size = new System.Drawing.Size(266, 66);
+            this.btnXacNhan.TabIndex = 80;
+            this.btnXacNhan.Text = "Xác nhận";
+            this.btnXacNhan.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel5
             // 
@@ -121,14 +135,40 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(268, 70);
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(268, 68);
             this.tableLayoutPanel5.TabIndex = 0;
+            // 
+            // btnXoaCot
+            // 
+            this.btnXoaCot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXoaCot.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXoaCot.Location = new System.Drawing.Point(138, 4);
+            this.btnXoaCot.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXoaCot.Name = "btnXoaCot";
+            this.btnXoaCot.Size = new System.Drawing.Size(126, 60);
+            this.btnXoaCot.TabIndex = 81;
+            this.btnXoaCot.Text = "Xóa cột";
+            this.btnXoaCot.UseVisualStyleBackColor = true;
+            // 
+            // btnThemCot
+            // 
+            this.btnThemCot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnThemCot.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThemCot.Location = new System.Drawing.Point(4, 4);
+            this.btnThemCot.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThemCot.Name = "btnThemCot";
+            this.btnThemCot.Size = new System.Drawing.Size(126, 60);
+            this.btnThemCot.TabIndex = 80;
+            this.btnThemCot.Text = "Thêm cột";
+            this.btnThemCot.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel4);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(280, 171);
@@ -143,12 +183,12 @@
             this.tableLayoutPanel4.Controls.Add(this.cboChonCot, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 21);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.52632F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 64.47369F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(274, 152);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(274, 147);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // cboChonCot
@@ -157,7 +197,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboChonCot.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboChonCot.FormattingEnabled = true;
-            this.cboChonCot.Location = new System.Drawing.Point(3, 57);
+            this.cboChonCot.Location = new System.Drawing.Point(3, 55);
             this.cboChonCot.Name = "cboChonCot";
             this.cboChonCot.Size = new System.Drawing.Size(268, 23);
             this.cboChonCot.TabIndex = 175;
@@ -176,6 +216,8 @@
             // 
             this.groupBox3.Controls.Add(this.lsvBoLocCot);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Font = new System.Drawing.Font("Consolas", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(295, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(286, 355);
@@ -187,47 +229,11 @@
             // 
             this.lsvBoLocCot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsvBoLocCot.HideSelection = false;
-            this.lsvBoLocCot.Location = new System.Drawing.Point(3, 16);
+            this.lsvBoLocCot.Location = new System.Drawing.Point(3, 21);
             this.lsvBoLocCot.Name = "lsvBoLocCot";
-            this.lsvBoLocCot.Size = new System.Drawing.Size(280, 336);
+            this.lsvBoLocCot.Size = new System.Drawing.Size(280, 331);
             this.lsvBoLocCot.TabIndex = 0;
             this.lsvBoLocCot.UseCompatibleStateImageBehavior = false;
-            // 
-            // btnThemCot
-            // 
-            this.btnThemCot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnThemCot.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemCot.Location = new System.Drawing.Point(4, 4);
-            this.btnThemCot.Margin = new System.Windows.Forms.Padding(4);
-            this.btnThemCot.Name = "btnThemCot";
-            this.btnThemCot.Size = new System.Drawing.Size(126, 62);
-            this.btnThemCot.TabIndex = 80;
-            this.btnThemCot.Text = "Thêm cột";
-            this.btnThemCot.UseVisualStyleBackColor = true;
-            // 
-            // btnXoaCot
-            // 
-            this.btnXoaCot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnXoaCot.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaCot.Location = new System.Drawing.Point(138, 4);
-            this.btnXoaCot.Margin = new System.Windows.Forms.Padding(4);
-            this.btnXoaCot.Name = "btnXoaCot";
-            this.btnXoaCot.Size = new System.Drawing.Size(126, 62);
-            this.btnXoaCot.TabIndex = 81;
-            this.btnXoaCot.Text = "Xóa cột";
-            this.btnXoaCot.UseVisualStyleBackColor = true;
-            // 
-            // btnXacNhan
-            // 
-            this.btnXacNhan.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnXacNhan.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXacNhan.Location = new System.Drawing.Point(4, 80);
-            this.btnXacNhan.Margin = new System.Windows.Forms.Padding(4);
-            this.btnXacNhan.Name = "btnXacNhan";
-            this.btnXacNhan.Size = new System.Drawing.Size(266, 69);
-            this.btnXacNhan.TabIndex = 80;
-            this.btnXacNhan.Text = "Xác nhận";
-            this.btnXacNhan.UseVisualStyleBackColor = true;
             // 
             // frmChonCotXuatExcel
             // 
@@ -236,7 +242,7 @@
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "frmChonCotXuatExcel";
-            this.Text = "frmChonCotXuatExcel";
+            this.Text = "Tùy chọn cột Xuất Excel";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

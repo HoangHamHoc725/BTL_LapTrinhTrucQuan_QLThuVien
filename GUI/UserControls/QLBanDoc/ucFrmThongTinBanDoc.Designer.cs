@@ -480,6 +480,7 @@
             this.dgvDuLieu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDuLieu.Location = new System.Drawing.Point(8, 26);
             this.dgvDuLieu.Name = "dgvDuLieu";
+            this.dgvDuLieu.RowHeadersVisible = false;
             this.dgvDuLieu.RowHeadersWidth = 62;
             this.dgvDuLieu.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvDuLieu.Size = new System.Drawing.Size(800, 241);
