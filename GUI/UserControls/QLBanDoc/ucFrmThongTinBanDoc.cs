@@ -21,6 +21,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         private State _currentState;
         private string _selectedMaBD = string.Empty;
         private FrmTimKiem _searchForm;
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinBanDoc()
@@ -41,29 +42,51 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         private void ConfigureDGV()
         {
-            // Cấu hình cho dgvDuLieu
-            dgvDuLieu.AutoGenerateColumns = false; // Tắt tự động sinh cột
-            dgvDuLieu.ReadOnly = true;            // Chỉ cho phép xem
-            dgvDuLieu.AllowUserToAddRows = false; // Không cho phép thêm hàng mới qua DGV
-            dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Chọn cả hàng
+            // Cấu hình chung cho DataGridView
+            dgvDuLieu.AutoGenerateColumns = false; // Tắt tự động sinh cột từ DataSource
+            dgvDuLieu.ReadOnly = true;            // Chế độ chỉ đọc
+            dgvDuLieu.AllowUserToAddRows = false; // Ẩn hàng trống cuối cùng
+            dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Chọn toàn bộ hàng khi click
+
+            // Tự động co giãn chiều rộng cột theo nội dung (Áp dụng cho các cột ngắn mặc định)
+            dgvDuLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDuLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            // Tùy chỉnh Header Style (ví dụ: chữ in đậm)
-            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font, FontStyle.Bold);
+            // Cấu hình Font chữ Header (In đậm)
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Bold);
             dgvDuLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDuLieu.ColumnHeadersHeight = 30;
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Định nghĩa các cột hiển thị (giúp kiểm soát thứ tự và tên hiển thị)
+            // Cấu hình Font chữ Cell (Thường)
+            dgvDuLieu.DefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Regular);
+            dgvDuLieu.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-            if (dgvDuLieu.Columns.Count == 0) // Kiểm tra để không thêm lại
+            // Định nghĩa các cột
+            if (dgvDuLieu.Columns.Count == 0)
             {
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã BD", DataPropertyName = "MaBD", Name = "MaBD"});
+                // Các cột ngắn: Để mặc định (sẽ tự co giãn theo nội dung nhờ AutoSizeColumnsMode.AllCells ở trên)
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã BD", DataPropertyName = "MaBD", Name = "MaBD" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Đệm", DataPropertyName = "HoDem", Name = "HoDem" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tên", DataPropertyName = "Ten", Name = "Ten" });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Sinh", DataPropertyName = "NgaySinh", Name = "NgaySinh", DefaultCellStyle = { Format = "dd/MM/yyyy" } });
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Giới Tính", DataPropertyName = "GioiTinhHienThi", Name = "GioiTinhHienThi" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Địa Chỉ", DataPropertyName = "DiaChi", Name = "DiaChi" });
+
+                // --- CỘT DÀI 1: ĐỊA CHỈ ---
+                var colDiaChi = new DataGridViewTextBoxColumn { HeaderText = "Địa Chỉ", DataPropertyName = "DiaChi", Name = "DiaChi" };
+                colDiaChi.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Tự động giãn để lấp đầy
+                colDiaChi.FillWeight = 150; // Chiếm tỉ trọng lớn hơn
+                colDiaChi.MinimumWidth = 200; // [QUAN TRỌNG] Đặt chiều rộng tối thiểu. Nếu form nhỏ hơn mức này, thanh cuộn sẽ hiện ra.
+                dgvDuLieu.Columns.Add(colDiaChi);
+
                 dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "SĐT", DataPropertyName = "SDT", Name = "SDT" });
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Email", DataPropertyName = "Email", Name = "Email" });
+
+                // --- CỘT DÀI 2: EMAIL ---
+                var colEmail = new DataGridViewTextBoxColumn { HeaderText = "Email", DataPropertyName = "Email", Name = "Email" };
+                colEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Tự động giãn để lấp đầy
+                colEmail.FillWeight = 100;
+                colEmail.MinimumWidth = 150; // [QUAN TRỌNG] Đặt chiều rộng tối thiểu để không bị ép quá nhỏ.
+                dgvDuLieu.Columns.Add(colEmail);
             }
         }
         #endregion
@@ -99,6 +122,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             {
                 // TO DO: Ẩn DGV khi thêm/sửa nếu cần
             }
+
+            TriggerStatusEvent(state);
         }
         #endregion
 
@@ -307,7 +332,77 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             //LoadData();
             _searchForm = null;
         }
-        
+
+
+        #endregion
+
+        #region CHỨC NĂNG XUẤT EXCEL
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Chuẩn bị dữ liệu nguồn (Lấy tất cả danh sách bạn đọc hiện có)
+                // (Lưu ý: Nếu bạn muốn xuất danh sách đang tìm kiếm, hãy lưu danh sách đó vào một biến toàn cục khi tìm kiếm)
+                List<BanDocDTO> dataList = _bll.LayThongTinBanDoc();
+
+                if (dataList == null || dataList.Count == 0)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // 2. Định nghĩa danh sách TẤT CẢ các cột có thể xuất
+                // Key: Tên thuộc tính trong BanDocDTO
+                // Value: Tên hiển thị trên Header Excel
+                Dictionary<string, string> allColumns = new Dictionary<string, string>
+                {
+                    { "MaBD", "Mã Bạn Đọc" },
+                    { "HoTen", "Họ và Tên" }, // Thuộc tính tính toán gộp Họ + Tên
+                    { "NgaySinh", "Ngày Sinh" },
+                    { "GioiTinhHienThi", "Giới Tính" }, // Hiển thị Nam/Nữ thay vì M/F
+                    { "DiaChi", "Địa Chỉ" },
+                    { "SDT", "Số Điện Thoại" },
+                    { "Email", "Email" },
+                    { "HoDem", "Họ Đệm" }, // Thêm tùy chọn tách riêng nếu cần
+                    { "Ten", "Tên" }       // Thêm tùy chọn tách riêng nếu cần
+                };
+
+                // 3. Mở Form chọn cột
+                frmChonCotXuatExcel frm = new frmChonCotXuatExcel(allColumns);
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // 4. Lấy các cột người dùng đã chọn
+                    Dictionary<string, string> selectedColumns = frm.SelectedColumns;
+
+                    // 5. Mở hộp thoại chọn nơi lưu file
+                    using (SaveFileDialog sfd = new SaveFileDialog())
+                    {
+                        sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
+                        sfd.FileName = $"DanhSachBanDoc_{DateTime.Now:ddMMyyyy}.xlsx"; // Tên file mặc định
+
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            // 6. Gọi Helper để xuất file
+                            bool success = ExcelHelper.ExportToExcel(dataList, selectedColumns, sfd.FileName);
+
+                            if (success)
+                            {
+                                MessageBox.Show("Xuất file Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                // Tùy chọn: Mở file vừa xuất
+                                // System.Diagnostics.Process.Start(sfd.FileName);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xuất Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         #endregion
 
@@ -399,6 +494,33 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #endregion
 
         #region HÀM BỔ TRỢ
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "THÔNG TIN BẠN ĐỌC";
+            Color backColor = Color.FromArgb(32, 36, 104); // Màu xanh mặc định (như logo)
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "THÊM MỚI BẠN ĐỌC";
+                    backColor = Color.SeaGreen; // Màu xanh lá cho thêm mới
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT BẠN ĐỌC";
+                    backColor = Color.DarkOrange; // Màu cam cho chỉnh sửa
+                    break;
+                case State.READ:
+                default:
+                    title = "XEM THÔNG TIN BẠN ĐỌC";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            // Bắn sự kiện ra ngoài cho Form cha bắt
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
+
         private void ClearInputs()
         {
             txtMaBD.Text = string.Empty;
@@ -469,23 +591,31 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 return false;
             }
 
-            // 4. Kiểm tra Định dạng Số Điện Thoại (Ưu tiên SDT Việt Nam: 10 chữ số, bắt đầu bằng 0)
-            // Regex cơ bản: Bắt đầu bằng 0, theo sau là 9 chữ số (tổng cộng 10 số)
-            // Ví dụ: 0901234567
+            // 4. Kiểm tra Định dạng Số Điện Thoại
+            // Regex này chấp nhận đầu số di động Việt Nam: 03, 05, 07, 08, 09 hoặc +84...
             string vnPhonePattern = @"^(?:\+84|0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-6|8|9]|9[0-4|6-9])\d{7}$";
+
             if (!Regex.IsMatch(sdt, vnPhonePattern))
             {
-                MessageBox.Show("Số Điện Thoại không hợp lệ. Vui lòng nhập số điện thoại 10 chữ số (bắt đầu bằng 0).", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Bổ sung ví dụ cụ thể vào thông báo
+                MessageBox.Show("Số Điện Thoại không hợp lệ.\n" +
+                                "Vui lòng nhập đúng số di động Việt Nam (10 số).\n" +
+                                "Ví dụ: 0912345678 hoặc +84912345678",
+                                "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSDT.Focus();
                 return false;
             }
 
-            // 5. Kiểm tra Định dạng Email (Email NVARCHAR(200) NOT NULL)
-            // Regex cơ bản: [một hoặc nhiều ký tự]@[một hoặc nhiều ký tự].[hai hoặc nhiều ký tự]
+            // 5. Kiểm tra Định dạng Email
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$";
+
             if (!Regex.IsMatch(email, emailPattern))
             {
-                MessageBox.Show("Địa chỉ Email không đúng định dạng.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Bổ sung ví dụ cụ thể vào thông báo
+                MessageBox.Show("Địa chỉ Email không đúng định dạng.\n" +
+                                "Vui lòng nhập theo mẫu: ten_tai_khoan@ten_mien\n" +
+                                "Ví dụ: example@gmail.com",
+                                "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
                 return false;
             }
@@ -519,7 +649,6 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             return true;
         }
         #endregion
-
        
     }
 }

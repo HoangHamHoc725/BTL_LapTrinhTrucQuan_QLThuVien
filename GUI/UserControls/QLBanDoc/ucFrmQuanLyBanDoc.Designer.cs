@@ -34,7 +34,7 @@
             this.btnThongTinBanDoc = new System.Windows.Forms.Button();
             this.pnlTitle = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblTieuDe = new System.Windows.Forms.Label();
             this.pnlContent = new System.Windows.Forms.Panel();
             this.pnlHeader.SuspendLayout();
             this.tlpChuyenChucNang.SuspendLayout();
@@ -72,6 +72,7 @@
             // 
             this.btnTheBanDoc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnTheBanDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTheBanDoc.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTheBanDoc.Location = new System.Drawing.Point(408, 0);
             this.btnTheBanDoc.Margin = new System.Windows.Forms.Padding(0);
             this.btnTheBanDoc.Name = "btnTheBanDoc";
@@ -85,6 +86,7 @@
             // 
             this.btnThongTinBanDoc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnThongTinBanDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnThongTinBanDoc.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThongTinBanDoc.Location = new System.Drawing.Point(0, 0);
             this.btnThongTinBanDoc.Margin = new System.Windows.Forms.Padding(0);
             this.btnThongTinBanDoc.Name = "btnThongTinBanDoc";
@@ -107,7 +109,7 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblTieuDe, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -116,17 +118,17 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(816, 59);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // label1
+            // lblTieuDe
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(123, 1);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(570, 56);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "XEM THÔNG TIN BẠN ĐỌC";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTieuDe.AutoSize = true;
+            this.lblTieuDe.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTieuDe.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTieuDe.Location = new System.Drawing.Point(3, 0);
+            this.lblTieuDe.Name = "lblTieuDe";
+            this.lblTieuDe.Size = new System.Drawing.Size(810, 59);
+            this.lblTieuDe.TabIndex = 0;
+            this.lblTieuDe.Text = "XEM THÔNG TIN BẠN ĐỌC";
+            this.lblTieuDe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlContent
             // 
@@ -163,7 +165,7 @@
         private System.Windows.Forms.Button btnThongTinBanDoc;
         private System.Windows.Forms.Panel pnlTitle;
         private System.Windows.Forms.TableLayoutPanel tlpChuyenChucNang;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTieuDe;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

@@ -16,6 +16,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         private State _currentState;
         private string _selectedMaTK = string.Empty;
         private FrmTimKiem _searchForm;
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinTaiKhoan()
@@ -107,6 +108,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
                 cboNhanVien.DataSource = null;
                 cboNhanVien.Text = string.Empty;
             }
+
+            //TriggerStatusEvent(state);
         }
         #endregion
 

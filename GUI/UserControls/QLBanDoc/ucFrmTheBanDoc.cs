@@ -19,6 +19,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         private State _currentState;
         private string _selectedMaTBD = string.Empty;
         private FrmTimKiem _searchForm;
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmTheBanDoc()
@@ -39,25 +40,51 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         private void ConfigureDGV()
         {
+            // Cấu hình chung
             dgvDuLieu.AutoGenerateColumns = false;
             dgvDuLieu.ReadOnly = true;
             dgvDuLieu.AllowUserToAddRows = false;
             dgvDuLieu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            // Tự động co giãn cột ngắn, dòng tự động cao
+            dgvDuLieu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDuLieu.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font, FontStyle.Bold);
+            // Font Header (Đậm)
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Bold);
             dgvDuLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvDuLieu.ColumnHeadersHeight = 30;
+            dgvDuLieu.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Font Cell (Thường)
+            dgvDuLieu.DefaultCellStyle.Font = new Font(dgvDuLieu.Font.FontFamily, 10f, FontStyle.Regular);
+            dgvDuLieu.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             if (dgvDuLieu.Columns.Count == 0)
             {
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TBD", DataPropertyName = "MaTBD", Name = "MaTBD"});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã BD", DataPropertyName = "MaBD", Name = "MaBD"});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Tên BD", DataPropertyName = "HoTenBD", Name = "HoTenBD"});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TK", DataPropertyName = "MaTK", Name = "MaTK"});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Họ Tên NV", DataPropertyName = "HoTenNV", Name = "HoTenNV"});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Cấp", DataPropertyName = "NgayCap", Name = "NgayCap", DefaultCellStyle = { Format = "dd/MM/yyyy" }});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Hết Hạn", DataPropertyName = "NgayHetHanHienThi", Name = "NgayHetHanHienThi"});
-                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Trạng Thái", DataPropertyName = "TrangThai", Name = "TrangThai"});
+                // Các cột ngắn (Mã, Ngày, Trạng thái)
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã Thẻ", DataPropertyName = "MaTBD", Name = "MaTBD" });
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã BĐ", DataPropertyName = "MaBD", Name = "MaBD" });
+
+                // Cột Dài 1: Họ Tên Bạn Đọc (Fill)
+                var colTenBD = new DataGridViewTextBoxColumn { HeaderText = "Họ Tên Bạn Đọc", DataPropertyName = "HoTenBD", Name = "HoTenBD" };
+                colTenBD.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colTenBD.FillWeight = 150;
+                colTenBD.MinimumWidth = 150;
+                dgvDuLieu.Columns.Add(colTenBD);
+
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Mã TK", DataPropertyName = "MaTK", Name = "MaTK" });
+
+                // Cột Dài 2: Nhân Viên Cấp (Fill)
+                var colTenNV = new DataGridViewTextBoxColumn { HeaderText = "Nhân Viên Cấp", DataPropertyName = "HoTenNV", Name = "HoTenNV" };
+                colTenNV.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                colTenNV.FillWeight = 120;
+                colTenNV.MinimumWidth = 120;
+                dgvDuLieu.Columns.Add(colTenNV);
+
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Ngày Cấp", DataPropertyName = "NgayCap", Name = "NgayCap", DefaultCellStyle = { Format = "dd/MM/yyyy", Alignment = DataGridViewContentAlignment.MiddleCenter } });
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Hết Hạn", DataPropertyName = "NgayHetHanHienThi", Name = "NgayHetHanHienThi", DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter } });
+                dgvDuLieu.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Trạng Thái", DataPropertyName = "TrangThai", Name = "TrangThai" });
             }
         }
         #endregion
@@ -72,36 +99,27 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
             // Inputs
             txtMaTBD.Enabled = false;
+            cboBanDoc.Enabled = isCreating;
+            txtMaTK.Enabled = false;
+            txtHoTenNV.Enabled = false;
 
-            cboBanDoc.Enabled = isCreating; // Chỉ Enable khi CREATE
-
-            txtMaTK.Enabled = false; // Luôn disable (Lấy từ Session)
-            txtHoTenNV.Enabled = false; // Luôn disable (Dữ liệu JOIN)
-
-            // Tạm thời gán MaTK và HoTenNV mặc định
             if (isCreating)
             {
                 if (SessionManager.IsLoggedIn)
                 {
                     txtMaTK.Text = SessionManager.GetMaTaiKhoan();
-                    // HoTenNV được lưu trong CurrentUser (Đã JOIN tNhanVien)
                     txtHoTenNV.Text = SessionManager.CurrentUser.HoTenNV;
                 }
                 else
                 {
-                    // Trường hợp ngoại lệ: Chưa đăng nhập (Chỉ xảy ra nếu bỏ qua màn hình đăng nhập)
-                    MessageBox.Show("Vui lòng đăng nhập để thực hiện cấp thẻ.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtMaTK.Text = string.Empty;
                     txtHoTenNV.Text = string.Empty;
                 }
             }
             else if (state == State.READ)
             {
-                // Xóa input phụ khi chuyển về READ
                 cboBanDoc.DataSource = null;
                 cboBanDoc.Text = string.Empty;
-
-                // Khi quay về READ, cần xóa inputs TK/NV để khi chọn hàng mới được LoadModelToInputs cập nhật
                 txtMaTK.Text = string.Empty;
                 txtHoTenNV.Text = string.Empty;
             }
@@ -114,17 +132,20 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             btnThem.Enabled = (state == State.READ);
             btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text));
             btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text));
+            btnXuatThe.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text)); // Enable nút xuất thẻ
+            btnXuatExcel.Enabled = (state == State.READ); // Enable nút xuất Excel
 
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
-
             btnTimKiem.Enabled = (state == State.READ);
 
-            // Logic đặc biệt: Tải Combo chỉ khi chuyển sang CREATE
             if (isCreating)
             {
                 LoadBanDocVaoCombo();
             }
+
+            // 2. Gọi hàm cập nhật tiêu đề
+            TriggerStatusEvent(state);
         }
         #endregion
 
@@ -209,6 +230,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 bool isRowSelected = !string.IsNullOrEmpty(txtMaTBD.Text);
                 btnSua.Enabled = isRowSelected;
                 btnXoa.Enabled = isRowSelected;
+                btnXuatThe.Enabled = isRowSelected;
             }
 
         }
@@ -575,10 +597,38 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             SetState(State.READ);
             LoadData();
         }
-        
+
         #endregion
 
         #region HÀM BỔ TRỢ
+        // Hàm hỗ trợ chọn màu và text dựa trên trạng thái
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "QUẢN LÝ THẺ BẠN ĐỌC";
+            Color backColor = Color.FromArgb(32, 36, 104); // Màu xanh mặc định
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "CẤP THẺ BẠN ĐỌC MỚI";
+                    backColor = Color.SeaGreen;
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT TRẠNG THÁI THẺ";
+                    backColor = Color.DarkOrange;
+                    break;
+                case State.READ:
+                default:
+                    title = "DANH SÁCH THẺ BẠN ĐỌC";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            // Bắn sự kiện ra ngoài cho Form cha bắt
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
+
         private void ClearInputs()
         {
             txtMaTBD.Text = string.Empty;

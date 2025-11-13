@@ -217,8 +217,8 @@
             // tlpMain
             // 
             this.tlpMain.ColumnCount = 2;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 442F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.Controls.Add(this.panelMenu, 0, 0);
             this.tlpMain.Controls.Add(this.pnlContent, 1, 0);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;

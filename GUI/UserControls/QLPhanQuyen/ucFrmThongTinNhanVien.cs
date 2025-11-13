@@ -17,8 +17,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         private State _currentState;
         private string _selectedMaNV = string.Empty;
         private FrmTimKiem _searchForm;
-
-
+        public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
         #region KHỞI TẠO VÀ CẤU HÌNH DGV
 
@@ -118,6 +117,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             btnHuy.Enabled = isEditing;
 
             btnTimKiem.Enabled = (state == State.READ);
+
+            TriggerStatusEvent(state);
         }
         #endregion
 
@@ -444,6 +445,32 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #endregion
 
         #region HÀM BỔ TRỢ VÀ VALIDATION
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "QUẢN LÝ NHÂN VIÊN";
+            Color backColor = Color.FromArgb(32, 36, 104); // Xanh
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "THÊM MỚI NHÂN VIÊN";
+                    backColor = Color.SeaGreen;
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT NHÂN VIÊN";
+                    backColor = Color.DarkOrange;
+                    break;
+                case State.READ:
+                default:
+                    title = "DANH SÁCH NHÂN VIÊN";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
+
         private void ClearInputs()
         {
             txtMaNV.Text = string.Empty;

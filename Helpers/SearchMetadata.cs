@@ -88,10 +88,24 @@ namespace LibraryManagerApp.Helpers
         },
         new FieldMetadata
         {
+            FieldName = "HoTenBD",
+            DisplayName = "Tên Bạn Đọc",
+            DataType = TypeCode.String,
+            SupportedOperators = new List<string> { "LIKE", "Bắt đầu bằng" }
+        },
+        new FieldMetadata
+        {
             FieldName = "MaTK",
             DisplayName = "Mã Tài Khoản",
             DataType = TypeCode.String,
             SupportedOperators = new List<string> { "=" }
+        },
+        new FieldMetadata
+        {
+            FieldName = "HoTenNV",
+            DisplayName = "Tên Nhân Viên",
+            DataType = TypeCode.String,
+            SupportedOperators = new List<string> { "LIKE", "Bắt đầu bằng" }
         },
         new FieldMetadata
         {

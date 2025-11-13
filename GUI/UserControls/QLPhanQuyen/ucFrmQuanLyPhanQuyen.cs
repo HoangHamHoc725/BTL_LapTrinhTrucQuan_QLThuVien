@@ -1,4 +1,7 @@
-﻿using System;
+﻿// File: LibraryManagerApp.GUI.UserControls.QLPhanQuyen/ucFrmQuanLyPhanQuyen.cs
+
+using LibraryManagerApp.Helpers; // Để dùng StatusRequestEventArgs (nếu cần)
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +24,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
         private void ucFrmQuanLyPhanQuyen_Load(object sender, EventArgs e)
         {
+            // Kích hoạt mặc định nút "Thông tin nhân viên"
             btnThongTinNhanVien_Click(btnThongTinNhanVien, EventArgs.Empty);
         }
 
@@ -28,9 +32,30 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         {
             this.pnlContent.Controls.Clear();
             uc.Dock = DockStyle.Fill;
+
+            // --- BỔ SUNG: Đăng ký sự kiện đổi tiêu đề (Tương tự Bạn Đọc) ---
+            if (uc is ucFrmThongTinNhanVien ucNV)
+            {
+                ucNV.OnStatusRequest += Child_OnStatusRequest;
+            }
+            else if (uc is ucFrmThongTinTaiKhoan ucTK)
+            {
+                ucTK.OnStatusRequest += Child_OnStatusRequest;
+            }
+
             this.pnlContent.Controls.Add(uc);
             uc.BringToFront();
         }
+
+        // Hàm xử lý sự kiện đổi tiêu đề
+        private void Child_OnStatusRequest(object sender, StatusRequestEventArgs e)
+        {
+            // Cập nhật giao diện của UC Cha
+            pnlTitle.BackColor = e.BackColor;
+            label1.Text = e.TitleText;
+            label1.ForeColor = e.ForeColor;
+        }
+
         private void btnThongTinNhanVien_Click(object sender, EventArgs e)
         {
             LoadSubUserControl(new ucFrmThongTinNhanVien());
@@ -43,21 +68,26 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             SetActiveButton(btnThongTinTaiKhoan);
         }
 
+        // --- PHẦN ĐIỀU CHỈNH MÀU SẮC (Inverted Colors) ---
         private void SetActiveButton(Button activeButton)
         {
-            string newButtonTag = activeButton.Tag as string;
-
-            if (currentActiveButton != null)
+            if (currentActiveButton != null && currentActiveButton != activeButton)
             {
-                // Reset trạng thái nút cũ
-                currentActiveButton.BackColor = Color.FromArgb(48, 52, 129);
-                currentActiveButton.ForeColor = Color.FromArgb(245, 245, 245);
+                // Inactive: Nền Xám nhạt, Chữ Xanh đậm
+                currentActiveButton.BackColor = Color.WhiteSmoke;
+                currentActiveButton.ForeColor = Color.FromArgb(48, 52, 129);
+                currentActiveButton.Font = new Font("Consolas", 12F, FontStyle.Regular);
             }
 
             currentActiveButton = activeButton;
 
-            currentActiveButton.BackColor = Color.FromArgb(37, 40, 106);
-            currentActiveButton.ForeColor = Color.FromArgb(255, 242, 0);
+            if (currentActiveButton != null)
+            {
+                // Active: Nền Xanh đậm, Chữ Trắng
+                currentActiveButton.BackColor = Color.FromArgb(48, 52, 129);
+                currentActiveButton.ForeColor = Color.White;
+                currentActiveButton.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            }
         }
     }
 }

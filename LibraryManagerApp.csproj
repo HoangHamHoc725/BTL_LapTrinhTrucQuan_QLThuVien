@@ -422,6 +422,7 @@
     <Compile Include="Helpers\SearchMetadata.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="Helpers\State.cs" />
+    <Compile Include="Helpers\StatusRequestEventArgs.cs" />
     <Compile Include="Helpers\ThongKeMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
