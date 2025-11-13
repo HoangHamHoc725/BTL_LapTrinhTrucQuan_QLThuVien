@@ -27,7 +27,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
         private State _currentState;
         private string _selectedMaDM = string.Empty; // Dùng MaTG
-
+        private List<SearchFilter> _currentFilters;
+        private FrmTimKiem _searchForm;
         // Khai báo Enum để quản lý các loại danh mục
         private enum LoaiDanhMuc { TacGia, TheLoai, DinhDang, NhaXuatBan }
         private LoaiDanhMuc _currentDanhMuc = LoaiDanhMuc.TacGia; // Mặc định là Tác giả
@@ -409,10 +410,10 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             }
         }
         #endregion
-
-
+   
         #region CHỨC NĂNG TÌM KIẾM
-        private void BtnTimKiem_Click(object sender, EventArgs e) // Sửa tên hàm theo PascalCase
+
+        private void BtnTimKiem_Click(object sender, EventArgs e) 
         {
             if (_currentState != State.READ)
             {
@@ -433,14 +434,34 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
                 dmMetadata = _ddBll.GetSearchFields();
             else return;
 
-            // 2. Mở Form tìm kiếm chung
-            FrmTimKiem searchForm = new FrmTimKiem(dmMetadata);
+            // --- Bắt đầu chuyển sang Non-modal và Event ---
 
-            if (searchForm.ShowDialog() == DialogResult.OK)
+            // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
+            if (_searchForm == null || _searchForm.IsDisposed)
             {
-                List<SearchFilter> filters = searchForm.Filters;
-                LoadDataWithFilters(filters);
+                // Khởi tạo Form tìm kiếm
+                _searchForm = new FrmTimKiem(dmMetadata);
+
+                // Đăng ký Event để nhận bộ lọc khi nút "Tìm" được nhấn (CHỈ 1 LẦN)
+                _searchForm.OnSearchApplied += HandleSearchAppliedDanhMuc;
+
+                // Xử lý sự kiện FormClosed để gỡ đăng ký Event và dọn dẹp biến _searchForm
+                _searchForm.FormClosed += SearchForm_FormClosed;
             }
+
+            // Hiển thị Form non-modal
+            _searchForm.Show();
+            _searchForm.BringToFront();
+        }
+
+        // Hàm xử lý Event khi người dùng nhấn nút "Tìm" trong FrmTimKiem
+        private void HandleSearchAppliedDanhMuc(List<SearchFilter> filters)
+        {
+            // Cập nhật bộ lọc hiện tại (dùng khi hủy tìm kiếm)
+            _currentFilters = filters;
+
+            // Gọi hàm tải dữ liệu mới với các bộ lọc nhận được
+            LoadDataWithFilters(filters);
         }
 
         private void LoadDataWithFilters(List<SearchFilter> filters)
@@ -452,7 +473,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
                 if (filters == null || filters.Count == 0)
                 {
-                    LoadData(); // Quay về hàm LoadData() gốc nếu không có bộ lọc
+                    // Quay về hàm LoadData() gốc nếu không có bộ lọc
+                    LoadData();
                     return;
                 }
 
@@ -482,8 +504,24 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
                 MessageBox.Show("Lỗi khi thực hiện tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-#endregion
 
+        // Hàm xử lý khi Form tìm kiếm bị đóng
+        private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (_searchForm != null)
+            {
+                // Gỡ đăng ký Event để tránh rò rỉ bộ nhớ (memory leak)
+                _searchForm.OnSearchApplied -= HandleSearchAppliedDanhMuc;
+            }
+
+            // Đặt _searchForm về null để lần sau khi click sẽ tạo Form mới
+            _searchForm = null;
+
+            // Tùy chọn: Nếu bạn muốn dữ liệu trở về trạng thái toàn bộ khi Form tìm kiếm đóng
+            // LoadData();
+        }
+
+        #endregion
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
         private void btnLuu_Click(object sender, EventArgs e)

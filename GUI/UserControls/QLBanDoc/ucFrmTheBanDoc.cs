@@ -18,6 +18,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         private TheBanDocBLL _bll = new BLL.TheBanDocBLL();
         private State _currentState;
         private string _selectedMaTBD = string.Empty;
+        private FrmTimKiem _searchForm;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmTheBanDoc()
@@ -291,17 +292,48 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #region CHỨC NĂNG TÌM KIẾM
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
+            // Lấy metadata cần thiết (chỉ làm 1 lần)
             List<FieldMetadata> tbdMetadata = _bll.GetSearchFields();
 
-            FrmTimKiem searchForm = new FrmTimKiem(tbdMetadata);
-
-            if (searchForm.ShowDialog() == DialogResult.OK)
+            // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
+            if (_searchForm == null || _searchForm.IsDisposed)
             {
-                List<SearchFilter> filters = searchForm.Filters;
+                // Truyền metadata vào constructor của Form tìm kiếm
+                _searchForm = new FrmTimKiem(tbdMetadata);
+
+                // 1. Đăng ký Event để nhận bộ lọc (CHỈ 1 LẦN)
+                _searchForm.OnSearchApplied += HandleSearchAppliedTheBanDoc;
+
+                // Tùy chọn: Xử lý sự kiện FormClosed nếu bạn muốn giải phóng tài nguyên hoặc 
+                // thực hiện hành động nào đó khi người dùng đóng Form tìm kiếm.
+                _searchForm.FormClosed += SearchForm_FormClosed;
+            }
+
+            // 2. Hiển thị Form non-modal
+            _searchForm.Show();
+            _searchForm.BringToFront(); // Đưa Form tìm kiếm lên trên
+        }
+
+        // Hàm xử lý Event khi người dùng nhấn nút "Tìm" trong frmTimKiem
+        private void HandleSearchAppliedTheBanDoc(List<SearchFilter> filters)
+        {
+            try
+            {           
                 LoadDataWithFilters(filters);
+
+                // Điều chỉnh kích thước cột (Nếu cần)
+                dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+                // Xóa Inputs của Form cha để tập trung vào kết quả tìm kiếm (Nếu có)
+                // ClearInputs(); 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // Phương thức này giữ nguyên nhưng đã được gọi từ Event Handler mới
         private void LoadDataWithFilters(List<SearchFilter> filters)
         {
             if (filters == null || filters.Count == 0)
@@ -312,9 +344,27 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             {
                 List<TheBanDocDTO> danhSach = _bll.TimKiemTheBanDoc(filters);
                 dgvDuLieu.DataSource = danhSach;
+                MessageBox.Show($"Tìm thấy {danhSach.Count} kết quả.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            // ... (Thông báo kết quả)
+
             btnHuy.Enabled = true;
+        }
+        private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (_searchForm != null)
+            {
+                // 1. Gỡ đăng ký Event OnSearchApplied để tránh memory leak
+                _searchForm.OnSearchApplied -= HandleSearchAppliedTheBanDoc;
+
+                // 2. Gỡ đăng ký Event FormClosed (tùy chọn, nhưng là thực hành tốt)
+                _searchForm.FormClosed -= SearchForm_FormClosed;
+            }
+
+            // Đặt biến tham chiếu về null để lần sau click nút "Tìm Kiếm" sẽ tạo Form mới
+            _searchForm = null;
+
+            // Tùy chọn: Gọi LoadData() nếu bạn muốn dữ liệu hiển thị toàn bộ ngay khi Form tìm kiếm đóng
+            // LoadData(); 
         }
         #endregion
 

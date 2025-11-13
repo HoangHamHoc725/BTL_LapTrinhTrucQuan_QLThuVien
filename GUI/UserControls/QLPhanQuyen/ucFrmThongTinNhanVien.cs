@@ -298,20 +298,28 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             // Lấy metadata cho Nhân Viên
             List<FieldMetadata> nvMetadata = SearchMetadata.GetNhanVienFields();
 
-            FrmTimKiem searchForm = new FrmTimKiem(nvMetadata);
-
-            if (searchForm.ShowDialog() == DialogResult.OK)
+            // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
+            if (_searchForm == null || _searchForm.IsDisposed)
             {
-                // Lấy Filters từ Form tìm kiếm
-                List<SearchFilter> filters = searchForm.Filters;
+                // 1. Khởi tạo Form tìm kiếm mới, truyền metadata
+                _searchForm = new FrmTimKiem(nvMetadata);
 
-                // Gọi hàm tìm kiếm ở BLL/DAL
-                LoadNhanVienData(filters); // Hàm này sẽ gọi NhanVienBLL.SearchNhanVien(filters)
-                btnHuy.Enabled = true;
+                // 2. Đăng ký Event để nhận bộ lọc khi nút "Tìm" được nhấn (CHỈ 1 LẦN)
+                // Dùng tên rõ ràng hơn cho hàm xử lý Event này
+                _searchForm.OnSearchApplied += HandleSearchAppliedNhanVien;
+
+                // 3. Xử lý sự kiện FormClosed để gỡ đăng ký Event và dọn dẹp biến _searchForm
+                _searchForm.FormClosed += SearchForm_FormClosed;
             }
+
+            // 4. Hiển thị Form non-modal (Không chặn Form cha)
+            _searchForm.Show();
+            _searchForm.BringToFront(); // Đưa Form tìm kiếm lên trên
         }
 
-        private void HandleSearchApplied(List<SearchFilter> filters)
+        // Hàm xử lý Event khi người dùng nhấn nút "Tìm" trong FrmTimKiem
+        // Đã đổi tên hàm thành HandleSearchAppliedNhanVien để rõ ràng hơn
+        private void HandleSearchAppliedNhanVien(List<SearchFilter> filters)
         {
             try
             {
@@ -319,10 +327,12 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
                 if (filters == null || filters.Count == 0)
                 {
+                    // Nếu không có bộ lọc, tải lại toàn bộ dữ liệu (trạng thái READ mặc định)
                     LoadData();
                 }
                 else
                 {
+                    // Thực hiện tìm kiếm với bộ lọc nhận được
                     List<NhanVienDTO> danhSachTimKiem = _bll.TimKiemNhanVien(filters);
                     dgvDuLieu.DataSource = danhSachTimKiem;
 
@@ -331,21 +341,26 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
                 dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
                 ClearInputs();
+                btnHuy.Enabled = true; // Kích hoạt nút hủy bộ lọc
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi thực hiện tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Nhân Viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // Hàm xử lý khi Form tìm kiếm bị đóng
         private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (_searchForm != null)
             {
-                _searchForm.OnSearchApplied -= HandleSearchApplied;
+                // Gỡ đăng ký Event để tránh rò rỉ bộ nhớ (memory leak)
+                _searchForm.OnSearchApplied -= HandleSearchAppliedNhanVien;
+                // Tùy chọn: Gọi LoadData() nếu bạn muốn làm mới dữ liệu khi Form tìm kiếm đóng
+                // LoadData(); 
             }
 
-            LoadData();
+            // Đặt _searchForm về null để lần sau khi click sẽ tạo Form mới
             _searchForm = null;
         }
         #endregion

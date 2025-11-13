@@ -250,7 +250,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 _searchForm.OnSearchApplied += HandleSearchApplied;
 
                 // 2. Xử lý khi Form tìm kiếm bị đóng
-                //_searchForm.FormClosed += SearchForm_FormClosed;
+                _searchForm.FormClosed += SearchForm_FormClosed;
             }
 
             // 3. Hiển thị Form non-modal
@@ -294,19 +294,19 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             }
         }
 
-        // Hàm xử lý khi Form tìm kiếm bị đóng
-        //private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
-        //{
-        //    // Hủy đăng ký Event để tránh rò rỉ bộ nhớ
-        //    if (_searchForm != null)
-        //    {
-        //        _searchForm.OnSearchApplied -= HandleSearchApplied;
-        //    }
+   //      Hàm xử lý khi Form tìm kiếm bị đóng
+        private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Hủy đăng ký Event để tránh rò rỉ bộ nhớ
+            if (_searchForm != null)
+            {
+                _searchForm.OnSearchApplied -= HandleSearchApplied;
+            }
 
-        //    // Khôi phục DGV về trạng thái mặc định (Load lại toàn bộ dữ liệu)
-        //    LoadData();
-        //    _searchForm = null;
-        //}
+            // Khôi phục DGV về trạng thái mặc định (Load lại toàn bộ dữ liệu)
+            //LoadData();
+            _searchForm = null;
+        }
         
 
         #endregion
