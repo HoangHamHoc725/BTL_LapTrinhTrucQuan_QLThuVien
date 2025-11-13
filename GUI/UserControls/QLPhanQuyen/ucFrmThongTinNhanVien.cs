@@ -307,6 +307,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
                 // Gọi hàm tìm kiếm ở BLL/DAL
                 LoadNhanVienData(filters); // Hàm này sẽ gọi NhanVienBLL.SearchNhanVien(filters)
+                btnHuy.Enabled = true;
             }
         }
 
@@ -423,6 +424,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
                 }
             }
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 

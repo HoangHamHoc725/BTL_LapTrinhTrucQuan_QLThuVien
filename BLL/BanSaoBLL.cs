@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +64,18 @@ namespace LibraryManagerApp.BLL
             // Logic nghiệp vụ (Kiểm tra xem bản sao có đang được mượn không,...)
             // Hiện tại, ta dựa vào ràng buộc CSDL
             return _dal.DeleteBanSao(maBS);
+        }
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetBanSaoFields();
+        }
+
+       
+        // Hàm tìm kiếm có thêm tham số MaTL để lọc kép
+        public List<BanSaoDTO> TimKiemBanSao(string maTL, List<SearchFilter> filters)
+        {
+            // Gọi DAL và truyền cả MaTL và filters
+            return _dal.SearchBanSao(maTL, filters);
         }
     }
 }

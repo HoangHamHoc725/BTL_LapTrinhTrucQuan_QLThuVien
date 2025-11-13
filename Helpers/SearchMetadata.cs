@@ -408,6 +408,27 @@ namespace LibraryManagerApp.Helpers
         }
     };
         }
+        // Khởi tạo các cấu hình tìm kiếm cho bảng Bản Sao
+        public static List<FieldMetadata> GetBanSaoFields()
+        {
+            return new List<FieldMetadata>
+    {
+        new FieldMetadata
+        {
+            FieldName = "MaBS",
+            DisplayName = "Mã Bản Sao",
+            DataType = TypeCode.String,
+            SupportedOperators = new List<string> { "=", "LIKE", "Bắt đầu bằng" }
+        },
+        new FieldMetadata
+        {
+            FieldName = "TrangThai",
+            DisplayName = "Trạng Thái",
+            DataType = TypeCode.String,
+            SupportedOperators = new List<string> { "=" } // Có sẵn/Không có sẵn/Ngưng sử dụng
+        }
+    };
+        }
     }
 }
  

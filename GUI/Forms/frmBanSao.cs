@@ -18,6 +18,7 @@ namespace LibraryManagerApp.GUI.Forms
     {
         // Khai báo BLL và các biến trạng thái
         private BanSaoBLL _bll = new BanSaoBLL();
+        private string _maTaiLieuHienTai;
         private State _currentState;
 
         // Biến lưu thông tin Tài liệu cha
@@ -34,6 +35,7 @@ namespace LibraryManagerApp.GUI.Forms
         {
             InitializeComponent();
 
+            _maTaiLieuHienTai = maTL;
             _maTL = maTL;
             _tenTL = tenTL;
 
@@ -215,6 +217,71 @@ namespace LibraryManagerApp.GUI.Forms
         }
         #endregion
 
+        #region CHỨC NĂNG READ VÀ TÌM KIẾM
+
+
+
+        private void BtnTimKiem_Click(object sender, EventArgs e) 
+        {
+            // Kiểm tra trạng thái và MaTL
+            if (string.IsNullOrEmpty(_maTaiLieuHienTai))
+            {
+                MessageBox.Show("Không thể tìm kiếm vì Mã Tài Liệu chưa được xác định.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 1. Lấy metadata (MaBS, TrangThai)
+            List<FieldMetadata> bsMetadata = _bll.GetSearchFields();
+
+            // 2. Mở Form tìm kiếm chung
+            FrmTimKiem searchForm = new FrmTimKiem(bsMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                List<SearchFilter> filters = searchForm.Filters;
+
+                // 3. Gọi hàm tải dữ liệu mới, truyền MaTL cố định
+                LoadDataWithFilters(_maTaiLieuHienTai, filters);
+            }
+
+        }
+
+        private void LoadDataWithFilters(string maTL, List<SearchFilter> filters)
+        {
+            try
+            {
+                dgvDuLieu.DataSource = null;
+                List<BanSaoDTO> danhSach;
+
+                if (filters == null || filters.Count == 0)
+                {
+                    // Nếu không có bộ lọc, tải lại tất cả Bản Sao của MaTL hiện tại
+                    // Giả định LayDanhSachBanSao(string maTL) chỉ lấy bản sao của tài liệu đó
+                    danhSach = _bll.LayDanhSachBanSao(maTL);
+                }
+                else
+                {
+                    // GỌI HÀM TÌM KIẾM CÓ LỌC KÉP
+                    // Hàm này sẽ lọc trong MaTL và áp dụng thêm filters
+                    danhSach = _bll.TimKiemBanSao(maTL, filters);
+                }
+
+                dgvDuLieu.DataSource = danhSach;
+                dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+                int count = danhSach.Count;
+                MessageBox.Show($"Tìm thấy {count} bản sao khớp với bộ lọc trong Mã TL [{maTL}].", "Thông báo Tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Bản Sao: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            btnHuy.Enabled = true;
+        }
+        
+
+        #endregion
+
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
         private void btnLuu_Click(object sender, EventArgs e)
         {
@@ -292,6 +359,7 @@ namespace LibraryManagerApp.GUI.Forms
             }
 
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 

@@ -161,6 +161,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 bool isRowSelected = !string.IsNullOrEmpty(txtMaBD.Text);
                 btnSua.Enabled = isRowSelected;
                 btnXoa.Enabled = isRowSelected;
+
             }
         }
         #endregion
@@ -249,7 +250,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 _searchForm.OnSearchApplied += HandleSearchApplied;
 
                 // 2. Xử lý khi Form tìm kiếm bị đóng
-                _searchForm.FormClosed += SearchForm_FormClosed;
+                //_searchForm.FormClosed += SearchForm_FormClosed;
             }
 
             // 3. Hiển thị Form non-modal
@@ -275,6 +276,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                     // Gọi BLL để thực hiện tìm kiếm với các bộ lọc
                     List<BanDocDTO> danhSachTimKiem = _bll.TimKiemBanDoc(filters);
                     dgvDuLieu.DataSource = danhSachTimKiem;
+                    //Kích hoạt nút để hủy bộ lọc tìm kiếm
+                    btnHuy.Enabled = true;
 
                     MessageBox.Show($"Tìm thấy {danhSachTimKiem.Count} kết quả.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -292,18 +295,20 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         }
 
         // Hàm xử lý khi Form tìm kiếm bị đóng
-        private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            // Hủy đăng ký Event để tránh rò rỉ bộ nhớ
-            if (_searchForm != null)
-            {
-                _searchForm.OnSearchApplied -= HandleSearchApplied;
-            }
+        //private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
+        //{
+        //    // Hủy đăng ký Event để tránh rò rỉ bộ nhớ
+        //    if (_searchForm != null)
+        //    {
+        //        _searchForm.OnSearchApplied -= HandleSearchApplied;
+        //    }
 
-            // Khôi phục DGV về trạng thái mặc định (Load lại toàn bộ dữ liệu)
-            LoadData();
-            _searchForm = null;
-        }
+        //    // Khôi phục DGV về trạng thái mặc định (Load lại toàn bộ dữ liệu)
+        //    LoadData();
+        //    _searchForm = null;
+        //}
+        
+
         #endregion
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
@@ -389,6 +394,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
             // Luôn luôn chuyển về trạng thái READ sau khi Hủy
             SetState(State.READ);
+            LoadData(); // Tải lại dữ liệu để đồng bộ DGV
         }
         #endregion
 
@@ -513,5 +519,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             return true;
         }
         #endregion
+
+       
     }
 }

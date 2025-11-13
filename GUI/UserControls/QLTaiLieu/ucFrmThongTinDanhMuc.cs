@@ -469,6 +469,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
                 // 2. Cập nhật DataGridView
                 dgvDuLieu.DataSource = dataSource;
                 dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                btnHuy.Enabled = true;
 
                 // 3. Hiển thị thông báo kết quả
                 int count = (dataSource as System.Collections.IList)?.Count ?? 0;
@@ -548,6 +549,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
                 }
             }
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 

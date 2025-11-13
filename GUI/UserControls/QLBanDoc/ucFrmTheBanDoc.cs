@@ -209,6 +209,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 btnSua.Enabled = isRowSelected;
                 btnXoa.Enabled = isRowSelected;
             }
+
         }
         #endregion
 
@@ -313,6 +314,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
                 dgvDuLieu.DataSource = danhSach;
             }
             // ... (Thông báo kết quả)
+            btnHuy.Enabled = true;
         }
         #endregion
 
@@ -410,7 +412,9 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
             // Luôn luôn chuyển về trạng thái READ sau khi Hủy
             SetState(State.READ);
+            LoadData();
         }
+        
         #endregion
 
         #region HÀM BỔ TRỢ
