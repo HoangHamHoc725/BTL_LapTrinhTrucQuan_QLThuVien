@@ -101,5 +101,53 @@ namespace LibraryManagerApp.DAL
                 return false;
             }
         }
+        // Hàm Tìm kiếm Nhà Xuất Bản (Logic tìm kiếm Dynamic)
+        public List<NxbDTO> SearchNxb(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                // Bắt đầu với JOIN tNhaXuatBan và tQuocGia
+                var query = from nxb in db.tNhaXuatBans
+                            join qg in db.tQuocGias on nxb.MaQG equals qg.MaQG
+                            select new { Nxb = nxb, QuocGia = qg };
+
+                // Áp dụng filters
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+
+                    if (fieldName == "MaNXB")
+                    {
+                        if (op == "=") query = query.Where(x => x.Nxb.MaNXB == value);
+                        else if (op == "LIKE") query = query.Where(x => x.Nxb.MaNXB.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(x => x.Nxb.MaNXB.StartsWith(value));
+                    }
+                    else if (fieldName == "TenNXB")
+                    {
+                        if (op == "LIKE") query = query.Where(x => x.Nxb.TenNXB.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(x => x.Nxb.TenNXB.StartsWith(value));
+                    }
+                    else if (fieldName == "MaQG" && op == "=")
+                    {
+                        query = query.Where(x => x.Nxb.MaQG == value);
+                    }
+                    else if (fieldName == "TenQG" && op == "LIKE")
+                    {
+                        query = query.Where(x => x.QuocGia.TenQG.Contains(value));
+                    }
+                }
+
+                // Map kết quả cuối cùng sang DTO
+                return query.ToList().Select(x => new NxbDTO
+                {
+                    MaNXB = x.Nxb.MaNXB,
+                    MaQG = x.Nxb.MaQG,
+                    TenNXB = x.Nxb.TenNXB,
+                    TenQG = x.QuocGia.TenQG
+                }).ToList();
+            }
+        }
     }
 }

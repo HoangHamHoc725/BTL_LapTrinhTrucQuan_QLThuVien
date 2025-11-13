@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,15 @@ namespace LibraryManagerApp.BLL
         public bool XoaTheLoai(string maThL)
         {
             return _dal.DeleteTheLoai(maThL);
+        }
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetTheLoaiFields();
+        }
+
+        public List<TheLoaiDTO> TimKiemTheLoai(List<SearchFilter> filters)
+        {
+            return _dal.SearchTheLoai(filters);
         }
     }
 }

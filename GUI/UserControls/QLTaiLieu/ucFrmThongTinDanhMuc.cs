@@ -1,6 +1,7 @@
 ﻿using LibraryManagerApp.BLL;
 using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.Forms;
 using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibraryManagerApp.GUI.Forms;
+using LibraryManagerApp.Helpers;
 
 namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 {
@@ -407,9 +410,79 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         }
         #endregion
 
+
         #region CHỨC NĂNG TÌM KIẾM
-        // Logic sẽ được thêm vào sau
-        #endregion
+        private void BtnTimKiem_Click(object sender, EventArgs e) // Sửa tên hàm theo PascalCase
+        {
+            if (_currentState != State.READ)
+            {
+                MessageBox.Show("Vui lòng Lưu hoặc Hủy chỉnh sửa trước khi Tìm kiếm.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            List<FieldMetadata> dmMetadata = null;
+
+            // 1. Xác định Danh mục hiện tại và lấy Metadata tương ứng
+            if (_currentDanhMuc == LoaiDanhMuc.TacGia)
+                dmMetadata = _tacGiaBll.GetSearchFields();
+            else if (_currentDanhMuc == LoaiDanhMuc.NhaXuatBan)
+                dmMetadata = _nxbBll.GetSearchFields();
+            else if (_currentDanhMuc == LoaiDanhMuc.TheLoai)
+                dmMetadata = _thlBll.GetSearchFields();
+            else if (_currentDanhMuc == LoaiDanhMuc.DinhDang)
+                dmMetadata = _ddBll.GetSearchFields();
+            else return;
+
+            // 2. Mở Form tìm kiếm chung
+            FrmTimKiem searchForm = new FrmTimKiem(dmMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                List<SearchFilter> filters = searchForm.Filters;
+                LoadDataWithFilters(filters);
+            }
+        }
+
+        private void LoadDataWithFilters(List<SearchFilter> filters)
+        {
+            try
+            {
+                dgvDuLieu.DataSource = null;
+                object dataSource = null;
+
+                if (filters == null || filters.Count == 0)
+                {
+                    LoadData(); // Quay về hàm LoadData() gốc nếu không có bộ lọc
+                    return;
+                }
+
+                // 1. Gọi hàm tìm kiếm tương ứng trong BLL
+                if (_currentDanhMuc == LoaiDanhMuc.TacGia)
+                    dataSource = _tacGiaBll.TimKiemTacGia(filters);
+                else if (_currentDanhMuc == LoaiDanhMuc.NhaXuatBan)
+                    dataSource = _nxbBll.TimKiemNxb(filters);
+                else if (_currentDanhMuc == LoaiDanhMuc.TheLoai)
+                    dataSource = _thlBll.TimKiemTheLoai(filters);
+                else if (_currentDanhMuc == LoaiDanhMuc.DinhDang)
+                    dataSource = _ddBll.TimKiemDinhDang(filters);
+
+                // 2. Cập nhật DataGridView
+                dgvDuLieu.DataSource = dataSource;
+                dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+                // 3. Hiển thị thông báo kết quả
+                int count = (dataSource as System.Collections.IList)?.Count ?? 0;
+                MessageBox.Show($"Tìm thấy {count} kết quả khớp với bộ lọc.", "Thông báo Tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearInputs();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+#endregion
+
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
         private void btnLuu_Click(object sender, EventArgs e)

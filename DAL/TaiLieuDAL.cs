@@ -320,5 +320,100 @@ namespace LibraryManagerApp.DAL
                 return false;
             }
         }
+        // 8. Hàm Tìm kiếm Tài Liệu
+        public List<TaiLieuDTO> SearchTaiLieu(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                IQueryable<tTaiLieu> query = db.tTaiLieus.AsQueryable();
+
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+                    string valueTo = filter.ValueTo;
+
+                    // 1. Xử lý các trường kiểu chuỗi
+                    if (fieldName == "MaTL" || fieldName == "MaNXB" || fieldName == "MaNN" ||
+                        fieldName == "MaThL" || fieldName == "MaDD")
+                    {
+                        if (op == "=") query = query.Where(tl =>
+                            (fieldName == "MaTL" ? tl.MaTL : fieldName == "MaNXB" ? tl.MaNXB :
+                            fieldName == "MaNN" ? tl.MaNN : fieldName == "MaThL" ? tl.MaThL : tl.MaDD) == value);
+                        else if (op == "LIKE" && fieldName != "MaNN" && fieldName != "MaThL" && fieldName != "MaDD")
+                            query = query.Where(tl =>
+                            (fieldName == "MaTL" ? tl.MaTL : tl.MaNXB).Contains(value));
+                        else if (op == "Bắt đầu bằng" && fieldName != "MaNN" && fieldName != "MaThL" && fieldName != "MaDD")
+                            query = query.Where(tl =>
+                            (fieldName == "MaTL" ? tl.MaTL : tl.MaNXB).StartsWith(value));
+                    }
+                    else if (fieldName == "TenTL")
+                    {
+                        if (op == "LIKE") query = query.Where(tl => tl.TenTL.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(tl => tl.TenTL.StartsWith(value));
+                    }
+
+                    // 2. Xử lý các trường số nguyên (Năm Xuất Bản, Số Trang)
+                    else if (fieldName == "NamXuatBan" || fieldName == "SoTrang")
+                    {
+                        if (int.TryParse(value, out int intValue))
+                        {
+                            var propValue = fieldName == "NamXuatBan" ? (int?)intValue : (int?)intValue;
+
+                            if (op == "=")
+                                query = query.Where(tl => fieldName == "NamXuatBan" ? tl.NamXuatBan == intValue : tl.SoTrang == intValue);
+                            else if (op == ">")
+                                query = query.Where(tl => fieldName == "NamXuatBan" ? tl.NamXuatBan > intValue : tl.SoTrang > intValue);
+                            else if (op == "<")
+                                query = query.Where(tl => fieldName == "NamXuatBan" ? tl.NamXuatBan < intValue : tl.SoTrang < intValue);
+                            else if (op == ">=")
+                                query = query.Where(tl => fieldName == "NamXuatBan" ? tl.NamXuatBan >= intValue : tl.SoTrang >= intValue);
+                            else if (op == "<=")
+                                query = query.Where(tl => fieldName == "NamXuatBan" ? tl.NamXuatBan <= intValue : tl.SoTrang <= intValue);
+                            else if (int.TryParse(valueTo, out int intEnd))
+                            {
+                                if (op == "Khoảng")
+                                    query = query.Where(tl => fieldName == "NamXuatBan" ? (tl.NamXuatBan > intValue && tl.NamXuatBan < intEnd) : (tl.SoTrang > intValue && tl.SoTrang < intEnd));
+                                else if (op == "Đoạn")
+                                    query = query.Where(tl => fieldName == "NamXuatBan" ? (tl.NamXuatBan >= intValue && tl.NamXuatBan <= intEnd) : (tl.SoTrang >= intValue && tl.SoTrang <= intEnd));
+                            }
+                        }
+                    }
+                }
+
+                // 3. Thực hiện JOIN và MAP ra DTO đầy đủ (Giả sử bạn cần JOIN)
+                var finalQuery = from tl in query
+                                 join nxb in db.tNhaXuatBans on tl.MaNXB equals nxb.MaNXB
+                                 join nn in db.tNgonNgus on tl.MaNN equals nn.MaNN
+                                 join thl in db.tTheLoais on tl.MaThL equals thl.MaThL
+                                 join dd in db.tDinhDangs on tl.MaDD equals dd.MaDD
+                                 select new TaiLieuDTO
+                                 {
+                                     MaTL = tl.MaTL,
+                                     TenTL = tl.TenTL,
+                                     LanXuatBan = tl.LanXuatBan,
+                                     NamXuatBan = tl.NamXuatBan,
+                                     SoTrang = tl.SoTrang,
+                                     KhoCo = tl.KhoCo,
+                                     Anh = tl.Anh,
+
+                                     // Trường khóa ngoại
+                                     MaNXB = tl.MaNXB,
+                                     MaNN = tl.MaNN,
+                                     MaThL = tl.MaThL,
+                                     MaDD = tl.MaDD,
+
+                                     // Thông tin JOIN
+                                     TenNXB = nxb.TenNXB,
+                                     TenNN = nn.TenNN,
+                                     TenThL = thl.TenThL,
+                                     TenDD = dd.TenDD
+                                     // ... và các trường khác (MaTK)
+                                 };
+
+                return finalQuery.ToList();
+            }
+        }
     }
 }

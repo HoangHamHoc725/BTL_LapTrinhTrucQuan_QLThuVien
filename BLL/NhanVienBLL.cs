@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System.Collections.Generic;
 
 namespace LibraryManagerApp.BLL
@@ -56,6 +57,12 @@ namespace LibraryManagerApp.BLL
         public List<NhanVienDTO> TimKiemNhanVien(List<SearchFilter> filters)
         {
             return _dal.SearchNhanVien(filters);
+        }
+        // Hàm cung cấp Metadata cho UI
+        public List<FieldMetadata> GetSearchFields()
+        {
+            // BLL gọi hàm GetNhanVienFields() để cung cấp cấu hình tìm kiếm cho UI
+            return SearchMetadata.GetNhanVienFields();
         }
         public List<string> LayDanhSachPhuTrach()
         {

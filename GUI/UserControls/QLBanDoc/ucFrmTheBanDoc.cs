@@ -288,7 +288,32 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #endregion
 
         #region CHỨC NĂNG TÌM KIẾM
-        // Sẽ triển khai sau
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            List<FieldMetadata> tbdMetadata = _bll.GetSearchFields();
+
+            FrmTimKiem searchForm = new FrmTimKiem(tbdMetadata);
+
+            if (searchForm.ShowDialog() == DialogResult.OK)
+            {
+                List<SearchFilter> filters = searchForm.Filters;
+                LoadDataWithFilters(filters);
+            }
+        }
+
+        private void LoadDataWithFilters(List<SearchFilter> filters)
+        {
+            if (filters == null || filters.Count == 0)
+            {
+                LoadData();
+            }
+            else
+            {
+                List<TheBanDocDTO> danhSach = _bll.TimKiemTheBanDoc(filters);
+                dgvDuLieu.DataSource = danhSach;
+            }
+            // ... (Thông báo kết quả)
+        }
         #endregion
 
         #region CHỨC NĂNG IN ẤN / BÁO CÁO

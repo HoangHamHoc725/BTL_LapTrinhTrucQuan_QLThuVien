@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +65,16 @@ namespace LibraryManagerApp.BLL
         {
             // Logic nghiệp vụ (Ví dụ: Kiểm tra NXB này có đang phát hành tài liệu nào không)
             return _dal.DeleteNxb(maNXB);
+        }
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetNxbFields();
+        }
+
+        public List<NxbDTO> TimKiemNxb(List<SearchFilter> filters)
+        {
+            // Đảm bảo NxbDAL có hàm SearchNxb
+            return _dal.SearchNxb(filters);
         }
     }
 }

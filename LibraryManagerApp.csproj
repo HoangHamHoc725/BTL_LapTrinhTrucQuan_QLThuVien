@@ -247,6 +247,7 @@
     <Compile Include="BLL\NgonNguBLL.cs" />
     <Compile Include="BLL\NxbBLL.cs" />
     <Compile Include="BLL\TacGiaBLL.cs" />
+    <Compile Include="BLL\TaiKhoanBLL.cs" />
     <Compile Include="BLL\TaiLieuBLL.cs" />
     <Compile Include="BLL\TheBanDocBLL.cs" />
     <Compile Include="BLL\TheLoaiBLL.cs" />
@@ -265,6 +266,7 @@
       <DependentUpon>QLThuVien.dbml</DependentUpon>
     </Compile>
     <Compile Include="DAL\TacGiaDAL.cs" />
+    <Compile Include="DAL\TaiKhoanDAL.cs" />
     <Compile Include="DAL\TaiLieuDAL.cs" />
     <Compile Include="DAL\TheBanDocDAL.cs" />
     <Compile Include="DAL\TheLoaiDAL.cs" />
@@ -278,16 +280,19 @@
     <Compile Include="DTO\GiaoDichDTO.cs" />
     <Compile Include="DTO\GiaoDich_BanSaoDTO.cs" />
     <Compile Include="DTO\LoginSessionDTO.cs" />
+    <Compile Include="DTO\NhanVienChuaCoTKDTO.cs" />
     <Compile Include="DTO\NhanVienDTO.cs" />
     <Compile Include="DTO\NgonNguDTO.cs" />
     <Compile Include="DTO\NxbDTO.cs" />
     <Compile Include="DTO\QuocGiaDTO.cs" />
     <Compile Include="DTO\SearchFilter.cs" />
     <Compile Include="DTO\TacGiaDTO.cs" />
+    <Compile Include="DTO\TaiKhoanDTO.cs" />
     <Compile Include="DTO\TaiLieuDTO.cs" />
     <Compile Include="DTO\TheBanDocDTO.cs" />
     <Compile Include="DTO\TheLoaiDTO.cs" />
     <Compile Include="DTO\TL_TGDTO.cs" />
+    <Compile Include="DTO\VaiTroDTO.cs" />
     <Compile Include="GUI\Forms\frmBanSao.cs">
       <SubType>Form</SubType>
     </Compile>

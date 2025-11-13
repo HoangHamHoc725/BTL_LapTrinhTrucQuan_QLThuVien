@@ -1,5 +1,6 @@
 ﻿using LibraryManagerApp.DAL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,16 @@ namespace LibraryManagerApp.BLL
         public bool XoaTacGia(string maTG)
         {
             return _dal.DeleteTacGia(maTG);
+        }
+        public List<FieldMetadata> GetSearchFields()
+        {
+            return SearchMetadata.GetTacGiaFields();
+        }
+
+        public List<TacGiaDTO> TimKiemTacGia(List<SearchFilter> filters)
+        {
+            
+            return _dal.SearchTacGia(filters);
         }
     }
 }

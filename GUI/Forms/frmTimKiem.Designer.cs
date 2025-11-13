@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagerApp.GUI.Forms
 {
-    partial class frmTimKiem
+    partial class FrmTimKiem // Đã đổi tên lớp
     {
         /// <summary>
         /// Required designer variable.
@@ -32,26 +32,26 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.txtDen = new System.Windows.Forms.TextBox();
+            this.txtTu = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtGiaTri = new System.Windows.Forms.TextBox();
             this.cboToanTu = new System.Windows.Forms.ComboBox();
             this.cboTimTheo = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnHuy = new System.Windows.Forms.Button();
+            this.btnLuu = new System.Windows.Forms.Button();
             this.btnXoaBoLoc = new System.Windows.Forms.Button();
             this.btnSuaBoLoc = new System.Windows.Forms.Button();
             this.btnTim = new System.Windows.Forms.Button();
             this.btnThemBoLoc = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lsvBoLoc = new System.Windows.Forms.ListView();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtTu = new System.Windows.Forms.TextBox();
-            this.txtDen = new System.Windows.Forms.TextBox();
-            this.btnLuu = new System.Windows.Forms.Button();
-            this.btnHuy = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -129,9 +129,41 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(274, 170);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
+            // txtDen
+            // 
+            this.txtDen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDen.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDen.Location = new System.Drawing.Point(111, 138);
+            this.txtDen.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDen.Name = "txtDen";
+            this.txtDen.Size = new System.Drawing.Size(161, 23);
+            this.txtDen.TabIndex = 179;
+            // 
+            // txtTu
+            // 
+            this.txtTu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTu.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTu.Location = new System.Drawing.Point(111, 104);
+            this.txtTu.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTu.Name = "txtTu";
+            this.txtTu.Size = new System.Drawing.Size(161, 23);
+            this.txtTu.TabIndex = 178;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 102);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 15);
+            this.label3.TabIndex = 176;
+            this.label3.Text = "Từ:";
+            // 
             // txtGiaTri
             // 
-            this.txtGiaTri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtGiaTri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtGiaTri.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGiaTri.Location = new System.Drawing.Point(111, 70);
@@ -142,7 +174,7 @@
             // 
             // cboToanTu
             // 
-            this.cboToanTu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cboToanTu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboToanTu.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboToanTu.FormattingEnabled = true;
@@ -150,11 +182,12 @@
             this.cboToanTu.Name = "cboToanTu";
             this.cboToanTu.Size = new System.Drawing.Size(159, 23);
             this.cboToanTu.TabIndex = 174;
-            this.cboToanTu.SelectedIndexChanged += new System.EventHandler(this.cboToanTu_SelectedIndexChanged);
+            // Sửa tên phương thức
+            this.cboToanTu.SelectedIndexChanged += new System.EventHandler(this.CboToanTu_SelectedIndexChanged);
             // 
             // cboTimTheo
             // 
-            this.cboTimTheo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cboTimTheo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboTimTheo.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboTimTheo.FormattingEnabled = true;
@@ -162,7 +195,8 @@
             this.cboTimTheo.Name = "cboTimTheo";
             this.cboTimTheo.Size = new System.Drawing.Size(159, 23);
             this.cboTimTheo.TabIndex = 173;
-            this.cboTimTheo.SelectedIndexChanged += new System.EventHandler(this.cboTimTheo_SelectedIndexChanged);
+            // Sửa tên phương thức
+            this.cboTimTheo.SelectedIndexChanged += new System.EventHandler(this.CboTimTheo_SelectedIndexChanged);
             // 
             // label12
             // 
@@ -193,6 +227,16 @@
             this.label2.Size = new System.Drawing.Size(63, 15);
             this.label2.TabIndex = 155;
             this.label2.Text = "Giá trị:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 136);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 15);
+            this.label4.TabIndex = 177;
+            this.label4.Text = "Đến:";
             // 
             // groupBox2
             // 
@@ -226,6 +270,34 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(274, 135);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
+            // btnHuy
+            // 
+            this.btnHuy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnHuy.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHuy.Location = new System.Drawing.Point(141, 94);
+            this.btnHuy.Margin = new System.Windows.Forms.Padding(4);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(129, 37);
+            this.btnHuy.TabIndex = 84;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            // Sửa tên phương thức
+            this.btnHuy.Click += new System.EventHandler(this.BtnHuy_Click);
+            // 
+            // btnLuu
+            // 
+            this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLuu.Location = new System.Drawing.Point(4, 94);
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLuu.Name = "btnLuu";
+            this.btnLuu.Size = new System.Drawing.Size(129, 37);
+            this.btnLuu.TabIndex = 83;
+            this.btnLuu.Text = "Lưu";
+            this.btnLuu.UseVisualStyleBackColor = true;
+            // Sửa tên phương thức
+            this.btnLuu.Click += new System.EventHandler(this.BtnLuu_Click);
+            // 
             // btnXoaBoLoc
             // 
             this.btnXoaBoLoc.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -237,7 +309,8 @@
             this.btnXoaBoLoc.TabIndex = 82;
             this.btnXoaBoLoc.Text = "Xóa bộ lọc";
             this.btnXoaBoLoc.UseVisualStyleBackColor = true;
-            this.btnXoaBoLoc.Click += new System.EventHandler(this.btnXoaBoLoc_Click);
+            // Sửa tên phương thức
+            this.btnXoaBoLoc.Click += new System.EventHandler(this.BtnXoaBoLoc_Click);
             // 
             // btnSuaBoLoc
             // 
@@ -250,7 +323,8 @@
             this.btnSuaBoLoc.TabIndex = 81;
             this.btnSuaBoLoc.Text = "Sửa bộ lọc";
             this.btnSuaBoLoc.UseVisualStyleBackColor = true;
-            this.btnSuaBoLoc.Click += new System.EventHandler(this.btnSuaBoLoc_Click);
+            // Sửa tên phương thức
+            this.btnSuaBoLoc.Click += new System.EventHandler(this.BtnSuaBoLoc_Click);
             // 
             // btnTim
             // 
@@ -263,7 +337,8 @@
             this.btnTim.TabIndex = 80;
             this.btnTim.Text = "Tìm";
             this.btnTim.UseVisualStyleBackColor = true;
-            this.btnTim.Click += new System.EventHandler(this.btnTim_Click);
+            // Sửa tên phương thức
+            this.btnTim.Click += new System.EventHandler(this.BtnTim_Click);
             // 
             // btnThemBoLoc
             // 
@@ -276,7 +351,8 @@
             this.btnThemBoLoc.TabIndex = 79;
             this.btnThemBoLoc.Text = "Thêm bộ lọc";
             this.btnThemBoLoc.UseVisualStyleBackColor = true;
-            this.btnThemBoLoc.Click += new System.EventHandler(this.btnThemBoLoc_Click);
+            // Sửa tên phương thức
+            this.btnThemBoLoc.Click += new System.EventHandler(this.BtnThemBoLoc_Click);
             // 
             // groupBox3
             // 
@@ -298,85 +374,19 @@
             this.lsvBoLoc.Size = new System.Drawing.Size(280, 336);
             this.lsvBoLoc.TabIndex = 0;
             this.lsvBoLoc.UseCompatibleStateImageBehavior = false;
-            this.lsvBoLoc.SelectedIndexChanged += new System.EventHandler(this.lsvBoLoc_SelectedIndexChanged);
+            // Sửa tên phương thức
+            this.lsvBoLoc.SelectedIndexChanged += new System.EventHandler(this.LsvBoLoc_SelectedIndexChanged);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 102);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 15);
-            this.label3.TabIndex = 176;
-            this.label3.Text = "Từ:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 136);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 15);
-            this.label4.TabIndex = 177;
-            this.label4.Text = "Đến:";
-            // 
-            // txtTu
-            // 
-            this.txtTu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTu.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTu.Location = new System.Drawing.Point(111, 104);
-            this.txtTu.Margin = new System.Windows.Forms.Padding(2);
-            this.txtTu.Name = "txtTu";
-            this.txtTu.Size = new System.Drawing.Size(161, 23);
-            this.txtTu.TabIndex = 178;
-            // 
-            // txtDen
-            // 
-            this.txtDen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDen.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDen.Location = new System.Drawing.Point(111, 138);
-            this.txtDen.Margin = new System.Windows.Forms.Padding(2);
-            this.txtDen.Name = "txtDen";
-            this.txtDen.Size = new System.Drawing.Size(161, 23);
-            this.txtDen.TabIndex = 179;
-            // 
-            // btnLuu
-            // 
-            this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLuu.Location = new System.Drawing.Point(4, 94);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(129, 37);
-            this.btnLuu.TabIndex = 83;
-            this.btnLuu.Text = "Lưu";
-            this.btnLuu.UseVisualStyleBackColor = true;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
-            // 
-            // btnHuy
-            // 
-            this.btnHuy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnHuy.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHuy.Location = new System.Drawing.Point(141, 94);
-            this.btnHuy.Margin = new System.Windows.Forms.Padding(4);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(129, 37);
-            this.btnHuy.TabIndex = 84;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = true;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
-            // 
-            // frmTimKiem
+            // FrmTimKiem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "frmTimKiem";
-            this.Text = "frmTimKiem";
-            this.Load += new System.EventHandler(this.frmTimKiem_Load);
+            this.Name = "FrmTimKiem"; // Đã sửa tên Form
+            this.Text = "FrmTimKiem"; // Đã sửa tên Form
+            // Sửa tên phương thức
+            this.Load += new System.EventHandler(this.FrmTimKiem_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

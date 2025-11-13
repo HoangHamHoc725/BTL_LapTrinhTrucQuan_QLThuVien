@@ -205,5 +205,102 @@ namespace LibraryManagerApp.DAL
         }
 
         #endregion
+
+        #region TÌM KIẾM
+        // Hàm Tìm kiếm Thẻ Bạn Đọc
+        public List<TheBanDocDTO> SearchTheBanDoc(List<SearchFilter> filters)
+        {
+            using (var db = new QLThuVienDataContext()) // Giả sử QLThuVienDataContext
+            {
+                IQueryable<tTheBanDoc> query = db.tTheBanDocs.AsQueryable();
+
+                foreach (var filter in filters)
+                {
+                    string fieldName = filter.FieldName;
+                    string op = filter.Operator;
+                    string value = filter.Value;
+                    string valueTo = filter.ValueTo;
+
+                    // 1. Xử lý các trường kiểu chuỗi
+                    if (fieldName == "MaTBD")
+                    {
+                        if (op == "=") query = query.Where(tbd => tbd.MaTBD == value);
+                        else if (op == "LIKE") query = query.Where(tbd => tbd.MaTBD.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(tbd => tbd.MaTBD.StartsWith(value));
+                    }
+                    else if (fieldName == "MaBD")
+                    {
+                        if (op == "=") query = query.Where(tbd => tbd.MaBD == value);
+                        else if (op == "LIKE") query = query.Where(tbd => tbd.MaBD.Contains(value));
+                        else if (op == "Bắt đầu bằng") query = query.Where(tbd => tbd.MaBD.StartsWith(value));
+                    }
+                    else if (fieldName == "MaTK" && op == "=")
+                    {
+                        query = query.Where(tbd => tbd.MaTK == value);
+                    }
+                    else if (fieldName == "TrangThai" && op == "=")
+                    {
+                        query = query.Where(tbd => tbd.TrangThai == value);
+                    }
+
+                    // 2. Xử lý các trường Ngày tháng
+                    else if (fieldName == "NgayCap" && DateTime.TryParse(value, out DateTime dtValue))
+                    {
+                        DateTime dtEnd;
+                        if (op == "=")
+                            query = query.Where(tbd => tbd.NgayCap.Date == dtValue.Date);
+                        else if (op == ">")
+                            query = query.Where(tbd => tbd.NgayCap > dtValue);
+                        // ... (Thêm các toán tử <, >=, <=)
+                        else if (DateTime.TryParse(valueTo, out dtEnd))
+                        {
+                            DateTime dtStart = dtValue;
+                            if (op == "Khoảng")
+                                query = query.Where(tbd => tbd.NgayCap > dtStart && tbd.NgayCap < dtEnd);
+                            else if (op == "Đoạn")
+                                query = query.Where(tbd => tbd.NgayCap >= dtStart && tbd.NgayCap <= dtEnd);
+                        }
+                    }
+                    else if (fieldName == "NgayHetHan" && DateTime.TryParse(value, out DateTime dtValueHetHan))
+                    {
+                        DateTime dtEnd;
+                        if (op == "=")
+                            query = query.Where(tbd => tbd.NgayHetHan.Value.Date == dtValueHetHan.Date);
+                        else if (op == ">")
+                            query = query.Where(tbd => tbd.NgayHetHan > dtValueHetHan);
+                        // ... (Thêm các toán tử <, >=, <=)
+                        else if (DateTime.TryParse(valueTo, out dtEnd))
+                        {
+                            DateTime dtStart = dtValueHetHan;
+                            if (op == "Khoảng")
+                                query = query.Where(tbd => tbd.NgayHetHan > dtStart && tbd.NgayHetHan < dtEnd);
+                            else if (op == "Đoạn")
+                                query = query.Where(tbd => tbd.NgayHetHan >= dtStart && tbd.NgayHetHan <= dtEnd);
+                        }
+                    }
+                }
+
+                // 3. Thực hiện JOIN và MAP ra DTO đầy đủ (HoTenBD, TenDangNhapTK, v.v.)
+                var finalQuery = from tbd in query
+                                 join bd in db.tBanDocs on tbd.MaBD equals bd.MaBD
+                                 join tk in db.tTaiKhoans on tbd.MaTK equals tk.MaTK
+                                 select new TheBanDocDTO
+                                 {
+                                     MaTBD = tbd.MaTBD,
+                                     MaBD = tbd.MaBD,
+                                     MaTK = tbd.MaTK,
+                                     NgayCap = tbd.NgayCap,
+                                     NgayHetHan = tbd.NgayHetHan,
+                                     TrangThai = tbd.TrangThai,
+
+                                     // Thông tin JOIN
+                                     HoTenBD = bd.HoDem + " " + bd.Ten
+                                   
+                                 };
+
+                return finalQuery.ToList();
+            }
+        }
+        #endregion
     }
 }
