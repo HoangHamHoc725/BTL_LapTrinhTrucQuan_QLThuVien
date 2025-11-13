@@ -109,7 +109,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
                 cboNhanVien.Text = string.Empty;
             }
 
-            //TriggerStatusEvent(state);
+            TriggerStatusEvent(state);
         }
         #endregion
 
@@ -453,6 +453,31 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #endregion
 
         #region HÀM BỔ TRỢ
+        private void TriggerStatusEvent(State state)
+        {
+            string title = "QUẢN LÝ TÀI KHOẢN";
+            Color backColor = Color.FromArgb(32, 36, 104); // Xanh
+            Color foreColor = Color.White;
+
+            switch (state)
+            {
+                case State.CREATE:
+                    title = "THÊM MỚI TÀI KHOẢN";
+                    backColor = Color.SeaGreen;
+                    break;
+                case State.UPDATE:
+                    title = "CẬP NHẬT TÀI KHOẢN";
+                    backColor = Color.DarkOrange;
+                    break;
+                case State.READ:
+                default:
+                    title = "DANH SÁCH TÀI KHOẢN";
+                    backColor = Color.FromArgb(32, 36, 104);
+                    break;
+            }
+
+            OnStatusRequest?.Invoke(this, new StatusRequestEventArgs(title, backColor, foreColor));
+        }
         private void ClearInputs()
         {
             txtMaTK.Clear();
