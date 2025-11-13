@@ -153,6 +153,24 @@
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.3.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Net.Http.Headers.2.3.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Win32.Registry.4.5.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
@@ -270,6 +288,12 @@
     <Compile Include="GUI\Forms\frmBanSao.Designer.cs">
       <DependentUpon>frmBanSao.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Forms\frmBaoCaoTheBanDoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmBaoCaoTheBanDoc.Designer.cs">
+      <DependentUpon>frmBaoCaoTheBanDoc.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Forms\frmHinhAnh.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -300,6 +324,14 @@
     </Compile>
     <Compile Include="GUI\UserControls\DangNhap\ucFrmDangNhap.Designer.cs">
       <DependentUpon>ucFrmDangNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ThuVienDataSet.cs">
+      <DependentUpon>ThuVienDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ThuVienDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ThuVienDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="GUI\UserControls\QLBanDoc\ucFrmQuanLyBanDoc.cs">
       <SubType>UserControl</SubType>
@@ -374,8 +406,12 @@
     <Compile Include="Helpers\State.cs" />
     <Compile Include="Helpers\ThongKeMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <EmbeddedResource Include="GUI\Forms\frmBanSao.resx">
       <DependentUpon>frmBanSao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\frmBaoCaoTheBanDoc.resx">
+      <DependentUpon>frmBaoCaoTheBanDoc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\frmHinhAnh.resx">
       <DependentUpon>frmHinhAnh.cs</DependentUpon>
@@ -425,6 +461,9 @@
     <EmbeddedResource Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.resx">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Reports\rptTheBanDoc.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -443,6 +482,17 @@
     </None>
     <None Include="DAL\QLThuVien.dbml.layout">
       <DependentUpon>QLThuVien.dbml</DependentUpon>
+    </None>
+    <None Include="DAL\ThuVienDataSet.xsc">
+      <DependentUpon>ThuVienDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DAL\ThuVienDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ThuVienDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DAL\ThuVienDataSet.xss">
+      <DependentUpon>ThuVienDataSet.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -470,6 +520,19 @@
     <Content Include="Resources\img\icon\icon_phanquyen.png" />
     <Content Include="Resources\img\logo_utc.png" />
     <Content Include="Resources\img\icon\icon_bandoc.png" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

@@ -3,6 +3,7 @@
 using LibraryManagerApp.BLL;
 using LibraryManagerApp.DAL; // Cần thiết cho BanDocChuaCoTheDTO
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.Forms;
 using LibraryManagerApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -288,6 +289,45 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         #region CHỨC NĂNG TÌM KIẾM
         // Sẽ triển khai sau
+        #endregion
+
+        #region CHỨC NĂNG IN ẤN / BÁO CÁO
+
+        private void btnXuatThe_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra xem đã chọn thẻ nào chưa (dựa vào biến _selectedMaTBD được gán khi Click DGV)
+            if (string.IsNullOrEmpty(_selectedMaTBD))
+            {
+                MessageBox.Show("Vui lòng chọn một Thẻ Bạn Đọc từ danh sách để in.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // 2. Lấy thông tin chi tiết của thẻ (bao gồm cả thông tin cá nhân bạn đọc mới thêm vào DTO)
+                TheBanDocDTO theBanDoc = _bll.LayChiTietTheBanDoc(_selectedMaTBD);
+
+                if (theBanDoc != null)
+                {
+                    // 3. Form báo cáo nhận vào một List, nên ta tạo List chứa 1 phần tử
+                    List<TheBanDocDTO> listData = new List<TheBanDocDTO>();
+                    listData.Add(theBanDoc);
+
+                    // 4. Khởi tạo và hiển thị Form Báo cáo
+                    frmBaoCaoTheBanDoc frm = new frmBaoCaoTheBanDoc(listData);
+                    frm.ShowDialog(); // Hiện dưới dạng popup
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy thông tin chi tiết của thẻ này.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi chuẩn bị dữ liệu in: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         #endregion
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY

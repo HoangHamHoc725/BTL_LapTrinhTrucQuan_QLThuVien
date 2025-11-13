@@ -9,8 +9,9 @@ namespace LibraryManagerApp.DAL
 {
     internal class TheBanDocDAL
     {
-        #region: LẤY THÔNG TIN
-        // Hàm READ chính: Lấy tất cả Thẻ Bạn Đọc kèm thông tin liên quan
+        #region LẤY THÔNG TIN
+
+        // Hàm READ chính: Lấy tất cả Thẻ Bạn Đọc kèm thông tin liên quan đầy đủ
         public List<TheBanDocDTO> GetAllTheBanDocDTO()
         {
             using (var db = new QLThuVienDataContext())
@@ -22,6 +23,7 @@ namespace LibraryManagerApp.DAL
                             join nv in db.tNhanViens on tk.MaNV equals nv.MaNV
                             select new TheBanDocDTO
                             {
+                                // 1. Thông tin Thẻ
                                 MaTBD = tbd.MaTBD,
                                 MaBD = tbd.MaBD,
                                 MaTK = tbd.MaTK,
@@ -29,38 +31,69 @@ namespace LibraryManagerApp.DAL
                                 NgayHetHan = tbd.NgayHetHan,
                                 TrangThai = tbd.TrangThai,
 
+                                // 2. Thông tin hiển thị (JOIN)
                                 HoTenBD = bd.HoDem + " " + bd.Ten,
-                                HoTenNV = nv.HoDem + " " + nv.Ten
+                                HoTenNV = nv.HoDem + " " + nv.Ten,
+
+                                // 3. Thông tin chi tiết Bạn đọc (Dùng cho in thẻ/báo cáo)
+                                NgaySinh = bd.NgaySinh,
+                                // Chuyển đổi dữ liệu hiển thị ngay tại DAL
+                                GioiTinh = (bd.GioiTinh == 'M') ? "Nam" : "Nữ",
+                                DiaChi = bd.DiaChi,
+                                SDT = bd.SDT
                             };
 
                 return query.ToList();
             }
         }
 
-        // Hàm READ Chi tiết (dùng cho CellClick)
+        // Hàm READ Chi tiết (dùng cho CellClick và In Báo Cáo)
         public TheBanDocDTO GetTheBanDocByMaTBD(string maTBD)
         {
-            // Tối ưu: Chỉ truy vấn bản ghi cụ thể nếu có nhiều dữ liệu. 
-            // Hiện tại, ta dùng GetAllTheBanDocDTO().SingleOrDefault() để đơn giản
+            // Tối ưu: Lấy từ danh sách đã JOIN đầy đủ
             return GetAllTheBanDocDTO().SingleOrDefault(p => p.MaTBD == maTBD);
         }
 
-        // 1. Hàm gọi Stored Procedure SP_GenerateNewMaTBD
+        // Hàm Kiểm tra Thẻ (Cho chức năng Mượn Trả - Chỉ lấy thông tin cần thiết)
+        public TheBanDocDTO GetTheBanDocForMuon(string maTBD)
+        {
+            using (var db = new QLThuVienDataContext())
+            {
+                var query = from tbd in db.tTheBanDocs
+                            join bd in db.tBanDocs on tbd.MaBD equals bd.MaBD
+                            where tbd.MaTBD == maTBD
+                            select new TheBanDocDTO
+                            {
+                                MaTBD = tbd.MaTBD,
+                                MaBD = tbd.MaBD,
+                                HoTenBD = bd.HoDem + " " + bd.Ten,
+                                TrangThai = tbd.TrangThai
+                            };
+
+                return query.SingleOrDefault(); // Trả về DTO hoặc null
+            }
+        }
+
+        #endregion
+
+        #region SINH MÃ TỰ ĐỘNG
+
+        // Hàm gọi Stored Procedure SP_GenerateNewMaTBD
         public string GenerateNewMaTBD(string maBD, out int errorStatus)
         {
             using (var db = new QLThuVienDataContext())
             {
                 string newMaTBD = string.Empty;
 
-                // >>> KHẮC PHỤC LỖI: Sử dụng int? (Nullable int)
+                // Sử dụng int? (Nullable int) để tương thích với tham số OUTPUT của LINQ to SQL
                 int? nullableErrorStatus = -1;
 
                 try
                 {
-                    // Giả định SP_GenerateNewMaTBD có tham số OUTPUT thứ 3 là ref string và ref int?
+                    // Gọi SP đã được ánh xạ trong DataContext
                     db.SP_GenerateNewMaTBD(maBD, ref newMaTBD, ref nullableErrorStatus);
 
-                    // Chuyển kết quả từ int? sang int cho BLL
+                    // Chuyển kết quả từ int? sang int
                     errorStatus = nullableErrorStatus ?? 99; // Nếu NULL, gán lỗi 99
 
                     return newMaTBD;
@@ -74,33 +107,16 @@ namespace LibraryManagerApp.DAL
             }
         }
 
-        // Hàm Kiểm tra Thẻ (Cho chức năng Mượn)
-        public TheBanDocDTO GetTheBanDocForMuon(string maTBD)
-        {
-            using (var db = new QLThuVienDataContext())
-            {
-                var query = from tbd in db.tTheBanDocs
-                            join bd in db.tBanDocs on tbd.MaBD equals bd.MaBD
-                            where tbd.MaTBD == maTBD
-                            select new TheBanDocDTO
-                            {
-                                MaTBD = tbd.MaTBD,
-                                HoTenBD = bd.HoDem + " " + bd.Ten,
-                                TrangThai = tbd.TrangThai
-                            };
-
-                return query.SingleOrDefault(); // Trả về DTO hoặc null
-            }
-        }
         #endregion
 
         #region NHẬP SỬA XÓA
-        // 2. Hàm Insert (CREATE)
+
+        // Hàm Insert (CREATE)
         public bool InsertTheBanDoc(TheBanDocDTO model)
         {
             using (var db = new QLThuVienDataContext())
             {
-                // Tạo một đối tượng tTheBanDoc từ DTO (chỉ lấy các trường thô)
+                // Tạo đối tượng Entity từ DTO
                 tTheBanDoc newThe = new tTheBanDoc
                 {
                     MaTBD = model.MaTBD,
@@ -120,13 +136,13 @@ namespace LibraryManagerApp.DAL
                 }
                 catch (Exception ex)
                 {
-                    // Lỗi DB (trùng Mã TBD, sai FK,...)
                     Console.WriteLine("Lỗi khi thêm Thẻ Bạn Đọc: " + ex.Message);
                     return false;
                 }
             }
         }
 
+        // Hàm Update (UPDATE)
         public bool UpdateTheBanDoc(TheBanDocDTO model)
         {
             using (var db = new QLThuVienDataContext())
@@ -139,26 +155,26 @@ namespace LibraryManagerApp.DAL
                     // 2. Cập nhật các thuộc tính (Không cập nhật MaTBD và MaBD)
                     existingThe.MaTK = model.MaTK;
                     existingThe.NgayCap = model.NgayCap;
-                    existingThe.NgayHetHan = model.NgayHetHan; // Ngày hết hạn có thể được sửa đổi thủ công
+                    existingThe.NgayHetHan = model.NgayHetHan;
                     existingThe.TrangThai = model.TrangThai;
 
                     try
                     {
-                        // 3. Thực hiện lưu thay đổi vào DB
+                        // 3. Lưu thay đổi
                         db.SubmitChanges();
-                        return true; // Cập nhật thành công
+                        return true;
                     }
                     catch (Exception ex)
                     {
-                        // Lỗi DB (Ví dụ: MaTK không hợp lệ, Ngày Hết Hạn < Ngày Cấp)
                         Console.WriteLine("Lỗi khi cập nhật Thẻ Bạn Đọc: " + ex.Message);
                         return false;
                     }
                 }
-                return false; // Không tìm thấy Mã TBD
+                return false; // Không tìm thấy
             }
         }
 
+        // Hàm Delete (DELETE)
         public bool DeleteTheBanDoc(string maTBD)
         {
             using (var db = new QLThuVienDataContext())
@@ -168,14 +184,14 @@ namespace LibraryManagerApp.DAL
 
                 if (theToDelete != null)
                 {
-                    // 2. Thực hiện xóa khỏi bảng
+                    // 2. Xóa khỏi bảng
                     db.tTheBanDocs.DeleteOnSubmit(theToDelete);
 
                     try
                     {
-                        // 3. Thực hiện lưu thay đổi vào DB
+                        // 3. Lưu thay đổi
                         db.SubmitChanges();
-                        return true; // Xóa thành công
+                        return true;
                     }
                     catch (Exception ex)
                     {
@@ -184,9 +200,10 @@ namespace LibraryManagerApp.DAL
                         return false;
                     }
                 }
-                return false; // Không tìm thấy Mã TBD
+                return false; // Không tìm thấy
             }
         }
+
         #endregion
     }
 }
