@@ -14,25 +14,14 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
     {
         private Button currentActiveButton;
 
-        public ucFrmQuanLyPhanQuyen(string tabName = "NhanVien")
+        public ucFrmQuanLyPhanQuyen()
         {
             InitializeComponent();
-
-            // Xử lý điều hướng ngay khi khởi tạo
-            if (tabName == "TaiKhoan")
-            {
-                btnThongTinTaiKhoan_Click(btnThongTinTaiKhoan, EventArgs.Empty);
-            }
-            else
-            {
-                // Mặc định (hoặc nếu tabName == "NhanVien")
-                btnThongTinNhanVien_Click(btnThongTinNhanVien, EventArgs.Empty);
-            }
         }
 
         private void ucFrmQuanLyPhanQuyen_Load(object sender, EventArgs e)
         {
-            //btnThongTinNhanVien_Click(btnThongTinNhanVien, EventArgs.Empty);
+            btnThongTinNhanVien_Click(btnThongTinNhanVien, EventArgs.Empty);
         }
 
         private void LoadSubUserControl(UserControl uc)

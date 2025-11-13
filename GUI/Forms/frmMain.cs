@@ -6,7 +6,6 @@ using LibraryManagerApp.GUI.UserControls.QLMuonTra;
 using LibraryManagerApp.GUI.UserControls.QLPhanQuyen;
 using LibraryManagerApp.GUI.UserControls.QLTaiLieu;
 using LibraryManagerApp.GUI.UserControls.ThongKeBaoCao;
-using LibraryManagerApp.GUI.UserControls.TrangChu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -253,7 +252,8 @@ namespace LibraryManagerApp
         private void btnTrangChu_Click(object sender, EventArgs e)
         {
             SetActiveButton(btnTrangChu);
-            LoadUserControl(new ucFrmTrangChu());
+            // TODO: Load UC Trang Chủ khi đã tạo
+            // LoadUserControl(new ucFrmTrangChu());
         }
 
         private void btnQLBanDoc_Click(object sender, EventArgs e)
@@ -284,103 +284,6 @@ namespace LibraryManagerApp
         {
             SetActiveButton(btnThongKeBaoCao);
             LoadUserControl(new ucFrmThongKeBaoCao());
-        }
-        
-        // KHU VỰC HÀM PUBLIC ĐỂ GỌI TỪ BÊN NGOÀI (UserControl)
-
-        public void MoTabQuanLyBanDoc()
-        {
-            // Kiểm tra nếu nút đang hiện (có quyền) thì mới bấm
-            if (btnQLBanDoc.Visible)
-                btnQLBanDoc.PerformClick();
-            else
-                MessageBox.Show("Bạn không có quyền truy cập chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
-        public void MoTabTheBanDoc()
-        {
-            // 1. Check quyền (như đã bàn)
-            if (!btnQLBanDoc.Visible == false)
-            {
-                MessageBox.Show("Bạn không có quyền truy cập chức năng này!", "Thông báo");
-                return;
-            }
-            
-            // 2. Set Active menu
-            SetActiveButton(btnQLBanDoc);
-
-            // 3. Truyền tham số "TheBanDoc" vào Constructor
-            // Logic bên trong Constructor sẽ tự bấm nút btnTheBanDoc_Click
-            var uc = new ucFrmQuanLyBanDoc("TheBanDoc");
-
-            // 4. Load lên
-            LoadUserControl(uc);
-        }
-
-        public void MoTabQuanLyTaiLieu()
-        {
-            // ... Check quyền ...
-            SetActiveButton(btnQLTaiLieu);
-
-            // Mặc định mở Tài liệu
-            var uc = new ucFrmQuanLyTaiLieu("TaiLieu");
-
-            LoadUserControl(uc);
-        }
-
-        public void MoTabDanhMuc()
-        {
-            // Check quyền (nếu cần)
-            if (!btnQLTaiLieu.Visible) return;
-
-            SetActiveButton(btnQLTaiLieu);
-
-            // Truyền tham số "DanhMuc" vào Constructor
-            var uc = new ucFrmQuanLyTaiLieu("DanhMuc");
-
-            LoadUserControl(uc);
-        }
-
-        public void MoTabQuanLyMuonTra()
-        {
-            if (btnQLMuonTra.Visible)
-                btnQLMuonTra.PerformClick();
-            else
-                MessageBox.Show("Bạn không có quyền truy cập chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
-        public void MoTabQuanLyNhanVien()
-        {
-            // Kiểm tra quyền (Nhân viên nằm trong nhóm Phân Quyền)
-            if (!btnQLPhanQuyen.Visible) return;
-
-            SetActiveButton(btnQLPhanQuyen);
-
-            // Truyền "NhanVien" vào Constructor
-            var uc = new ucFrmQuanLyPhanQuyen("NhanVien");
-
-            LoadUserControl(uc);
-        }
-
-        public void MoTabThongKeBaoCao()
-        {
-            if (btnThongKeBaoCao.Visible)
-                btnThongKeBaoCao.PerformClick();
-            else
-                MessageBox.Show("Bạn không có quyền truy cập chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
-        public void MoThongTinTaiKhoan()
-        {
-            // Kiểm tra quyền
-            if (!btnQLPhanQuyen.Visible) return;
-
-            SetActiveButton(btnQLPhanQuyen);
-
-            // Truyền "TaiKhoan" vào Constructor
-            var uc = new ucFrmQuanLyPhanQuyen("TaiKhoan");
-
-            LoadUserControl(uc);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
