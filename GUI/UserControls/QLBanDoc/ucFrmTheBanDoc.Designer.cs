@@ -33,6 +33,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.gbThaoTac = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnXuatThe = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
@@ -57,7 +58,7 @@
             this.dtpNgayCap = new System.Windows.Forms.DateTimePicker();
             this.gbBangDuLieu = new System.Windows.Forms.GroupBox();
             this.dgvDuLieu = new System.Windows.Forms.DataGridView();
-            this.btnXuatThe = new System.Windows.Forms.Button();
+            this.btnXuatExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -121,6 +122,7 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.btnXuatExcel, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.btnXuatThe, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.btnHuy, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.btnTimKiem, 0, 0);
@@ -140,6 +142,19 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(313, 211);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // btnXuatThe
+            // 
+            this.btnXuatThe.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatThe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatThe.Location = new System.Drawing.Point(20, 152);
+            this.btnXuatThe.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXuatThe.Name = "btnXuatThe";
+            this.btnXuatThe.Size = new System.Drawing.Size(132, 39);
+            this.btnXuatThe.TabIndex = 80;
+            this.btnXuatThe.Text = "Xuất thẻ";
+            this.btnXuatThe.UseVisualStyleBackColor = true;
+            this.btnXuatThe.Click += new System.EventHandler(this.btnXuatThe_Click);
             // 
             // btnHuy
             // 
@@ -447,18 +462,18 @@
             this.dgvDuLieu.TabIndex = 0;
             this.dgvDuLieu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuLieu_CellClick);
             // 
-            // btnXuatThe
+            // btnXuatExcel
             // 
-            this.btnXuatThe.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnXuatThe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXuatThe.Location = new System.Drawing.Point(20, 152);
-            this.btnXuatThe.Margin = new System.Windows.Forms.Padding(4);
-            this.btnXuatThe.Name = "btnXuatThe";
-            this.btnXuatThe.Size = new System.Drawing.Size(132, 39);
-            this.btnXuatThe.TabIndex = 80;
-            this.btnXuatThe.Text = "Xuất thẻ";
-            this.btnXuatThe.UseVisualStyleBackColor = true;
-            this.btnXuatThe.Click += new System.EventHandler(this.btnXuatThe_Click);
+            this.btnXuatExcel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatExcel.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatExcel.Location = new System.Drawing.Point(160, 152);
+            this.btnXuatExcel.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXuatExcel.Name = "btnXuatExcel";
+            this.btnXuatExcel.Size = new System.Drawing.Size(133, 39);
+            this.btnXuatExcel.TabIndex = 81;
+            this.btnXuatExcel.Text = "Xuất excel";
+            this.btnXuatExcel.UseVisualStyleBackColor = true;
+            this.btnXuatExcel.Click += new System.EventHandler(this.btnXuatExcel_Click);
             // 
             // ucFrmTheBanDoc
             // 
@@ -516,5 +531,6 @@
         private System.Windows.Forms.DataGridView dgvDuLieu;
         private System.Windows.Forms.ComboBox cboBanDoc;
         private System.Windows.Forms.Button btnXuatThe;
+        private System.Windows.Forms.Button btnXuatExcel;
     }
 }

@@ -51,11 +51,14 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EPPlus, Version=8.2.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>packages\EPPlus.8.2.1\lib\net462\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus, Version=7.5.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.7.5.2\lib\net462\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus.Interfaces, Version=8.1.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
       <HintPath>packages\EPPlus.Interfaces.8.1.0\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=7.5.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.System.Drawing.7.5.0\lib\net462\EPPlus.System.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication, Version=2.3.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNetCore.Authentication.2.3.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.dll</HintPath>
@@ -191,6 +194,9 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.8.0.4\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
     </Reference>
@@ -293,6 +299,12 @@
     </Compile>
     <Compile Include="GUI\Forms\frmBaoCaoTheBanDoc.Designer.cs">
       <DependentUpon>frmBaoCaoTheBanDoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Forms\frmChonCotXuatExcel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\frmChonCotXuatExcel.Designer.cs">
+      <DependentUpon>frmChonCotXuatExcel.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Forms\frmHinhAnh.cs">
       <SubType>Form</SubType>
@@ -399,6 +411,7 @@
     <Compile Include="GUI\UserControls\ThongKeBaoCao\ucFrmThongKeBaoCao.Designer.cs">
       <DependentUpon>ucFrmThongKeBaoCao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\IdentityPasswordHelper.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\SearchMetadata.cs" />
@@ -412,6 +425,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\frmBaoCaoTheBanDoc.resx">
       <DependentUpon>frmBaoCaoTheBanDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\frmChonCotXuatExcel.resx">
+      <DependentUpon>frmChonCotXuatExcel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\frmHinhAnh.resx">
       <DependentUpon>frmHinhAnh.cs</DependentUpon>
