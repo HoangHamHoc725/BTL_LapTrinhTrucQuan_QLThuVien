@@ -15,6 +15,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         private TaiKhoanBLL _bll = new BLL.TaiKhoanBLL();
         private State _currentState;
         private string _selectedMaTK = string.Empty;
+        private FrmTimKiem _searchForm;
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinTaiKhoan()
@@ -286,19 +287,43 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #endregion
 
         #region CHỨC NĂNG TÌM KIẾM
+
+        // private FrmTimKiem _searchForm; // Biến này phải được khai báo ở cấp độ Class/Field
+
         private void btnMoTimKiem_Click(object sender, EventArgs e)
         {
             // Lấy metadata cho Tài Khoản
-            List<FieldMetadata> tkMetadata = _bll.GetSearchFields(); // Hoặc SearchMetadata.GetTaiKhoanFields();
+            List<FieldMetadata> tkMetadata = _bll.GetSearchFields();
 
-            FrmTimKiem searchForm = new FrmTimKiem(tkMetadata);
-
-            if (searchForm.ShowDialog() == DialogResult.OK)
+            // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
+            if (_searchForm == null || _searchForm.IsDisposed)
             {
-                List<SearchFilter> filters = searchForm.Filters;
+                // 1. Khởi tạo Form tìm kiếm mới, truyền metadata
+                _searchForm = new FrmTimKiem(tkMetadata);
 
-                // Gọi hàm tải dữ liệu mới
+                // 2. Đăng ký Event để nhận bộ lọc khi nút "Tìm" được nhấn (CHỈ 1 LẦN)
+                _searchForm.OnSearchApplied += HandleSearchAppliedTaiKhoan;
+            }
+
+            // 3. Hiển thị Form non-modal (Không chặn Form cha)
+            _searchForm.Show();
+            _searchForm.BringToFront(); // Đưa Form tìm kiếm lên trên
+        }
+
+        // Hàm xử lý Event khi người dùng nhấn nút "Tìm" trong FrmTimKiem
+        // Event này được gọi (Raise) từ FrmTimKiem sau khi thu thập xong filters VÀ KHÔNG ĐÓNG FORM
+        private void HandleSearchAppliedTaiKhoan(List<SearchFilter> filters)
+        {
+            try
+            {
+                // Gọi hàm tải dữ liệu mới với các bộ lọc nhận được
                 LoadTaiKhoanData(filters);
+
+                // Cấu hình hiển thị và thông báo có thể được thực hiện trong LoadTaiKhoanData
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Tài Khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -311,21 +336,27 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
                 if (filters == null || filters.Count == 0)
                 {
-                    danhSach = _bll.LayDanhSachTaiKhoan(); 
+                    // Tải lại toàn bộ nếu không có bộ lọc
+                    danhSach = _bll.LayDanhSachTaiKhoan();
                 }
                 else
                 {
+                    // Thực hiện tìm kiếm với bộ lọc nhận được
                     danhSach = _bll.TimKiemTaiKhoan(filters);
                 }
 
                 dgvDuLieu.DataSource = danhSach;
-                // ... (Cấu hình hiển thị và thông báo)
+                // ... (Cấu hình hiển thị)
+                MessageBox.Show($"Tìm thấy {danhSach.Count} Tài Khoản khớp với bộ lọc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                btnHuy.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Tài Khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi tải dữ liệu Tài Khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         #endregion
 
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
@@ -414,6 +445,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
                 }
             }
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 

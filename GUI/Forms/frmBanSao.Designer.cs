@@ -326,6 +326,7 @@
             this.btnTimKiem.TabIndex = 78;
             this.btnTimKiem.Text = "Tìm kiếm";
             this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.BtnTimKiem_Click);
             // 
             // groupBox3
             // 

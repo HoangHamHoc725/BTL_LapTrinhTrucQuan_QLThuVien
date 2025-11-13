@@ -33,6 +33,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.gbThaoTac = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnXuatThe = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
@@ -57,6 +58,7 @@
             this.dtpNgayCap = new System.Windows.Forms.DateTimePicker();
             this.gbBangDuLieu = new System.Windows.Forms.GroupBox();
             this.dgvDuLieu = new System.Windows.Forms.DataGridView();
+            this.btnXuatExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -125,6 +127,8 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.btnXuatExcel, 1, 3);
+            this.tableLayoutPanel3.Controls.Add(this.btnXuatThe, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.btnHuy, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.btnTimKiem, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnThem, 1, 0);
@@ -135,22 +139,36 @@
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 32);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(24, 25, 24, 25);
-            this.tableLayoutPanel3.RowCount = 3;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(471, 323);
+            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(313, 211);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // btnXuatThe
+            // 
+            this.btnXuatThe.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatThe.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatThe.Location = new System.Drawing.Point(20, 152);
+            this.btnXuatThe.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXuatThe.Name = "btnXuatThe";
+            this.btnXuatThe.Size = new System.Drawing.Size(132, 39);
+            this.btnXuatThe.TabIndex = 80;
+            this.btnXuatThe.Text = "Xuất thẻ";
+            this.btnXuatThe.UseVisualStyleBackColor = true;
+            this.btnXuatThe.Click += new System.EventHandler(this.btnXuatThe_Click);
             // 
             // btnHuy
             // 
             this.btnHuy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnHuy.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHuy.Location = new System.Drawing.Point(241, 213);
-            this.btnHuy.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnHuy.Location = new System.Drawing.Point(160, 108);
+            this.btnHuy.Margin = new System.Windows.Forms.Padding(4);
             this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(200, 79);
+            this.btnHuy.Size = new System.Drawing.Size(133, 36);
             this.btnHuy.TabIndex = 78;
             this.btnHuy.Text = "Hủy";
             this.btnHuy.UseVisualStyleBackColor = true;
@@ -163,7 +181,7 @@
             this.btnTimKiem.Location = new System.Drawing.Point(30, 31);
             this.btnTimKiem.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(199, 79);
+            this.btnTimKiem.Size = new System.Drawing.Size(132, 36);
             this.btnTimKiem.TabIndex = 74;
             this.btnTimKiem.Text = "Tìm kiếm";
             this.btnTimKiem.UseVisualStyleBackColor = true;
@@ -176,7 +194,7 @@
             this.btnThem.Location = new System.Drawing.Point(241, 31);
             this.btnThem.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(200, 79);
+            this.btnThem.Size = new System.Drawing.Size(133, 36);
             this.btnThem.TabIndex = 75;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = true;
@@ -186,10 +204,10 @@
             // 
             this.btnLuu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLuu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLuu.Location = new System.Drawing.Point(30, 213);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnLuu.Location = new System.Drawing.Point(20, 108);
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
             this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(199, 79);
+            this.btnLuu.Size = new System.Drawing.Size(132, 36);
             this.btnLuu.TabIndex = 79;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = true;
@@ -199,10 +217,10 @@
             // 
             this.btnXoa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoa.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoa.Location = new System.Drawing.Point(241, 122);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnXoa.Location = new System.Drawing.Point(160, 64);
+            this.btnXoa.Margin = new System.Windows.Forms.Padding(4);
             this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Size = new System.Drawing.Size(200, 79);
+            this.btnXoa.Size = new System.Drawing.Size(133, 36);
             this.btnXoa.TabIndex = 77;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = true;
@@ -212,10 +230,10 @@
             // 
             this.btnSua.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSua.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSua.Location = new System.Drawing.Point(30, 122);
-            this.btnSua.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnSua.Location = new System.Drawing.Point(20, 64);
+            this.btnSua.Margin = new System.Windows.Forms.Padding(4);
             this.btnSua.Name = "btnSua";
-            this.btnSua.Size = new System.Drawing.Size(199, 79);
+            this.btnSua.Size = new System.Drawing.Size(132, 36);
             this.btnSua.TabIndex = 76;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = true;
@@ -453,6 +471,19 @@
             this.dgvDuLieu.TabIndex = 0;
             this.dgvDuLieu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDuLieu_CellClick);
             // 
+            // btnXuatExcel
+            // 
+            this.btnXuatExcel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatExcel.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatExcel.Location = new System.Drawing.Point(160, 152);
+            this.btnXuatExcel.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXuatExcel.Name = "btnXuatExcel";
+            this.btnXuatExcel.Size = new System.Drawing.Size(133, 39);
+            this.btnXuatExcel.TabIndex = 81;
+            this.btnXuatExcel.Text = "Xuất excel";
+            this.btnXuatExcel.UseVisualStyleBackColor = true;
+            this.btnXuatExcel.Click += new System.EventHandler(this.btnXuatExcel_Click);
+            // 
             // ucFrmTheBanDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -509,5 +540,7 @@
         private System.Windows.Forms.DateTimePicker dtpNgayHetHan;
         private System.Windows.Forms.DataGridView dgvDuLieu;
         private System.Windows.Forms.ComboBox cboBanDoc;
+        private System.Windows.Forms.Button btnXuatThe;
+        private System.Windows.Forms.Button btnXuatExcel;
     }
 }

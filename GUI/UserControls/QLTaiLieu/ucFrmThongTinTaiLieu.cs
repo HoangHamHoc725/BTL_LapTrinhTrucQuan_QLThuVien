@@ -19,6 +19,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         private TaiLieuBLL _bll = new TaiLieuBLL();
         private State _currentState;
         private string _selectedMaTL = string.Empty;
+        private FrmTimKiem _searchForm;
+
 
         // Vùng nhớ (in-memory list) cho Tác giả
         private List<TL_TGDTO> _danhSachTacGiaTam = new List<TL_TGDTO>();
@@ -425,35 +427,77 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #region CHỨC NĂNG TÌM KIẾM
         private void btnMoTimKiem_Click(object sender, EventArgs e)
         {
-            TaiLieuBLL bll = new TaiLieuBLL();
-            List<FieldMetadata> tlMetadata = bll.GetSearchFields();
+            // Lấy metadata cho Tài Liệu
+            List<FieldMetadata> tlMetadata = _bll.GetSearchFields();
 
-            FrmTimKiem searchForm = new FrmTimKiem(tlMetadata);
-
-            if (searchForm.ShowDialog() == DialogResult.OK)
+            // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
+            if (_searchForm == null || _searchForm.IsDisposed)
             {
-                List<SearchFilter> filters = searchForm.Filters;
+                // 1. Khởi tạo Form tìm kiếm mới
+                _searchForm = new FrmTimKiem(tlMetadata);
 
-                // Gọi hàm tải dữ liệu mới
+                // 2. Đăng ký Event để nhận bộ lọc khi nút "Tìm" được nhấn (CHỈ 1 LẦN)
+                _searchForm.OnSearchApplied += HandleSearchAppliedTaiLieu;
+
+                // Tùy chọn: Đăng ký sự kiện đóng Form để giải phóng tài nguyên
+                // _searchForm.FormClosed += SearchForm_FormClosed; 
+            }
+
+            // 3. Hiển thị Form non-modal (Không chặn Form cha)
+            _searchForm.Show();
+            _searchForm.BringToFront(); // Đưa Form tìm kiếm lên trên
+        }
+
+        // Hàm xử lý Event khi người dùng nhấn nút "Tìm" trong FrmTimKiem
+        // Event này được gọi từ FrmTimKiem sau khi thu thập xong filters VÀ KHÔNG ĐÓNG FORM
+        private void HandleSearchAppliedTaiLieu(List<SearchFilter> filters)
+        {
+            try
+            {
+                // Gọi hàm tải dữ liệu mới với các bộ lọc nhận được
                 LoadTaiLieuData(filters);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Tài Liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void LoadTaiLieuData(List<SearchFilter> filters)
         {
-            TaiLieuBLL bll = new TaiLieuBLL();
+            // TaiLieuBLL bll = new TaiLieuBLL(); // Không cần tạo lại BLL nếu đã có _bll ở cấp class
             List<TaiLieuDTO> danhSach;
 
             if (filters == null || filters.Count == 0)
             {
-                danhSach = bll.LayTatCaTaiLieu(); // Giả sử có hàm này
+                danhSach = _bll.LayTatCaTaiLieu();
+                MessageBox.Show("Hiển thị toàn bộ Tài Liệu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                danhSach = bll.TimKiemTaiLieu(filters);
+                danhSach = _bll.TimKiemTaiLieu(filters);
+                MessageBox.Show($"Tìm thấy {danhSach.Count} Tài Liệu khớp với bộ lọc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // ... (Cập nhật DataGridView với danhSach)
+            dgvDuLieuTaiLieu.DataSource = null;
+            dgvDuLieuTaiLieu.DataSource = danhSach;
+
+            // Cấu hình lại cột nếu cần
+            dgvDuLieuTaiLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            // Xóa các ô input chi tiết sau khi tìm kiếm
+            ClearInputs();
+            btnHuy.Enabled = true;
+        }
+
+        // Tùy chọn: Hàm xử lý khi Form tìm kiếm bị đóng
+        private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (_searchForm != null)
+            {
+                _searchForm.OnSearchApplied -= HandleSearchAppliedTaiLieu;
+            }
+            _searchForm = null;
         }
         #endregion
 
@@ -611,6 +655,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             }
             // Nếu là CREATE, chỉ cần SetState(READ) (vì nó sẽ gọi ClearInputs)
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 

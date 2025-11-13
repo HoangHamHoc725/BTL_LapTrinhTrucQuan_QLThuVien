@@ -318,7 +318,7 @@ namespace LibraryManagerApp.GUI.Forms
 
             // 2. Đặt DialogResult và đóng Form
             this.DialogResult = DialogResult.OK;
-            this.Close();
+            
         }
 
         #endregion

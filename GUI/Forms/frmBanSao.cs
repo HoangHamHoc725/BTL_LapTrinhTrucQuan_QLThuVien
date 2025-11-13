@@ -18,7 +18,9 @@ namespace LibraryManagerApp.GUI.Forms
     {
         // Khai báo BLL và các biến trạng thái
         private BanSaoBLL _bll = new BanSaoBLL();
+        private string _maTaiLieuHienTai;
         private State _currentState;
+        private FrmTimKiem _searchForm;
 
         // Biến lưu thông tin Tài liệu cha
         private string _maTL;
@@ -34,6 +36,7 @@ namespace LibraryManagerApp.GUI.Forms
         {
             InitializeComponent();
 
+            _maTaiLieuHienTai = maTL;
             _maTL = maTL;
             _tenTL = tenTL;
 
@@ -215,6 +218,106 @@ namespace LibraryManagerApp.GUI.Forms
         }
         #endregion
 
+        #region CHỨC NĂNG READ VÀ TÌM KIẾM
+
+        private void BtnTimKiem_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra trạng thái và MaTL
+            if (string.IsNullOrEmpty(_maTaiLieuHienTai))
+            {
+                MessageBox.Show("Không thể tìm kiếm vì Mã Tài Liệu chưa được xác định.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Đảm bảo không tạo nhiều instance của Form tìm kiếm VÀ CHỈ ĐĂNG KÝ EVENT MỘT LẦN
+            if (_searchForm == null || _searchForm.IsDisposed)
+            {
+                // 1. Lấy metadata (MaBS, TrangThai)
+                List<FieldMetadata> bsMetadata = _bll.GetSearchFields();
+
+                // Khởi tạo Form tìm kiếm mới, truyền metadata vào constructor
+                _searchForm = new FrmTimKiem(bsMetadata);
+
+                // 2. Đăng ký Event để nhận bộ lọc từ Form tìm kiếm (CHỈ 1 LẦN)
+                _searchForm.OnSearchApplied += HandleSearchAppliedBanSao;
+            }
+            // 3. Đăng ký sự kiện đóng Form để giải phóng tài nguyên
+            _searchForm.FormClosed += SearchForm_FormClosed;
+
+            // 4. Hiển thị Form non-modal
+            _searchForm.Show();
+            _searchForm.BringToFront(); // Đưa Form tìm kiếm lên trên
+        }
+
+        // Hàm xử lý Event khi người dùng nhấn nút "Tìm" trong FrmTimKiem
+        // Event này được kích hoạt (Raise) từ FrmTimKiem sau khi thu thập filters
+        private void HandleSearchAppliedBanSao(List<SearchFilter> filters)
+        {
+            try
+            {
+                // Kiểm tra lại MaTL trước khi gọi hàm tìm kiếm
+                if (string.IsNullOrEmpty(_maTaiLieuHienTai))
+                {
+                    MessageBox.Show("Mã Tài Liệu hiện tại bị mất. Không thể tìm kiếm Bản Sao.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Gọi hàm tải dữ liệu, truyền MaTL cố định và các bộ lọc bổ sung
+                LoadDataWithFilters(_maTaiLieuHienTai, filters);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Bản Sao: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadDataWithFilters(string maTL, List<SearchFilter> filters)
+        {
+            try
+            {
+                dgvDuLieu.DataSource = null;
+                List<BanSaoDTO> danhSach;
+
+                if (filters == null || filters.Count == 0)
+                {
+                    // Nếu không có bộ lọc bổ sung, tải lại tất cả Bản Sao của MaTL hiện tại
+                    danhSach = _bll.LayDanhSachBanSao(maTL);
+                }
+                else
+                {
+                    // GỌI HÀM TÌM KIẾM CÓ LỌC KÉP
+                    // Hàm này sẽ lọc trong MaTL cố định VÀ áp dụng thêm filters (MaBS, TrangThai,...)
+                    danhSach = _bll.TimKiemBanSao(maTL, filters);
+                }
+
+                dgvDuLieu.DataSource = danhSach;
+                dgvDuLieu.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+                int count = danhSach.Count;
+                MessageBox.Show($"Tìm thấy {count} bản sao khớp với bộ lọc trong Mã TL [{maTL}].", "Thông báo Tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện tìm kiếm Bản Sao: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            btnHuy.Enabled = true;
+        }
+        // Hàm xử lý sự kiện đóng Form tìm kiếm để giải phóng tài nguyên
+        private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (_searchForm != null)
+            {
+                // QUAN TRỌNG: Gỡ đăng ký Event OnSearchApplied để tránh rò rỉ bộ nhớ
+                _searchForm.OnSearchApplied -= HandleSearchAppliedBanSao;
+                // Gỡ đăng ký Event FormClosed (best practice)
+                _searchForm.FormClosed -= SearchForm_FormClosed;
+            }
+            // Đặt biến tham chiếu về null để lần sau click nút "Tìm Kiếm" sẽ tạo Form mới
+            _searchForm = null;
+        }
+
+        #endregion
+
         #region XỬ LÝ SỰ KIỆN CÁC NÚT - LƯU - HỦY
         private void btnLuu_Click(object sender, EventArgs e)
         {
@@ -292,6 +395,7 @@ namespace LibraryManagerApp.GUI.Forms
             }
 
             SetState(State.READ);
+            LoadData();
         }
         #endregion
 
