@@ -183,5 +183,78 @@ namespace LibraryManagerApp.BLL
         {
             return _banSaoDAL.GetAvailableMaBS();
         }
+
+        // File: LibraryManagerApp.BLL/GiaoDichBLL.cs
+
+        // ... (Các using và class GiaoDichBLL)
+
+        // Hàm mới: Chuẩn bị dữ liệu in phiếu (Trả về DataTable hoặc List<DtoPhang>)
+        // Để đơn giản và linh hoạt, ta trả về List các đối tượng DTO phẳng (tự định nghĩa hoặc dùng Dictionary)
+        // Ở đây tôi đề xuất trả về DataTable trực tiếp để dễ đổ vào Report
+        public System.Data.DataTable LayDuLieuInPhieu(string maGD)
+        {
+            System.Data.DataTable dt = new System.Data.DataTable();
+            // Định nghĩa cột khớp với DataSet dtPhieuGiaoDich
+            dt.Columns.Add("MaGD");
+            dt.Columns.Add("NgayLap");
+            dt.Columns.Add("TenNhanVien");
+            dt.Columns.Add("MaTBD");
+            dt.Columns.Add("TenBanDoc");
+            dt.Columns.Add("MaBS");
+            dt.Columns.Add("TenTaiLieu");
+            dt.Columns.Add("TinhTrangSach");
+            dt.Columns.Add("NgayHenTra");
+            dt.Columns.Add("NgayTraThucTe");
+            dt.Columns.Add("LoaiPhieu");
+
+            try
+            {
+                // 1. Lấy thông tin Giao dịch chính
+                GiaoDichDTO gd = LayTatCaGiaoDich().FirstOrDefault(g => g.MaGD == maGD);
+                if (gd == null) return dt;
+
+                // 2. Lấy chi tiết
+                List<GiaoDich_BanSaoDTO> chiTiet = _dal.GetChiTietGiaoDich(maGD);
+
+                // 3. Xác định loại phiếu (Mượn hay Trả)
+                // Logic: Nếu có ít nhất 1 sách chưa trả -> Phiếu Mượn (hoặc đang mượn)
+                // Nếu tất cả đã trả -> Phiếu Trả (hoặc in phiếu trả cho các sách vừa trả)
+                // Để đơn giản: Dựa vào TrangThai của GD
+                string loaiPhieu = (gd.TrangThai == "Đã trả") ? "PHIẾU TRẢ" : "PHIẾU MƯỢN";
+
+                // 4. Duyệt qua từng sách và thêm vào DataTable
+                foreach (var item in chiTiet)
+                {
+                    var row = dt.NewRow();
+
+                    // Thông tin chung (lặp lại)
+                    row["MaGD"] = gd.MaGD;
+                    row["NgayLap"] = gd.NgayMuon.ToString("dd/MM/yyyy");
+                    row["TenNhanVien"] = gd.HoTenNV;
+                    row["MaTBD"] = gd.MaTBD;
+                    row["TenBanDoc"] = gd.HoTenBD;
+
+                    // Thông tin sách
+                    row["MaBS"] = item.MaBS;
+                    row["TenTaiLieu"] = item.TenTL;
+                    row["TinhTrangSach"] = item.TinhTrang ? "Đã trả" : "Đang mượn";
+                    row["NgayHenTra"] = gd.NgayHenTra.ToString("dd/MM/yyyy");
+
+                    // NgayTraThucTe chỉ có nếu GD đã trả hoặc sách đó đã trả
+                    // (Trong DB chưa lưu ngày trả riêng cho từng sách, tạm lấy ngày trả chung nếu có)
+                    row["NgayTraThucTe"] = gd.NgayTra.HasValue ? gd.NgayTra.Value.ToString("dd/MM/yyyy") : "";
+
+                    row["LoaiPhieu"] = loaiPhieu;
+
+                    dt.Rows.Add(row);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi chuẩn bị dữ liệu in: " + ex.Message);
+            }
+
+            return dt;
+        }
     }
 }

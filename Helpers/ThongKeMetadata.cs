@@ -1,5 +1,4 @@
-﻿// File: LibraryManagerApp.Helpers/ThongKeMetadata.cs
-using LibraryManagerApp.DTO;
+﻿using LibraryManagerApp.DTO;
 using System.Collections.Generic;
 
 namespace LibraryManagerApp.Helpers

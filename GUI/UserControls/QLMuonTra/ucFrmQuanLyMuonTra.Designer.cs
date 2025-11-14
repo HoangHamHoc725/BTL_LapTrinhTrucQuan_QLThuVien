@@ -82,6 +82,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.btnXuatPhieu = new System.Windows.Forms.Button();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlContent.SuspendLayout();
@@ -196,6 +197,7 @@
             this.tableLayoutPanel5.ColumnCount = 2;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.btnXuatPhieu, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.btnHuyThaoTac, 1, 2);
             this.tableLayoutPanel5.Controls.Add(this.btnLapPhieuMuon, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.btnLuuThaoTac, 0, 2);
@@ -207,10 +209,11 @@
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(8);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel5.RowCount = 3;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.RowCount = 4;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(261, 259);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
@@ -218,10 +221,10 @@
             // 
             this.btnHuyThaoTac.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnHuyThaoTac.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHuyThaoTac.Location = new System.Drawing.Point(134, 170);
+            this.btnHuyThaoTac.Location = new System.Drawing.Point(134, 132);
             this.btnHuyThaoTac.Margin = new System.Windows.Forms.Padding(4);
             this.btnHuyThaoTac.Name = "btnHuyThaoTac";
-            this.btnHuyThaoTac.Size = new System.Drawing.Size(107, 69);
+            this.btnHuyThaoTac.Size = new System.Drawing.Size(107, 48);
             this.btnHuyThaoTac.TabIndex = 78;
             this.btnHuyThaoTac.Text = "Hủy thao tác";
             this.btnHuyThaoTac.UseVisualStyleBackColor = true;
@@ -234,7 +237,7 @@
             this.btnLapPhieuMuon.Location = new System.Drawing.Point(134, 20);
             this.btnLapPhieuMuon.Margin = new System.Windows.Forms.Padding(4);
             this.btnLapPhieuMuon.Name = "btnLapPhieuMuon";
-            this.btnLapPhieuMuon.Size = new System.Drawing.Size(107, 67);
+            this.btnLapPhieuMuon.Size = new System.Drawing.Size(107, 48);
             this.btnLapPhieuMuon.TabIndex = 75;
             this.btnLapPhieuMuon.Text = "Lập phiếu mượn";
             this.btnLapPhieuMuon.UseVisualStyleBackColor = true;
@@ -244,10 +247,10 @@
             // 
             this.btnLuuThaoTac.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLuuThaoTac.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLuuThaoTac.Location = new System.Drawing.Point(20, 170);
+            this.btnLuuThaoTac.Location = new System.Drawing.Point(20, 132);
             this.btnLuuThaoTac.Margin = new System.Windows.Forms.Padding(4);
             this.btnLuuThaoTac.Name = "btnLuuThaoTac";
-            this.btnLuuThaoTac.Size = new System.Drawing.Size(106, 69);
+            this.btnLuuThaoTac.Size = new System.Drawing.Size(106, 48);
             this.btnLuuThaoTac.TabIndex = 79;
             this.btnLuuThaoTac.Text = "Lưu thao tác";
             this.btnLuuThaoTac.UseVisualStyleBackColor = true;
@@ -257,10 +260,10 @@
             // 
             this.btnXoaPhieuGD.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnXoaPhieuGD.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaPhieuGD.Location = new System.Drawing.Point(134, 95);
+            this.btnXoaPhieuGD.Location = new System.Drawing.Point(134, 76);
             this.btnXoaPhieuGD.Margin = new System.Windows.Forms.Padding(4);
             this.btnXoaPhieuGD.Name = "btnXoaPhieuGD";
-            this.btnXoaPhieuGD.Size = new System.Drawing.Size(107, 67);
+            this.btnXoaPhieuGD.Size = new System.Drawing.Size(107, 48);
             this.btnXoaPhieuGD.TabIndex = 77;
             this.btnXoaPhieuGD.Text = "Xóa phiếu giao dịch";
             this.btnXoaPhieuGD.UseVisualStyleBackColor = true;
@@ -273,7 +276,7 @@
             this.btnXacNhanPhieuTra.Location = new System.Drawing.Point(20, 20);
             this.btnXacNhanPhieuTra.Margin = new System.Windows.Forms.Padding(4);
             this.btnXacNhanPhieuTra.Name = "btnXacNhanPhieuTra";
-            this.btnXacNhanPhieuTra.Size = new System.Drawing.Size(106, 67);
+            this.btnXacNhanPhieuTra.Size = new System.Drawing.Size(106, 48);
             this.btnXacNhanPhieuTra.TabIndex = 76;
             this.btnXacNhanPhieuTra.Text = "Xác nhận phiếu trả";
             this.btnXacNhanPhieuTra.UseVisualStyleBackColor = true;
@@ -283,10 +286,10 @@
             // 
             this.btnTimPhieuGiaoDich.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnTimPhieuGiaoDich.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTimPhieuGiaoDich.Location = new System.Drawing.Point(20, 95);
+            this.btnTimPhieuGiaoDich.Location = new System.Drawing.Point(20, 76);
             this.btnTimPhieuGiaoDich.Margin = new System.Windows.Forms.Padding(4);
             this.btnTimPhieuGiaoDich.Name = "btnTimPhieuGiaoDich";
-            this.btnTimPhieuGiaoDich.Size = new System.Drawing.Size(106, 67);
+            this.btnTimPhieuGiaoDich.Size = new System.Drawing.Size(106, 48);
             this.btnTimPhieuGiaoDich.TabIndex = 74;
             this.btnTimPhieuGiaoDich.Text = "Tìm phiếu giao dịch";
             this.btnTimPhieuGiaoDich.UseVisualStyleBackColor = true;
@@ -811,6 +814,19 @@
             this.label7.TabIndex = 160;
             this.label7.Text = "Nhân viên:";
             // 
+            // btnXuatPhieu
+            // 
+            this.btnXuatPhieu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnXuatPhieu.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatPhieu.Location = new System.Drawing.Point(20, 188);
+            this.btnXuatPhieu.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXuatPhieu.Name = "btnXuatPhieu";
+            this.btnXuatPhieu.Size = new System.Drawing.Size(106, 51);
+            this.btnXuatPhieu.TabIndex = 80;
+            this.btnXuatPhieu.Text = "Xuất phiếu";
+            this.btnXuatPhieu.UseVisualStyleBackColor = true;
+            this.btnXuatPhieu.Click += new System.EventHandler(this.btnXuatPhieu_Click);
+            // 
             // ucFrmQuanLyMuonTra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -905,5 +921,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnXuatPhieu;
     }
 }
