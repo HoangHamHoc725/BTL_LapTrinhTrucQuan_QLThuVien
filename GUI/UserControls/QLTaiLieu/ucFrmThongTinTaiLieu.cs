@@ -32,6 +32,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         private List<string> _listKhoCo = new List<string> { "A3", "A4", "A5", "B5", "Khác" };
         private List<string> _listVaiTro = new List<string> { "Tác giả", "Đồng tác giả", "Chủ biên", "Biên soạn", "Hướng dẫn khoa học" };
         public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
+        private const string MODULE_NAME = "TaiLieu";
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinTaiLieu()
@@ -196,14 +197,25 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             // --- ĐIỀU CHỈNH LOGIC NÚT BẤM ---
             if (state == State.READ)
             {
-                btnThem.Enabled = true;
+                // Kiểm tra quyền khi ở trạng thái READ
+                btnThem.Enabled = SessionManager.CanCreate(MODULE_NAME);
                 btnThem.Text = "Thêm"; // Thêm Tài liệu
 
-                btnSua.Enabled = !string.IsNullOrEmpty(txtMaTL.Text);
+                bool isRowSelected = !string.IsNullOrEmpty(txtMaTL.Text);
+                btnSua.Enabled = isRowSelected && SessionManager.CanUpdate(MODULE_NAME);
                 btnSua.Text = "Sửa"; // Sửa Tài liệu
 
-                btnXoa.Enabled = !string.IsNullOrEmpty(txtMaTL.Text);
+                btnXoa.Enabled = isRowSelected && SessionManager.CanDelete(MODULE_NAME);
                 btnXoa.Text = "Xóa"; // Xóa Tài liệu
+
+                btnTimKiem.Enabled = SessionManager.CanSearch(MODULE_NAME);
+
+                // Bổ sung logic cho btnXuatExcel (dựa theo hàm btnXuatExcel_Click đã có)
+                btnXuatExcel.Enabled = SessionManager.CanExport(MODULE_NAME);
+
+                // Các nút Xem (View) không cần quyền đặc biệt (chỉ cần View)
+                btnXemHinhAnh.Enabled = isRowSelected;
+                btnXemBanSao.Enabled = isRowSelected;
             }
             else // CREATE hoặc UPDATE
             {
@@ -218,13 +230,18 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
                 // Repurpose btnXoa
                 btnXoa.Enabled = false; // Bị tắt, chỉ bật khi chọn Tác giả trong DGV
                 btnXoa.Text = "Xóa Tác giả";
+
+                btnTimKiem.Enabled = false; // Tắt khi đang edit
+                btnXuatExcel.Enabled = false; // Tắt khi đang edit
+                btnXemHinhAnh.Enabled = false; // Tắt khi đang edit
+                btnXemBanSao.Enabled = false; // Tắt khi đang edit
             }
 
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
-            btnTimKiem.Enabled = (state == State.READ);
-            btnXemHinhAnh.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTL.Text));
-            btnXemBanSao.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTL.Text));
+            //btnTimKiem.Enabled = (state == State.READ);
+            //btnXemHinhAnh.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTL.Text));
+            //btnXemBanSao.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTL.Text));
 
             if (state == State.READ)
             {
@@ -292,8 +309,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             if (_currentState == State.READ)
             {
                 bool isRowSelected = !string.IsNullOrEmpty(txtMaTL.Text);
-                btnSua.Enabled = isRowSelected;
-                btnXoa.Enabled = isRowSelected;
+                btnSua.Enabled = isRowSelected && SessionManager.CanUpdate(MODULE_NAME);
+                btnXoa.Enabled = isRowSelected && SessionManager.CanDelete(MODULE_NAME);
                 btnXemHinhAnh.Enabled = isRowSelected;
                 btnXemBanSao.Enabled = isRowSelected;
             }
@@ -361,6 +378,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         {
             if (_currentState == State.READ)
             {
+                if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Create, "thêm tài liệu")) return;
                 // 1. CHỨC NĂNG: THÊM TÀI LIỆU
                 ClearInputs();
                 SetState(State.CREATE);
@@ -381,6 +399,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         {
             if (_currentState == State.READ)
             {
+                if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Update, "sửa tài liệu")) return;
                 // 1. CHỨC NĂNG: SỬA TÀI LIỆU
                 if (!string.IsNullOrEmpty(txtMaTL.Text))
                 {
@@ -405,6 +424,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         {
             if (_currentState == State.READ)
             {
+                if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Delete, "xóa tài liệu")) return;
                 // 1. CHỨC NĂNG: XÓA TÀI LIỆU
                 HandleXoaTaiLieuChinh();
             }
@@ -460,6 +480,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #region CHỨC NĂNG TÌM KIẾM
         private void btnMoTimKiem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Search, "tìm kiếm tài liệu")) return;
             // Lấy metadata cho Tài Liệu
             List<FieldMetadata> tlMetadata = _bll.GetSearchFields();
 
@@ -599,6 +620,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
         private void btnXuatExcel_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Export, "xuất excel tài liệu")) return;
             try
             {
                 // 1. Lấy dữ liệu (Đã bao gồm các trường chi tiết và chuỗi tác giả gộp)

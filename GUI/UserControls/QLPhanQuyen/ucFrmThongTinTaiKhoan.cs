@@ -17,6 +17,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         private string _selectedMaTK = string.Empty;
         private FrmTimKiem _searchForm;
         public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
+        private const string MODULE_NAME = "TaiKhoan";
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinTaiKhoan()
@@ -107,14 +108,23 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             dtpNgayTao.Enabled = false;     // Ngày tạo thường lấy theo DB/Hệ thống
 
             // Buttons
-            btnThem.Enabled = (state == State.READ);
-            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTK.Text));
-            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTK.Text));
+            // Nút Thêm: Chỉ hiện khi đang ở chế độ Đọc VÀ User có quyền CREATE
+            btnThem.Enabled = (state == State.READ) && SessionManager.CanCreate(MODULE_NAME);
 
+            // Nút Sửa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền UPDATE
+            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTK.Text))
+                             && SessionManager.CanUpdate(MODULE_NAME);
+
+            // Nút Xóa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền DELETE
+            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTK.Text))
+                             && SessionManager.CanDelete(MODULE_NAME);
+
+            // Nút Tìm kiếm: Chỉ hiện khi đang Đọc VÀ User có quyền SEARCH
+            btnTimKiem.Enabled = (state == State.READ) && SessionManager.CanSearch(MODULE_NAME);
+
+            // Các nút Lưu/Hủy giữ nguyên logic
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
-
-            btnTimKiem.Enabled = (state == State.READ);
 
             // Logic đặc biệt: Tải Combo chỉ khi chuyển sang CREATE/UPDATE
             if (isEditing)
@@ -237,8 +247,9 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             if (_currentState == State.READ)
             {
                 bool isRowSelected = !string.IsNullOrEmpty(txtMaTK.Text);
-                btnSua.Enabled = isRowSelected;
-                btnXoa.Enabled = isRowSelected;
+                // Thêm kiểm tra quyền
+                btnSua.Enabled = isRowSelected && SessionManager.CanUpdate(MODULE_NAME);
+                btnXoa.Enabled = isRowSelected && SessionManager.CanDelete(MODULE_NAME);
             }
         }
 
@@ -247,6 +258,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #region CHỨC NĂNG CREATE
         private void btnThem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Create, "thêm tài khoản")) return;
             ClearInputs();
 
             SetState(State.CREATE);
@@ -259,6 +271,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #region CHỨC NĂNG UPDATE
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Update, "sửa tài khoản")) return;
             if (_currentState == State.READ && !string.IsNullOrEmpty(txtMaTK.Text))
             {
                 SetState(State.UPDATE);
@@ -274,6 +287,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #region CHỨC NĂNG DELETE
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Delete, "xóa tài khoản")) return;
+            
             string maTK = txtMaTK.Text.Trim();
             string hoTenNV = cboNhanVien.Text.Trim(); // Lấy tên hiển thị khi ở trạng thái READ
 
@@ -320,6 +335,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
         private void btnMoTimKiem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Search, "tìm kiếm tài khoản")) return;
             // Lấy metadata cho Tài Khoản
             List<FieldMetadata> tkMetadata = _bll.GetSearchFields();
 
