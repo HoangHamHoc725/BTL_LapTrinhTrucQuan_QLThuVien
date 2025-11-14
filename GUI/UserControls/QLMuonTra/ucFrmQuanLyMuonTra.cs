@@ -2,6 +2,7 @@
 
 using LibraryManagerApp.BLL;
 using LibraryManagerApp.DTO;
+using LibraryManagerApp.GUI.Forms;
 using LibraryManagerApp.GUI.UserControls.QLBanDoc;
 using LibraryManagerApp.Helpers;
 using System;
@@ -533,6 +534,38 @@ namespace LibraryManagerApp.GUI.UserControls.QLMuonTra
                 {
                     MessageBox.Show("Lỗi hệ thống khi xóa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        #endregion
+
+        #region XUẤT PHIẾU
+        private void btnXuatPhieu_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_selectedMaGD))
+            {
+                MessageBox.Show("Vui lòng chọn một Giao dịch để in phiếu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // 1. Lấy dữ liệu in từ BLL
+                System.Data.DataTable dt = _bll.LayDuLieuInPhieu(_selectedMaGD);
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    // 2. Mở Form báo cáo
+                    frmBaoCaoPhieu frm = new frmBaoCaoPhieu(dt);
+                    frm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Không có dữ liệu để in.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xuất phiếu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
