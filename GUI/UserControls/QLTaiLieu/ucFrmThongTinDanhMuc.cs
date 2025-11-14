@@ -33,6 +33,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         private enum LoaiDanhMuc { TacGia, TheLoai, DinhDang, NhaXuatBan }
         private LoaiDanhMuc _currentDanhMuc = LoaiDanhMuc.TacGia; // Mặc định là Tác giả
         public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
+        private const string MODULE_NAME = "DanhMuc";
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmThongTinDanhMuc()
@@ -142,13 +143,23 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             cboQuocGia.Enabled = isEditing && (_currentDanhMuc == LoaiDanhMuc.TacGia || _currentDanhMuc == LoaiDanhMuc.NhaXuatBan);
 
             // 2. Quản lý Buttons
-            btnThem.Enabled = (state == State.READ);
-            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaDM.Text));
-            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaDM.Text));
+            // Nút Thêm: Chỉ hiện khi đang ở chế độ Đọc VÀ User có quyền CREATE
+            btnThem.Enabled = (state == State.READ) && SessionManager.CanCreate(MODULE_NAME);
 
+            // Nút Sửa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền UPDATE
+            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaDM.Text))
+                             && SessionManager.CanUpdate(MODULE_NAME);
+
+            // Nút Xóa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền DELETE
+            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaDM.Text))
+                             && SessionManager.CanDelete(MODULE_NAME);
+
+            // Nút Tìm kiếm: Chỉ hiện khi đang Đọc VÀ User có quyền SEARCH
+            btnTimKiem.Enabled = (state == State.READ) && SessionManager.CanSearch(MODULE_NAME);
+
+            // Nút Lưu/Hủy (Giữ nguyên)
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
-            btnTimKiem.Enabled = (state == State.READ);
 
             if (state == State.READ) ClearInputs();
 
@@ -230,8 +241,9 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
             if (_currentState == State.READ)
             {
                 bool isRowSelected = !string.IsNullOrEmpty(txtMaDM.Text);
-                btnSua.Enabled = isRowSelected;
-                btnXoa.Enabled = isRowSelected;
+                // Thêm kiểm tra quyền
+                btnSua.Enabled = isRowSelected && SessionManager.CanUpdate(MODULE_NAME);
+                btnXoa.Enabled = isRowSelected && SessionManager.CanDelete(MODULE_NAME);
             }
         }
 
@@ -359,6 +371,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #region CHỨC NĂNG CREATE
         private void btnThem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Create, "thêm danh mục")) return;
             // Kiểm tra xem danh mục có được hỗ trợ CREATE không
             if (_currentDanhMuc == LoaiDanhMuc.TheLoai || _currentDanhMuc == LoaiDanhMuc.DinhDang ||
                 _currentDanhMuc == LoaiDanhMuc.TacGia || _currentDanhMuc == LoaiDanhMuc.NhaXuatBan)
@@ -379,6 +392,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #region CHỨC NĂNG UPDATE
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Update, "sửa danh mục")) return;
             // Kiểm tra xem danh mục có được hỗ trợ UPDATE không
             if (_currentDanhMuc != LoaiDanhMuc.TacGia && _currentDanhMuc != LoaiDanhMuc.NhaXuatBan &&
                 _currentDanhMuc != LoaiDanhMuc.TheLoai && _currentDanhMuc != LoaiDanhMuc.DinhDang) return;
@@ -398,6 +412,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
         #region CHỨC NĂNG DELETE
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Delete, "xóa danh mục")) return;
             if (_currentDanhMuc != LoaiDanhMuc.TacGia && _currentDanhMuc != LoaiDanhMuc.NhaXuatBan &&
                 _currentDanhMuc != LoaiDanhMuc.TheLoai && _currentDanhMuc != LoaiDanhMuc.DinhDang) return;
 
@@ -451,6 +466,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLTaiLieu
 
         private void BtnTimKiem_Click(object sender, EventArgs e) 
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Search, "tìm kiếm danh mục")) return;
             if (_currentState != State.READ)
             {
                 MessageBox.Show("Vui lòng Lưu hoặc Hủy chỉnh sửa trước khi Tìm kiếm.", "Cảnh Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);

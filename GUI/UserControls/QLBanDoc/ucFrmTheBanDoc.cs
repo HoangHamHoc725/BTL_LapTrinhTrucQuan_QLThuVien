@@ -20,6 +20,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         private string _selectedMaTBD = string.Empty;
         private FrmTimKiem _searchForm;
         public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
+        private const string MODULE_NAME = "TheBanDoc";
 
         #region KHỞI TẠO VÀ CẤU HÌNH
         public ucFrmTheBanDoc()
@@ -129,15 +130,30 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             cboTrangThai.Enabled = isEditing;
 
             // Buttons
-            btnThem.Enabled = (state == State.READ);
-            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text));
-            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text));
-            btnXuatThe.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text)); // Enable nút xuất thẻ
-            btnXuatExcel.Enabled = (state == State.READ); // Enable nút xuất Excel
+            // Nút Thêm: Chỉ hiện khi đang ở chế độ Đọc VÀ User có quyền CREATE
+            btnThem.Enabled = (state == State.READ) && SessionManager.CanCreate(MODULE_NAME);
 
+            // Nút Sửa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền UPDATE
+            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text))
+                             && SessionManager.CanUpdate(MODULE_NAME);
+
+            // Nút Xóa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền DELETE
+            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text))
+                             && SessionManager.CanDelete(MODULE_NAME);
+
+            // Nút Xuất Thẻ (Print): Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền PRINT
+            btnXuatThe.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text))
+                                 && SessionManager.CanPrint(MODULE_NAME);
+
+            // Nút Xuất Excel: Chỉ hiện khi đang Đọc VÀ User có quyền EXPORT
+            btnXuatExcel.Enabled = (state == State.READ) && SessionManager.CanExport(MODULE_NAME);
+
+            // Nút Tìm kiếm: Chỉ hiện khi đang Đọc VÀ User có quyền SEARCH
+            btnTimKiem.Enabled = (state == State.READ) && SessionManager.CanSearch(MODULE_NAME);
+
+            // Nút Lưu/Hủy
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
-            btnTimKiem.Enabled = (state == State.READ);
 
             if (isCreating)
             {
@@ -228,9 +244,10 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
             if (_currentState == State.READ)
             {
                 bool isRowSelected = !string.IsNullOrEmpty(txtMaTBD.Text);
-                btnSua.Enabled = isRowSelected;
-                btnXoa.Enabled = isRowSelected;
-                btnXuatThe.Enabled = isRowSelected;
+                // Thêm kiểm tra quyền
+                btnSua.Enabled = isRowSelected && SessionManager.CanUpdate(MODULE_NAME);
+                btnXoa.Enabled = isRowSelected && SessionManager.CanDelete(MODULE_NAME);
+                btnXuatThe.Enabled = isRowSelected && SessionManager.CanPrint(MODULE_NAME);
             }
 
         }
@@ -239,6 +256,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #region CHỨC NĂNG CREATE
         private void btnThem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Create, "cấp thẻ bạn đọc")) return;
             ClearInputs();
 
             dtpNgayCap.Value = DateTime.Now.Date;
@@ -252,6 +270,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #region CHỨC NĂNG UPDATE
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Update, "sửa thẻ bạn đọc")) return;
             if (_currentState == State.READ && !string.IsNullOrEmpty(txtMaTBD.Text))
             {
                 SetState(State.UPDATE);
@@ -267,6 +286,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #region CHỨC NĂNG DELETE
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Delete, "xóa thẻ bạn đọc")) return;
             // 1. Kiểm tra xem có bản ghi nào được chọn chưa
             string maTBD = txtMaTBD.Text.Trim();
             string hoTenBD = cboBanDoc.Text.Trim(); // Lấy tên hiển thị khi ở trạng thái READ
@@ -314,6 +334,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
         #region CHỨC NĂNG TÌM KIẾM
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Search, "tìm kiếm thẻ bạn đọc")) return;
             // Lấy metadata cần thiết (chỉ làm 1 lần)
             List<FieldMetadata> tbdMetadata = _bll.GetSearchFields();
 
@@ -394,6 +415,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         private void btnXuatThe_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Print, "in thẻ bạn đọc")) return;
             // 1. Kiểm tra xem đã chọn thẻ nào chưa (dựa vào biến _selectedMaTBD được gán khi Click DGV)
             if (string.IsNullOrEmpty(_selectedMaTBD))
             {
@@ -433,6 +455,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLBanDoc
 
         private void btnXuatExcel_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Export, "xuất excel thẻ bạn đọc")) return;
             try
             {
                 // 1. Chuẩn bị dữ liệu nguồn (Lấy tất cả hoặc lấy theo tìm kiếm hiện tại)

@@ -19,6 +19,8 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         private FrmTimKiem _searchForm;
         public event EventHandler<StatusRequestEventArgs> OnStatusRequest;
 
+        private const string MODULE_NAME = "NhanVien";
+
         #region KHỞI TẠO VÀ CẤU HÌNH DGV
 
         public ucFrmThongTinNhanVien()
@@ -134,9 +136,22 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
             cboPhuTrach.Enabled = isEditing; // Thêm trường PhuTrach
 
             // Buttons
-            btnThem.Enabled = (state == State.READ);
-            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaNV.Text));
-            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaNV.Text));
+            // Nút Thêm: Chỉ hiện khi đang ở chế độ Đọc VÀ User có quyền CREATE
+            btnThem.Enabled = (state == State.READ) && SessionManager.CanCreate(MODULE_NAME);
+
+            // Nút Sửa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền UPDATE
+            btnSua.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaNV.Text))
+                             && SessionManager.CanUpdate(MODULE_NAME);
+
+            // Nút Xóa: Chỉ hiện khi đang Đọc, đã chọn dòng VÀ User có quyền DELETE
+            btnXoa.Enabled = (state == State.READ && !string.IsNullOrEmpty(txtMaNV.Text))
+                             && SessionManager.CanDelete(MODULE_NAME);
+
+            // Nút Tìm kiếm: Chỉ hiện khi đang Đọc VÀ User có quyền SEARCH
+            btnTimKiem.Enabled = (state == State.READ) && SessionManager.CanSearch(MODULE_NAME);
+
+            // (Lưu ý: Form Nhân Viên không có nút Xuất Excel, nếu có, bạn sẽ thêm tương tự)
+            // btnXuatExcel.Enabled = (state == State.READ) && SessionManager.CanExport(MODULE_NAME);
 
             btnLuu.Enabled = isEditing;
             btnHuy.Enabled = isEditing;
@@ -235,14 +250,15 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
 
             // Cập nhật trạng thái nút sửa/xóa
             bool isRowSelected = !string.IsNullOrEmpty(txtMaNV.Text);
-            btnSua.Enabled = isRowSelected;
-            btnXoa.Enabled = isRowSelected;
+            btnSua.Enabled = isRowSelected && SessionManager.CanUpdate(MODULE_NAME);
+            btnXoa.Enabled = isRowSelected && SessionManager.CanDelete(MODULE_NAME);
         }
         #endregion
 
         #region CHỨC NĂNG CREATE
         private void btnThem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Create, "thêm nhân viên")) return;
             ClearInputs();
             SetState(State.CREATE);
 
@@ -264,6 +280,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #region CHỨC NĂNG UPDATE
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Update, "sửa nhân viên")) return;
             if (_currentState == State.READ && !string.IsNullOrEmpty(txtMaNV.Text))
             {
                 SetState(State.UPDATE);
@@ -279,6 +296,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #region CHỨC NĂNG DELETE
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Delete, "xóa nhân viên")) return;
             string maNV = txtMaNV.Text.Trim();
             string hoTen = txtHoDem.Text.Trim() + " " + txtTen.Text.Trim();
 
@@ -321,6 +339,7 @@ namespace LibraryManagerApp.GUI.UserControls.QLPhanQuyen
         #region CHỨC NĂNG TÌM KIẾM
         private void btnMoTimKiem_Click(object sender, EventArgs e)
         {
+            if (!SessionManager.RequirePermission(MODULE_NAME, Permission.Search, "tìm kiếm nhân viên")) return;
             // Lấy metadata cho Nhân Viên
             List<FieldMetadata> nvMetadata = SearchMetadata.GetNhanVienFields();
 
